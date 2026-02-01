@@ -3,76 +3,66 @@
 ## 👥 Miembros del Equipo
 | Nombre y Apellidos | Correo URJC | Usuario GitHub |
 |:--- |:--- |:--- |
-| [Nombre 1] | [email1]@alumnos.urjc.es | [User1] |
-| [Nombre 2] | [email2]@alumnos.urjc.es | [User2] |
-| [Nombre 3] | [email3]@alumnos.urjc.es | [User3] |
-| [Nombre 4] | [email4]@alumnos.urjc.es | [User4] |
+| Víctor Muñoz Regalón | v.munozr.2020@alumnos.urjc.es | victoor-78 |
 
 ---
 
 ## 🎭 **Preparación 1: Definición del Proyecto**
 
 ### **Descripción del Tema**
-[Escribe aquí una descripción breve y concisa de qué trata tu aplicación, el sector al que pertenece y qué valor aporta al usuario].
+Aplicación web de un restaurante que permite consultar la carta y realizar comandas directamente desde la web. El objetivo es mejorar la eficiencia del servicio, reduciendo tiempos de espera y agilizando la comunicación con cocina. Las comandas enviadas por los clientes llegan de forma inmediata al personal de cocina, permitiendo iniciar la preparación sin depender de la toma de nota por parte del camarero.
 
 ### **Entidades**
 Indicar las entidades principales que gestionará la aplicación y las relaciones entre ellas:
 
-1. **[Entidad 1]**: [Ej: Usuario]
-2. **[Entidad 2]**: [Ej: Producto]
-3. **[Entidad 3]**: [Ej: Pedido]
-4. **[Entidad 4]**: [Ej: Categoría]
+1. **Entidad 1**: Usuarios
+2. **Entidad 2**: Producto
+3. **Entidad 3**: Comanda
 
 **Relaciones entre entidades:**
-- [Ej: Usuario - Pedido: Un usuario puede tener múltiples pedidos (1:N)]
-- [Ej: Pedido - Producto: Un pedido puede contener múltiples productos y un producto puede estar en múltiples pedidos (N:M)]
-- [Ej: Producto - Categoría: Un producto pertenece a una categoría (N:1)]
-- [Descripción de otras relaciones relevantes]
+- Usuario - Comanda: Un usuario puede tener múltiples comandas (1:N)
+- Comanda - Producto: Una comanda puede contener múltiples productos y un producto puede estar en múltiples comandas (N:M)
 
 ### **Permisos de los Usuarios**
 Describir los permisos de cada tipo de usuario e indicar de qué entidades es dueño:
 
 * **Usuario Anónimo**: 
-  - Permisos: [Ej: Visualización de catálogo, búsqueda de productos, registro]
+  - Permisos: Visualizar la información pública del restaurante, consultar la carta de productos, ver la ubicación y enlaces relevantes (redes sociales), y registrarse/iniciar sesión en la plataforma. 
   - No es dueño de ninguna entidad
 
-* **Usuario Registrado**: 
-  - Permisos: [Ej: Gestión de perfil, realizar pedidos, crear valoraciones]
-  - Es dueño de: [Ej: Sus propios Pedidos, su Perfil de Usuario, sus Valoraciones]
+* **Usuario Registrado (cliente)**: 
+  - Permisos: Gestionar su perfil personal, realizar comandas desde la web y consultar el historial de comandas realizadas (productos, fecha e importe).
+  - Es dueño de: Su perfil de usuario y sus propias comandas.
 
 * **Administrador**: 
-  - Permisos: [Ej: Gestión completa de productos (CRUD), visualización de estadísticas, moderación de contenido]
-  - Es dueño de: [Ej: Productos, Categorías, puede gestionar todos los Pedidos y Usuarios]
+  - Permisos: Gestión completa de productos (crear, editar, eliminar y habilitar/deshabilitar), visualización y gestión de todas las comandas (incluyendo cambio de estado), y gestión de usuarios registrados (banear y desbanear usuarios.)
+  - Es dueño de: Productos y comandas, y puede gestionar todas las entidades del sistema.
 
 ### **Imágenes**
 Indicar qué entidades tendrán asociadas una o varias imágenes:
 
-- **[Entidad con imágenes 1]**: [Ej: Usuario - Una imagen de avatar por usuario]
-- **[Entidad con imágenes 2]**: [Ej: Producto - Múltiples imágenes por producto (galería)]
-- **[Entidad con imágenes 3]**: [Ej: Categoría - Una imagen representativa por categoría]
+- **Entidad con imágenes 1**:  Usuario - Imagen de perfil asociada a cada usuario registrado.
+- **Entidad con imágenes 2**: Producto - Una o varias imágenes por producto para mostrar los platos, bebidas y postres disponibles en la carta
 
 ### **Gráficos**
 Indicar qué información se mostrará usando gráficos y de qué tipo serán:
 
-- **Gráfico 1**: [Ej: Ventas mensuales - Gráfico de barras]
-- **Gráfico 2**: [Ej: Productos más vendidos - Gráfico de tarta/circular]
-- **Gráfico 3**: [Ej: Evolución de usuarios registrados - Gráfico de líneas]
-- **Gráfico 4**: [Ej: Distribución de pedidos por categoría - Gráfico de barras horizontales]
+- **Gráfico 1**: Facturación diaria del restaurante (importe total de las comandas por día) – Gráfico de barras.
+- **Gráfico 2**: Número de comandas por franja horaria a lo largo del día – Gráfico de barras.
+- **Gráfico 3**: Evolución del número de usuarios registrados – Gráfico de líneas.
 
 ### **Tecnología Complementaria**
 Indicar qué tecnología complementaria se empleará:
 
-- [Ej: Envío de correos electrónicos automáticos mediante JavaMailSender]
-- [Ej: Generación de PDFs de facturas usando iText o similar]
-- [Ej: Sistema de autenticación OAuth2 o JWT]
-- [Otras tecnologías externas que se integrarán]
+- Generación de un ticket/factura en PDF para cada comanda (descargable por el cliente y/o accesible desde el panel de administración), usando una librería de generación de PDFs (por ejemplo, iText o similar).
+- Notificación por correo al administrador con un resumen diario de actividad (número de comandas y facturación), y aviso de productos marcados como no disponibles.
 
 ### **Algoritmo o Consulta Avanzada**
 Indicar cuál será el algoritmo o consulta avanzada que se implementará:
 
-- **Algoritmo/Consulta**: [Ej: Sistema de recomendaciones basado en el historial de compras del usuario]
-- **Descripción**: [Ej: Analiza los productos comprados previamente y sugiere productos similares o complementarios utilizando filtrado colaborativo]
-- **Alternativa**: [Ej: Consulta compleja que agrupe ventas por categoría, mes y región, con cálculo de tendencias]
+- **Algoritmo/Consulta**: Consulta avanzada de facturación y número de comandas agrupadas por fecha y franja horaria.
+- **Descripción**: A partir de la fecha/hora de creación y el importe total de cada comanda, la consulta agrupa la información por día y por hora (o franja horaria) para calcular el número de comandas y la facturación total en cada grupo. Esto permite generar gráficos de actividad, detectar picos de trabajo y analizar la evolución del restaurante.
+- **Alternativa**: Consulta avanzada de evolución de usuarios registrados, agrupando altas por día/mes para analizar el crecimiento de la plataforma y generar un gráfico temporal.
 
 ---
 

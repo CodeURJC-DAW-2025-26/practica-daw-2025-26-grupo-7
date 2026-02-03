@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Acceso | Fuego Lento</title>
+  <meta name="description" content="Accede o crea tu cuenta en Fuego Lento para reservar mesa y gestionar tus reservas.">
+  <meta name="keywords" content="restaurante, brasa, carne a la piedra, reservas, login">
+
+  <!-- Favicons (usa tu logo como favicon si quieres) -->
+  <link href="assets/img/logo.png" rel="icon">
+  <link href="assets/img/logo.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/login.css" rel="stylesheet">
+</head>
+
+<body class="login-page">
+
+  <!-- ======= Header (igual que index) ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="branding d-flex align-items-center">
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+
+        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+          <img src="assets/img/logo.png" alt="Logo Fuego Lento">
+          <h1 class="sitename">Fuego Lento</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="index.html#hero">Inicio</a></li>
+            <li><a href="index.html#about">Nuestra brasa</a></li>
+            <li><a href="index.html#menu">Carta</a></li>
+            <li><a href="index.html#gallery">Galería</a></li>
+            <li><a href="index.html#contact">Contacto</a></li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+        <div class="d-flex align-items-center gap-2">
+          <a class="btn-login d-none d-xl-block active" href="login.html">Iniciar sesión</a>
+          <a class="btn-book-a-table d-none d-xl-block" href="index.html#book-a-table">Reservar</a>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- ======= Login Section ======= -->
+    <section class="login-section section">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="login-card">
+          <div class="login-card-header">
+            <a href="index.html" class="login-back">
+              <i class="bi bi-arrow-left"></i> Volver al inicio
+            </a>
+
+            <div class="login-brand">
+              <img src="assets/img/logo.png" alt="Fuego Lento">
+              <div>
+                <h2>Pide desde tu mesa</h2>
+                <p>Inicia sesión y envía tus comandas directamente a cocina.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Toggle tabs -->
+          <div class="login-tabs" role="tablist" aria-label="Acceso y registro">
+            <button class="login-tab active" type="button" data-tab="login">Iniciar sesión</button>
+            <button class="login-tab" type="button" data-tab="register">Crear cuenta</button>
+          </div>
+
+          <!-- Panels -->
+          <div class="login-panels">
+
+            <!-- LOGIN -->
+            <div class="login-panel active" id="panel-login">
+              <form action="#" method="post">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label class="form-label" for="loginEmail">Email</label>
+                    <div class="input-with-icon">
+                      <i class="bi bi-envelope"></i>
+                      <input id="loginEmail" type="email" class="form-control" placeholder="tuemail@ejemplo.com" required>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label" for="loginPassword">Contraseña</label>
+                    <div class="input-with-icon">
+                      <i class="bi bi-lock"></i>
+                      <input id="loginPassword" type="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                  </div>
+
+                  <div class="col-12 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <label class="form-check">
+                      <input class="form-check-input" type="checkbox">
+                      <span class="form-check-label">Recordarme</span>
+                    </label>
+
+                    <a class="login-link" href="#">¿Has olvidado la contraseña?</a>
+                  </div>
+
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary w-100 btn-fuego">
+                      Entrar
+                    </button>
+                  </div>
+
+                  <div class="col-12">
+                    <a href="index.html" class="btn btn-outline-light w-100 btn-ghost">
+                      Entrar como invitado
+                    </a>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- REGISTER -->
+            <div class="login-panel" id="panel-register">
+              <form action="#" method="post">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label class="form-label" for="regName">Nombre</label>
+                    <div class="input-with-icon">
+                      <i class="bi bi-person"></i>
+                      <input id="regName" type="text" class="form-control" placeholder="Tu nombre" required>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label" for="regEmail">Email</label>
+                    <div class="input-with-icon">
+                      <i class="bi bi-envelope"></i>
+                      <input id="regEmail" type="email" class="form-control" placeholder="tuemail@ejemplo.com" required>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label" for="regPass">Contraseña</label>
+                    <div class="input-with-icon">
+                      <i class="bi bi-lock"></i>
+                      <input id="regPass" type="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label" for="regPass2">Confirmación</label>
+                    <div class="input-with-icon">
+                      <i class="bi bi-shield-lock"></i>
+                      <input id="regPass2" type="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label" for="regBirth">Fecha de nacimiento</label>
+                    <div class="input-with-icon">
+                      <i class="bi bi-calendar-event"></i>
+                      <input id="regBirth" type="date" class="form-control" required>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary w-100 btn-fuego">
+                      Crear cuenta
+                    </button>
+                  </div>
+
+                  <div class="col-12 text-center">
+                    <p class="login-small">
+                      Al registrarte aceptas el <a class="login-link" href="#">aviso legal</a> y la <a class="login-link"
+                        href="#">política de privacidad</a>.
+                    </p>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======= Footer (igual que index, versión reducida) ======= -->
+  <footer id="footer" class="footer">
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Fuego Lento</strong> <span>Todos los derechos reservados</span></p>
+    </div>
+  </footer>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+
+  <!-- Main JS (tu main.js) -->
+  <script src="assets/js/main.js"></script>
+
+  <!-- Mini JS para tabs (sin romper tu main.js) -->
+  <script>
+    (function () {
+      const tabs = document.querySelectorAll('.login-tab');
+      const panelLogin = document.getElementById('panel-login');
+      const panelRegister = document.getElementById('panel-register');
+
+      function setActive(tabName) {
+        tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tabName));
+        panelLogin.classList.toggle('active', tabName === 'login');
+        panelRegister.classList.toggle('active', tabName === 'register');
+      }
+
+      tabs.forEach(t => t.addEventListener('click', () => setActive(t.dataset.tab)));
+    })();
+  </script>
+
+</body>
+
+</html>

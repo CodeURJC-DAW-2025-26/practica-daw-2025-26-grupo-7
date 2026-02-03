@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- ====== Configuración básica del documento ====== -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <!-- ====== Título que aparece en la pestaña del navegador ====== -->
+  <title>Panel Admin - Usuarios | Fuego Lento</title>
+
+  <!-- ====== Favicon (icono de la pestaña). Aquí usamos tu logo ====== -->
+  <link rel="icon" href="assets/img/logo.png">
+
+  <!-- ====== Fuentes (las mismas que ya usas en el proyecto) ====== -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- ====== CSS de librerías (Bootstrap + iconos + animaciones si lo estás usando) ====== -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- ====== CSS principal ====== -->
+  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/admin.css" rel="stylesheet">
+</head>
+
+<body class="index-page">
+
+  <!-- =========================
+       HEADER (reutilizado)
+       ========================= -->
+  <header id="header" class="header fixed-top">
+    <div class="branding d-flex align-items-center">
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+
+        <!-- Logo + nombre. Lleva al inicio -->
+        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+          <img src="assets/img/logo.png" alt="Logo Fuego Lento">
+          <h1 class="sitename">Fuego Lento</h1>
+        </a>
+
+        <!-- Menú de navegación. Son enlaces a secciones del index -->
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="index.html#hero">Inicio</a></li>
+            <li><a href="index.html#about">Nuestra brasa</a></li>
+            <li><a href="index.html#menu">Carta</a></li>
+            <li><a href="index.html#gallery">Galería</a></li>
+            <li><a href="index.html#contact">Contacto</a></li>
+          </ul>
+          <!-- Icono menú móvil -->
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+        <!-- Botones a la derecha -->
+        <a class="btn-login d-none d-xl-block" href="profile.html">Mi cuenta</a>
+        <a class="btn-book-a-table d-none d-xl-block" href="index.html#book-a-table">Reservar</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================
+       MAIN (contenido principal)
+       ========================= -->
+  <main class="main">
+
+    <!-- ====== Título de página tipo “hero pequeño” ====== -->
+    <div class="page-title position-relative" data-aos="fade" style="background-image: url(assets/img/page-title-bg.webp);">
+      <div class="container position-relative">
+        <h1>Gestión de usuarios</h1>
+        <p>Bloquea o reactiva usuarios desde el panel de administración.</p>
+      </div>
+    </div>
+
+    <!-- ====== Contenido de la tabla ====== -->
+    <section class="section admin-section">
+      <div class="container" data-aos="fade-up">
+
+        <!-- Cabecera (título + buscador) -->
+        <div class="admin-toolbar">
+          <h2 class="admin-title">Usuarios</h2>
+
+          <!-- Buscador. Por ahora es solo visual (sin JS) -->
+          <div class="admin-search">
+            <i class="bi bi-search"></i>
+            <input type="text" class="form-control" placeholder="Buscar por usuario o email...">
+          </div>
+        </div>
+
+        <!-- Tabla responsive (en móvil hace scroll horizontal) -->
+        <div class="table-responsive admin-table-wrap">
+          <table class="table admin-table align-middle">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Estado</th>
+                <th class="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Ejemplo de usuario activo -->
+              <tr>
+                <td>1</td>
+                <td>JuanGomez</td>
+                <td>juan@example.com</td>
+                <td><span class="badge status-active">Activo</span></td>
+                <td class="text-end">
+                  <!-- Acción “banear” -->
+                  <button class="btn btn-sm btn-danger-soft" type="button">
+                    <i class="bi bi-slash-circle me-1"></i> Banear
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Ejemplo de usuario bloqueado -->
+              <tr>
+                <td>2</td>
+                <td>MariaLopez</td>
+                <td>maria@example.com</td>
+                <td><span class="badge status-banned">Baneado</span></td>
+                <td class="text-end">
+                  <!-- Acción “desbanear” -->
+                  <button class="btn btn-sm btn-success-soft" type="button">
+                    <i class="bi bi-check-circle me-1"></i> Desbanear
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Puedes duplicar filas para la maqueta -->
+              <tr>
+                <td>3</td>
+                <td>CarlosR</td>
+                <td>carlos@example.com</td>
+                <td><span class="badge status-active">Activo</span></td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-danger-soft" type="button">
+                    <i class="bi bi-slash-circle me-1"></i> Banear
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>4</td>
+                <td>LuciaS</td>
+                <td>lucia@example.com</td>
+                <td><span class="badge status-banned">Baneado</span></td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-success-soft" type="button">
+                    <i class="bi bi-check-circle me-1"></i> Desbanear
+                  </button>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Botón volver  -->
+        <div class="mt-4">
+          <a href="index.html" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left me-2"></i> Volver al inicio
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================
+       FOOTER (reutilizado)
+       ========================= -->
+  <footer id="footer" class="footer">
+    <div class="container copyright text-center mt-4">
+      <p>© <strong class="px-1 sitename">Fuego Lento</strong> · Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <!-- ====== JS de librerías ====== -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+
+  <!-- ====== Tu JS principal (menú móvil, scroll, etc.) ====== -->
+  <script src="assets/js/main.js"></script>
+
+  <!-- Iniciar AOS si lo estás usando -->
+  <script>
+    if (typeof AOS !== "undefined") {
+      AOS.init({ duration: 600, easing: "ease-in-out", once: true });
+    }
+  </script>
+
+</body>
+</html>

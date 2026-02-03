@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- ====== Configuración básica ====== -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <!-- ====== Título de la pestaña ====== -->
+  <title>Cocina - Comandas | Fuego Lento</title>
+
+  <!-- ====== Favicon ====== -->
+  <link rel="icon" href="assets/img/logo.png">
+
+  <!-- ====== Fuentes (mismas del proyecto) ====== -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- ====== Bootstrap + Iconos + AOS (si lo usas) ====== -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- ====== CSS====== -->
+  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/admin.css" rel="stylesheet">
+
+</head>
+
+<body class="index-page">
+
+  <!-- =========================
+       HEADER (reutilizado)
+       ========================= -->
+  <header id="header" class="header fixed-top">
+    <div class="branding d-flex align-items-center">
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+
+        <!-- Logo + nombre -->
+        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+          <img src="assets/img/logo.png" alt="Logo Fuego Lento">
+          <h1 class="sitename">Fuego Lento</h1>
+        </a>
+
+        <!-- Menú  -->
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="index.html#hero">Inicio</a></li>
+            <li><a href="index.html#menu">Carta</a></li>
+            <li><a href="index.html#contact">Contacto</a></li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+        <!-- Botones derecha -->
+        <a class="btn-login d-none d-xl-block" href="profile.html">Mi cuenta</a>
+        <a class="btn-book-a-table d-none d-xl-block" href="index.html#book-a-table">Reservar</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================
+       MAIN
+       ========================= -->
+  <main class="main">
+
+    <!-- ====== “Hero” pequeño de página ====== -->
+    <div class="page-title position-relative" data-aos="fade" style="background-image: url(assets/img/page-title-bg.webp);">
+      <div class="container position-relative">
+        <h1>Comandas - Cocina</h1>
+        <p>Tablón en tiempo real para preparar las comandas de las mesas.</p>
+      </div>
+    </div>
+
+    <!-- ====== Sección principal (KDS / tablón) ====== -->
+    <section class="section kds-section">
+      <div class="container" data-aos="fade-up">
+
+        <!-- Barra superior: título + “auto refresh” (simulado) -->
+        <div class="kds-toolbar">
+          <div>
+            <h2 class="kds-title">Tablón de comandas</h2>
+            <p class="kds-subtitle mb-0">
+              Se actualiza automáticamente (simulado). Última actualización:
+              <span id="lastUpdate" class="kds-lastupdate">--:--:--</span>
+            </p>
+          </div>
+
+          <!-- Botón “forzar refresco” (para la maqueta) -->
+          <button id="forceRefresh" class="btn btn-sm btn-ghost kds-refresh-btn" type="button">
+            <a class="bi bi-arrow-clockwise me-1" href="admin-comandas-cocina.html">Refrescar</a>
+          </button>
+        </div>
+
+        <!-- ====== “Board” con 3 columnas ====== -->
+        <div class="kds-board">
+
+          <!-- ========= Columna: RECIBIDAS ========= -->
+          <div class="kds-column">
+            <div class="kds-column-header">
+              <h3 class="kds-column-title">
+                <span class="kds-dot dot-received"></span>
+                Recibidas
+              </h3>
+              <span class="kds-count" id="countReceived">2</span>
+            </div>
+
+            <div class="kds-column-body" id="colReceived">
+
+              <!-- Ticket / Comanda -->
+              <article class="kds-ticket">
+                <header class="kds-ticket-header">
+                  <div>
+                    <div class="kds-ticket-meta">
+                      <span class="kds-pill">Mesa 12</span>
+                      <span class="kds-time"><i class="bi bi-clock me-1"></i>20:41</span>
+                    </div>
+                    <h4 class="kds-ticket-title">Comanda #1034</h4>
+                  </div>
+                  <span class="kds-badge badge-received">RECIBIDA</span>
+                </header>
+
+                <ul class="kds-items">
+                  <li><span>2x Chuletón</span><span class="kds-note">al punto</span></li>
+                  <li><span>1x Patatas bravas</span><span class="kds-note">sin picante</span></li>
+                  <li><span>2x Agua</span></li>
+                </ul>
+
+                <footer class="kds-ticket-footer">
+                  <div class="kds-total">
+                    <span>Total</span>
+                    <strong>58,50€</strong>
+                  </div>
+
+                  <!-- Botones de estado (sin lógica real en esta entrega) -->
+                  <div class="kds-actions">
+                    <button class="btn btn-sm btn-kds-secondary" type="button" disabled
+                      title="En esta entrega es solo maqueta">
+                      <i class="bi bi-info-circle me-1"></i> Detalles
+                    </button>
+                    <button class="btn btn-sm btn-kds-primary" type="button" disabled
+                      title="En esta entrega es solo maqueta">
+                      <i class="bi bi-play-fill me-1"></i> Pasar a “En marcha”
+                    </button>
+                  </div>
+                </footer>
+              </article>
+
+              <!-- Ticket / Comanda -->
+              <article class="kds-ticket">
+                <header class="kds-ticket-header">
+                  <div>
+                    <div class="kds-ticket-meta">
+                      <span class="kds-pill">Mesa 3</span>
+                      <span class="kds-time"><i class="bi bi-clock me-1"></i>20:43</span>
+                    </div>
+                    <h4 class="kds-ticket-title">Comanda #1035</h4>
+                  </div>
+                  <span class="kds-badge badge-received">RECIBIDA</span>
+                </header>
+
+                <ul class="kds-items">
+                  <li><span>1x Ensalada</span><span class="kds-note">sin cebolla</span></li>
+                  <li><span>1x Hamburguesa</span><span class="kds-note">extra queso</span></li>
+                </ul>
+
+                <footer class="kds-ticket-footer">
+                  <div class="kds-total">
+                    <span>Total</span>
+                    <strong>24,00€</strong>
+                  </div>
+                  <div class="kds-actions">
+                    <button class="btn btn-sm btn-kds-secondary" type="button" disabled>
+                      <i class="bi bi-info-circle me-1"></i> Detalles
+                    </button>
+                    <button class="btn btn-sm btn-kds-primary" type="button" disabled>
+                      <i class="bi bi-play-fill me-1"></i> Pasar a “En marcha”
+                    </button>
+                  </div>
+                </footer>
+              </article>
+
+            </div>
+          </div>
+
+          <!-- ========= Columna: EN MARCHA ========= -->
+          <div class="kds-column">
+            <div class="kds-column-header">
+              <h3 class="kds-column-title">
+                <span class="kds-dot dot-progress"></span>
+                En marcha
+              </h3>
+              <span class="kds-count" id="countProgress">1</span>
+            </div>
+
+            <div class="kds-column-body" id="colProgress">
+
+              <article class="kds-ticket">
+                <header class="kds-ticket-header">
+                  <div>
+                    <div class="kds-ticket-meta">
+                      <span class="kds-pill">Mesa 7</span>
+                      <span class="kds-time"><i class="bi bi-clock me-1"></i>20:35</span>
+                    </div>
+                    <h4 class="kds-ticket-title">Comanda #1032</h4>
+                  </div>
+                  <span class="kds-badge badge-progress">EN MARCHA</span>
+                </header>
+
+                <ul class="kds-items">
+                  <li><span>1x Costillar</span><span class="kds-note">bien hecho</span></li>
+                  <li><span>1x Pan</span></li>
+                </ul>
+
+                <footer class="kds-ticket-footer">
+                  <div class="kds-total">
+                    <span>Total</span>
+                    <strong>31,50€</strong>
+                  </div>
+
+                  <div class="kds-actions">
+                    <button class="btn btn-sm btn-kds-secondary" type="button" disabled>
+                      <i class="bi bi-pause-fill me-1"></i> Volver a “Recibida”
+                    </button>
+                    <button class="btn btn-sm btn-kds-success" type="button" disabled>
+                      <i class="bi bi-check2-circle me-1"></i> Marcar “Preparada”
+                    </button>
+                  </div>
+                </footer>
+              </article>
+
+            </div>
+          </div>
+
+          <!-- ========= Columna: PREPARADAS ========= -->
+          <div class="kds-column">
+            <div class="kds-column-header">
+              <h3 class="kds-column-title">
+                <span class="kds-dot dot-done"></span>
+                Preparadas
+              </h3>
+              <span class="kds-count" id="countDone">1</span>
+            </div>
+
+            <div class="kds-column-body" id="colDone">
+
+              <article class="kds-ticket ticket-done">
+                <header class="kds-ticket-header">
+                  <div>
+                    <div class="kds-ticket-meta">
+                      <span class="kds-pill">Mesa 1</span>
+                      <span class="kds-time"><i class="bi bi-clock me-1"></i>20:22</span>
+                    </div>
+                    <h4 class="kds-ticket-title">Comanda #1028</h4>
+                  </div>
+                  <span class="kds-badge badge-done">PREPARADA</span>
+                </header>
+
+                <ul class="kds-items">
+                  <li><span>2x Croquetas</span></li>
+                  <li><span>1x Coca-Cola</span></li>
+                </ul>
+
+                <footer class="kds-ticket-footer">
+                  <div class="kds-total">
+                    <span>Total</span>
+                    <strong>12,00€</strong>
+                  </div>
+
+                  <div class="kds-actions">
+                    <button class="btn btn-sm btn-kds-secondary" type="button" disabled>
+                      <i class="bi bi-arrow-counterclockwise me-1"></i> Volver a “En marcha”
+                    </button>
+                    <button class="btn btn-sm btn-kds-primary" type="button" disabled>
+                      <i class="bi bi-bell-fill me-1"></i> Avisar camarero
+                    </button>
+                  </div>
+                </footer>
+              </article>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Botón volver -->
+        <div class="mt-4">
+          <a href="index.html" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left me-2"></i> Volver al inicio
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================
+       FOOTER (simple)
+       ========================= -->
+  <footer id="footer" class="footer">
+    <div class="container copyright text-center mt-4">
+      <p>© <strong class="px-1 sitename">Fuego Lento</strong> · Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <!-- ====== JS librerías ====== -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <!-- ====== Inicializar AOS (si existe) ====== -->
+  <script>
+    if (typeof AOS !== "undefined") {
+      AOS.init({ duration: 600, easing: "ease-in-out", once: true });
+    }
+  </script>
+
+
+</body>
+</html>

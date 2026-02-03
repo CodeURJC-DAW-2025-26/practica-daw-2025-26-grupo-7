@@ -1,0 +1,412 @@
+/* =========================================
+   ADMIN - Users (dark table + toolbar)
+   ========================================= */
+
+.admin-section {
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+/* Toolbar: title + search box */
+.admin-toolbar {
+  margin-bottom: 24px;
+}
+
+/* Search input container */
+.admin-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 280px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+
+.admin-search i {
+  opacity: 0.85;
+}
+
+.admin-search .form-control {
+  background: transparent;
+  border: 0;
+  color: var(--default-color);
+  padding: 0;
+  box-shadow: none;
+}
+
+.admin-search .form-control::placeholder {
+  color: color-mix(in srgb, var(--default-color), transparent 55%);
+}
+
+/* Table wrapper card */
+.admin-table-wrap {
+  background: color-mix(in srgb, var(--surface-color), transparent 10%);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+  border-radius: 14px;
+  padding: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* Dark table override (Bootstrap table defaults) */
+.admin-table {
+  width: 100%;
+  margin: 0;
+  color: var(--default-color);
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent !important;
+}
+
+.admin-table th,
+.admin-table td {
+  background: rgba(255,255,255,0.04) !important;
+  color: var(--default-color) !important;
+  border-color: color-mix(in srgb, var(--default-color), transparent 85%) !important;
+}
+
+.admin-table thead th {
+  background: rgba(255,255,255,0.06) !important;
+  color: var(--accent-color) !important;
+  font-weight: 700;
+  border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 80%) !important;
+}
+
+.admin-table tbody tr:hover td {
+  background: rgba(255,255,255,0.07) !important;
+}
+
+/* Rounded corners */
+.admin-table thead th:first-child { border-top-left-radius: 12px; }
+.admin-table thead th:last-child  { border-top-right-radius: 12px; }
+.admin-table tbody tr:last-child td:first-child { border-bottom-left-radius: 12px; }
+.admin-table tbody tr:last-child td:last-child  { border-bottom-right-radius: 12px; }
+
+/* Status badges */
+.badge.status-active {
+  background: rgba(25, 135, 84, 0.18);
+  color: #7ee2b8;
+  border: 1px solid rgba(25, 135, 84, 0.35);
+}
+
+.badge.status-banned {
+  background: rgba(220, 53, 69, 0.16);
+  color: #ffb3bb;
+  border: 1px solid rgba(220, 53, 69, 0.35);
+}
+
+/* Soft action buttons */
+.btn-danger-soft {
+  background: rgba(220, 53, 69, 0.14);
+  border: 1px solid rgba(220, 53, 69, 0.35);
+  color: var(--default-color);
+  border-radius: 10px;
+}
+
+.btn-danger-soft:hover {
+  background: rgba(220, 53, 69, 0.22);
+  border-color: rgba(220, 53, 69, 0.55);
+}
+
+.btn-success-soft {
+  background: rgba(25, 135, 84, 0.14);
+  border: 1px solid rgba(25, 135, 84, 0.35);
+  color: var(--default-color);
+  border-radius: 10px;
+}
+
+.btn-success-soft:hover {
+  background: rgba(25, 135, 84, 0.22);
+  border-color: rgba(25, 135, 84, 0.55);
+}
+
+
+/* =========================================
+   KDS / Kitchen - Command board
+   ========================================= */
+
+.kds-section {
+  padding-top: 40px;
+}
+
+/* Top bar */
+.kds-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.kds-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.kds-subtitle {
+  color: color-mix(in srgb, var(--default-color), transparent 35%);
+  font-size: 14px;
+}
+
+.kds-lastupdate {
+  color: color-mix(in srgb, var(--accent-color), transparent 15%);
+  font-weight: 800;
+}
+
+/* Board grid */
+.kds-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 992px) {
+  .kds-board { grid-template-columns: 1fr; }
+}
+
+/* Column card */
+.kds-column {
+  background: color-mix(in srgb, var(--surface-color), transparent 8%);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+.kds-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 14px;
+  border-bottom: 1px solid var(--border-color);
+  background: color-mix(in srgb, var(--background-color), white 3%);
+}
+
+.kds-column-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.kds-count {
+  font-weight: 900;
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 80%);
+  background: rgba(255,255,255,0.04);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+/* Status dot */
+.kds-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-received { background: color-mix(in srgb, var(--accent-hover), transparent 0%); }
+.dot-progress { background: color-mix(in srgb, var(--accent-color), transparent 0%); }
+.dot-done     { background: rgba(25, 135, 84, 0.95); }
+
+/* Column body scroll */
+.kds-column-body {
+  padding: 14px;
+  display: grid;
+  gap: 14px;
+  max-height: 68vh;
+  overflow: auto;
+}
+
+/* Ticket card */
+.kds-ticket {
+  position: relative;
+  border-radius: 14px;
+  border: 1px dashed color-mix(in srgb, var(--default-color), transparent 80%);
+  background: rgba(255,255,255,0.04);
+  padding: 14px;
+}
+
+.kds-ticket::before,
+.kds-ticket::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+}
+
+.kds-ticket::before { left: -7px; }
+.kds-ticket::after  { right: -7px; }
+
+/* Ticket header */
+.kds-ticket-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.kds-ticket-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.kds-pill {
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 80%);
+  background: rgba(0,0,0,0.15);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.kds-time {
+  font-size: 12px;
+  color: color-mix(in srgb, var(--default-color), transparent 35%);
+}
+
+.kds-ticket-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+/* Ticket status badge */
+.kds-badge {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.badge-received {
+  background: rgba(230, 126, 34, 0.16);
+  border-color: rgba(230, 126, 34, 0.35);
+  color: rgba(230, 126, 34, 0.95);
+}
+
+.badge-progress {
+  background: rgba(139, 30, 30, 0.18);
+  border-color: rgba(139, 30, 30, 0.40);
+  color: color-mix(in srgb, var(--accent-color), white 20%);
+}
+
+.badge-done {
+  background: rgba(25, 135, 84, 0.16);
+  border-color: rgba(25, 135, 84, 0.35);
+  color: #7ee2b8;
+}
+
+/* Items list */
+.kds-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.kds-items li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.kds-note {
+  font-weight: 600;
+  font-size: 12px;
+  color: color-mix(in srgb, var(--default-color), transparent 40%);
+}
+
+/* Ticket footer */
+.kds-ticket-footer {
+  margin-top: 12px;
+  display: grid;
+  gap: 12px;
+}
+
+.kds-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-weight: 800;
+}
+
+.kds-total span {
+  color: color-mix(in srgb, var(--default-color), transparent 35%);
+  font-size: 13px;
+}
+
+/* Action buttons */
+.kds-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-kds-primary {
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--accent-color), transparent 20%);
+  background: color-mix(in srgb, var(--accent-color), transparent 10%);
+  color: var(--default-color);
+  font-weight: 800;
+}
+
+.btn-kds-primary:hover {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--default-color);
+}
+
+.btn-kds-success {
+  border-radius: 999px;
+  border: 2px solid rgba(25, 135, 84, 0.45);
+  background: rgba(25, 135, 84, 0.16);
+  color: var(--default-color);
+  font-weight: 800;
+}
+
+.btn-kds-success:hover {
+  background: rgba(25, 135, 84, 0.24);
+  border-color: rgba(25, 135, 84, 0.65);
+}
+
+.btn-kds-secondary {
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--default-color), transparent 80%);
+  background: rgba(255,255,255,0.04);
+  color: var(--default-color);
+  font-weight: 800;
+}
+
+.btn-kds-secondary:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.ticket-done {
+  opacity: 0.92;
+  border-style: solid;
+}

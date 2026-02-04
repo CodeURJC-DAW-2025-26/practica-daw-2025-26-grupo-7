@@ -45,7 +45,7 @@
           <ul>
             <li><a href="#hero" class="active">Inicio</a></li>
             <li><a href="#about">Nuestra brasa</a></li>
-            <li><a href="#menu">Carta</a></li>
+            <li><a href="carta.html">Carta</a></li>
             <li><a href="#gallery">Galería</a></li>
             <li><a href="#contact">Contacto</a></li>
           </ul>
@@ -121,101 +121,6 @@
 
       </div>
     </section>
-    <!-- /About Section -->
-
-    <!-- ======= Menu Section ======= -->
-    <section id="menu" class="menu section">
-
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Carta</h2>
-        <p>Nuestras carnes y especialidades</p>
-      </div>
-
-      <!-- Mantengo Isotope para filtros (queda más “pro” visualmente). -->
-      <div class="container isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-
-        <div class="row" data-aos="fade-up" data-aos-delay="100">
-          <div class="col-lg-12 d-flex justify-content-center">
-            <ul class="menu-filters isotope-filters">
-              <li data-filter="*" class="filter-active">Todo</li>
-              <li data-filter=".filter-piedra">A la piedra</li>
-              <li data-filter=".filter-brasa">A la brasa</li>
-              <li data-filter=".filter-entrantes">Entrantes</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="row isotope-container" data-aos="fade-up" data-aos-delay="200">
-
-          <!-- A LA PIEDRA -->
-          <div class="col-lg-6 menu-item isotope-item filter-piedra">
-            <img src="assets/img/menu/tuscan-grilled.jpg" class="menu-img" alt="Chuletón a la piedra">
-            <div class="menu-content">
-              <a href="#">Chuletón a la piedra</a><span>24,90€</span>
-            </div>
-            <div class="menu-ingredients">
-              Corte premium servido con piedra caliente y guarnición.
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item isotope-item filter-piedra">
-            <img src="assets/img/menu/lobster-roll.jpg" class="menu-img" alt="Entrecot a la piedra">
-            <div class="menu-content">
-              <a href="#">Entrecot a la piedra</a><span>18,90€</span>
-            </div>
-            <div class="menu-ingredients">
-              Carne tierna para terminar al punto en mesa.
-            </div>
-          </div>
-
-          <!-- A LA BRASA -->
-          <div class="col-lg-6 menu-item isotope-item filter-brasa">
-            <img src="assets/img/menu/bread-barrel.jpg" class="menu-img" alt="Costillar a la brasa">
-            <div class="menu-content">
-              <a href="#">Costillar a la brasa</a><span>19,50€</span>
-            </div>
-            <div class="menu-ingredients">
-              Cocción lenta, glaseado suave y sabor ahumado.
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item isotope-item filter-brasa">
-            <img src="assets/img/menu/caesar.jpg" class="menu-img" alt="Secreto ibérico a la brasa">
-            <div class="menu-content">
-              <a href="#">Secreto ibérico a la brasa</a><span>16,90€</span>
-            </div>
-            <div class="menu-ingredients">
-              Jugoso y dorado al carbón, con toque de sal en escamas.
-            </div>
-          </div>
-
-          <!-- ENTRANTES -->
-          <div class="col-lg-6 menu-item isotope-item filter-entrantes">
-            <img src="assets/img/menu/mozzarella.jpg" class="menu-img" alt="Croquetas caseras">
-            <div class="menu-content">
-              <a href="#">Croquetas caseras</a><span>7,50€</span>
-            </div>
-            <div class="menu-ingredients">
-              Cremosas, crujientes y recién hechas.
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item isotope-item filter-entrantes">
-            <img src="assets/img/menu/greek-salad.jpg" class="menu-img" alt="Ensalada de temporada">
-            <div class="menu-content">
-              <a href="#">Ensalada de temporada</a><span>6,90€</span>
-            </div>
-            <div class="menu-ingredients">
-              Fresca, ligera y perfecta para compartir.
-            </div>
-          </div>
-
-        </div><!-- End Menu Container -->
-
-      </div>
-
-    </section>
-    <!-- /Menu Section -->
 
     <!-- ======= Book A Table Section ======= -->
     <section id="book-a-table" class="book-a-table section">
@@ -354,18 +259,13 @@
         <p>Escríbenos o ven a vernos</p>
       </div>
 
-      <!-- Puedes cambiar el mapa a Madrid/Coslada cuando quieras -->
-      <div class="mb-5" data-aos="fade-up" data-aos-delay="200">
-        <iframe style="border:0; width: 100%; height: 400px;"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3035.5016078641724!2d-3.561984!3d40.423032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42303b6b0b7a99%3A0x2e6b7e9e5f1b8d1f!2sCoslada%2C%20Madrid!5e0!3m2!1ses!2ses!4v1700000000000"
-          frameborder="0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-
+      <!-- Professional layout: info (left) + map (right) -->
       <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <div class="row gy-4">
+        <div class="row gy-4 align-items-stretch">
 
+          <!-- Left: contact info -->
           <div class="col-lg-4">
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="150">
               <i class="bi bi-geo-alt flex-shrink-0"></i>
               <div>
                 <h3>Ubicación</h3>
@@ -373,7 +273,7 @@
               </div>
             </div>
 
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
+            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
               <i class="bi bi-clock flex-shrink-0"></i>
               <div>
                 <h3>Horario</h3>
@@ -381,7 +281,7 @@
               </div>
             </div>
 
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="450">
+            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="250">
               <i class="bi bi-telephone flex-shrink-0"></i>
               <div>
                 <h3>Teléfono</h3>
@@ -389,7 +289,7 @@
               </div>
             </div>
 
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="500">
+            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
               <i class="bi bi-envelope flex-shrink-0"></i>
               <div>
                 <h3>Email</h3>
@@ -398,36 +298,53 @@
             </div>
           </div>
 
+          <!-- Right: map (not full-width, fixed height, rounded like your dark cards) -->
           <div class="col-lg-8">
-            <!-- Sin backend en Fase 2 -->
-            <form action="#" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-              <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Tu nombre" required>
-                </div>
-
-                <div class="col-md-6">
-                  <input type="email" class="form-control" name="email" placeholder="Tu email" required>
-                </div>
-
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Asunto" required>
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Mensaje" required></textarea>
-                </div>
-
-                <div class="col-md-12 text-center">
-                  <button type="submit">Enviar mensaje</button>
-                </div>
-
-              </div>
-            </form>
+            <div class="rounded-4 overflow-hidden h-100"
+                style="border: 1px solid var(--border-color); background: rgba(255,255,255,0.03);">
+              <iframe
+                style="border:0; width: 100%; height: 100%; min-height: 340px; display:block;"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3035.5016078641724!2d-3.561984!3d40.423032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42303b6b0b7a99%3A0x2e6b7e9e5f1b8d1f!2sCoslada%2C%20Madrid!5e0!3m2!1ses!2ses!4v1700000000000"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
           </div>
 
         </div>
+      </div>
+
+      <!-- Contact form (full width under map) -->
+      <div class="container mt-4" data-aos="fade-up" data-aos-delay="200">
+
+        <!-- No backend in Phase 2 -->
+        <form action="#" method="post" class="php-email-form">
+          <div class="row gy-4">
+
+            <div class="col-md-6">
+              <input type="text" name="name" class="form-control" placeholder="Tu nombre" required>
+            </div>
+
+            <div class="col-md-6">
+              <input type="email" class="form-control" name="email" placeholder="Tu email" required>
+            </div>
+
+            <div class="col-md-12">
+              <input type="text" class="form-control" name="subject" placeholder="Asunto" required>
+            </div>
+
+            <div class="col-md-12">
+              <textarea class="form-control" name="message" rows="6" placeholder="Mensaje" required></textarea>
+            </div>
+
+            <div class="col-md-12 text-center">
+              <button type="submit">Enviar mensaje</button>
+            </div>
+
+          </div>
+        </form>
+
       </div>
 
     </section>

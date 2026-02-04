@@ -1171,3 +1171,199 @@ select.form-control:focus {
   color: color-mix(in srgb, var(--default-color), transparent 30%);
 }
 
+/* =========================================================
+   Orders / Pedidos (Fuego Lento)
+   ========================================================= */
+
+body.orders-page {
+  background: var(--background-color);
+}
+
+.orders-section {
+  padding-top: 120px; /* fixed header */
+  padding-bottom: 60px;
+}
+
+.orders-page-header h2 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 800;
+}
+
+.orders-breadcrumb {
+  font-size: 14px;
+  color: color-mix(in srgb, var(--default-color), transparent 35%);
+}
+
+.orders-breadcrumb a {
+  color: color-mix(in srgb, var(--default-color), transparent 20%);
+}
+
+.orders-top-actions {
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+
+.orders-pill {
+  border-radius: 999px;
+  border-color: var(--border-color);
+}
+
+.orders-card {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 18px 18px 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+.orders-title {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-weight: 800;
+}
+
+.orders-id {
+  font-size: 18px;
+}
+
+.orders-dot {
+  opacity: 0.45;
+}
+
+.orders-meta {
+  font-size: 14px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--default-color), transparent 25%);
+}
+
+.orders-subtitle {
+  margin-top: 4px;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--default-color), transparent 45%);
+}
+
+.orders-status {
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13px;
+  border: 1px solid var(--border-color);
+  background: color-mix(in srgb, var(--background-color), transparent 25%);
+  white-space: nowrap;
+}
+
+.orders-status.status-sent {
+  border-color: color-mix(in srgb, var(--accent-color), transparent 50%);
+  background: color-mix(in srgb, var(--accent-color), transparent 85%);
+}
+
+.orders-status.status-cooking {
+  border-color: color-mix(in srgb, #3aa0ff, transparent 55%);
+  background: color-mix(in srgb, #3aa0ff, transparent 88%);
+}
+
+.orders-status.status-served {
+  border-color: color-mix(in srgb, #39d98a, transparent 55%);
+  background: color-mix(in srgb, #39d98a, transparent 88%);
+}
+
+.orders-sep {
+  border-color: var(--border-color);
+  opacity: 0.8;
+  margin: 14px 0;
+}
+
+.orders-items {
+  display: grid;
+  gap: 10px;
+}
+
+.orders-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--border-color), transparent 0%);
+  background: color-mix(in srgb, var(--background-color), transparent 22%);
+}
+
+.orders-item-left {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.orders-qty {
+  font-weight: 900;
+  color: color-mix(in srgb, var(--default-color), transparent 10%);
+}
+
+.orders-name {
+  font-weight: 800;
+}
+
+.orders-tags {
+  font-size: 13px;
+  color: color-mix(in srgb, var(--default-color), transparent 35%);
+}
+
+.orders-price {
+  font-weight: 900;
+  color: var(--accent-color);
+}
+
+.orders-note {
+  flex: 1;
+  min-width: 220px;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 12px;
+  background: color-mix(in srgb, var(--background-color), transparent 18%);
+}
+
+.orders-note-muted .orders-note-body {
+  opacity: 0.7;
+}
+
+.orders-note-title {
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: color-mix(in srgb, var(--default-color), transparent 10%);
+}
+
+.orders-note-body {
+  color: color-mix(in srgb, var(--default-color), transparent 25%);
+  font-size: 14px;
+}
+
+.orders-total {
+  width: 180px;
+  text-align: right;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 12px;
+  background: color-mix(in srgb, var(--background-color), transparent 18%);
+}
+
+.orders-total-label {
+  font-weight: 800;
+  color: color-mix(in srgb, var(--default-color), transparent 35%);
+  font-size: 13px;
+}
+
+.orders-total-value {
+  font-weight: 900;
+  font-size: 20px;
+  margin-top: 2px;
+  color: var(--accent-color);
+}
+
+.orders-foot-note small {
+  color: color-mix(in srgb, var(--default-color), transparent 45%);
+}
+

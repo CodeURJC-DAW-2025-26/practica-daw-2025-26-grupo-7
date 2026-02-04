@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Mis pedidos - Fuego Lento</title>
+
+  <!-- Favicon -->
+  <link href="assets/img/logo.png" rel="icon">
+  <link href="assets/img/logo.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+</head>
+
+<body class="orders-page">
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="branding d-flex align-items-center">
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+
+        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+          <img src="assets/img/logo.png" alt="Fuego Lento Logo">
+          <h1 class="sitename">Fuego Lento</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="index.html#hero">Inicio</a></li>
+            <li><a href="index.html#about">Nuestra brasa</a></li>
+            <li><a href="carta.html">Carta</a></li>
+            <li><a href="index.html#gallery">Galería</a></li>
+            <li><a href="index.html#contact">Contacto</a></li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+        <div class="header-actions d-none d-xl-flex align-items-center">
+          <a href="profile.html" class="btn-login me-3">Mi cuenta</a>
+          <a href="index.html#book-a-table" class="btn-book-a-table">Reservar</a>
+        </div>
+
+      </div>
+    </div>
+  </header>
+  <!-- End Header -->
+
+  <main class="main">
+
+    <!-- ======= Orders Section ======= -->
+    <section id="orders" class="section orders-section">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <!-- Page header -->
+        <div class="orders-page-header d-flex flex-wrap align-items-end justify-content-between gap-2">
+          <div>
+            <h2>Mis pedidos</h2>
+            <div class="kds-muted">Historial de comandas realizadas (ordenadas por fecha)</div>
+          </div>
+
+          <div class="orders-breadcrumb">
+            <i class="bi bi-house-door me-1"></i>
+            <a href="index.html">Inicio</a> /
+            <a href="profile.html">Mi cuenta</a> /
+            <span>Mis pedidos</span>
+          </div>
+        </div>
+
+        <!-- Top actions -->
+        <div class="orders-top-actions d-flex flex-wrap gap-2 justify-content-between align-items-center">
+          <a href="profile.html" class="btn btn-outline-light orders-pill">
+            <i class="bi bi-arrow-left me-1"></i> Volver a mi cuenta
+          </a>
+
+          <a href="carta.html" class="btn btn-primary orders-pill">
+            <i class="bi bi-fire me-1"></i> Pedir de nuevo
+          </a>
+        </div>
+
+        <!-- Orders list -->
+        <div class="row g-4 mt-1">
+
+          <!-- ORDER 1 -->
+          <div class="col-12">
+            <div class="orders-card">
+              <div class="orders-card-head d-flex flex-wrap justify-content-between align-items-start gap-2">
+                <div>
+                  <div class="orders-title">
+                    <span class="orders-id">Pedido #1023</span>
+                    <span class="orders-dot">·</span>
+                    <span class="orders-meta"><i class="bi bi-clock me-1"></i>Hoy, 21:14</span>
+                    <span class="orders-dot">·</span>
+                    <span class="orders-meta"><i class="bi bi-grid-3x3-gap me-1"></i>Mesa 12</span>
+                  </div>
+                  <div class="orders-subtitle">Comanda enviada desde la carta</div>
+                </div>
+
+                <div class="orders-status status-sent">
+                  <i class="bi bi-send-check me-1"></i> Enviado a cocina
+                </div>
+              </div>
+
+              <hr class="orders-sep">
+
+              <div class="orders-items">
+                <div class="orders-item">
+                  <div class="orders-item-left">
+                    <span class="orders-qty">1x</span>
+                    <span class="orders-name">Chuletón a la piedra</span>
+                    <span class="orders-tags">Punto: <strong>Al punto</strong></span>
+                  </div>
+                  <div class="orders-price">24,90€</div>
+                </div>
+
+                <div class="orders-item">
+                  <div class="orders-item-left">
+                    <span class="orders-qty">1x</span>
+                    <span class="orders-name">Secreto ibérico a la brasa</span>
+                    <span class="orders-tags">Punto: <strong>Hecho</strong></span>
+                  </div>
+                  <div class="orders-price">16,90€</div>
+                </div>
+
+                <div class="orders-item">
+                  <div class="orders-item-left">
+                    <span class="orders-qty">2x</span>
+                    <span class="orders-name">Croquetas caseras</span>
+                  </div>
+                  <div class="orders-price">15,00€</div>
+                </div>
+
+                <div class="orders-item">
+                  <div class="orders-item-left">
+                    <span class="orders-qty">1x</span>
+                    <span class="orders-name">Agua mineral</span>
+                    <span class="orders-tags">Opción: <strong>Sin gas</strong></span>
+                  </div>
+                  <div class="orders-price">2,00€</div>
+                </div>
+              </div>
+
+              <div class="orders-bottom d-flex flex-wrap gap-3 justify-content-between align-items-start mt-3">
+                <div class="orders-note">
+                  <div class="orders-note-title"><i class="bi bi-chat-left-text me-1"></i>Comentario</div>
+                  <div class="orders-note-body">Sin sal en el chuletón, por favor. Gracias.</div>
+                </div>
+
+                <div class="orders-total">
+                  <div class="orders-total-label">Total</div>
+                  <div class="orders-total-value">58,90€</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ORDER 2 -->
+          <div class="col-12">
+            <div class="orders-card">
+              <div class="orders-card-head d-flex flex-wrap justify-content-between align-items-start gap-2">
+                <div>
+                  <div class="orders-title">
+                    <span class="orders-id">Pedido #1017</span>
+                    <span class="orders-dot">·</span>
+                    <span class="orders-meta"><i class="bi bi-clock me-1"></i>Ayer, 14:06</span>
+                    <span class="orders-dot">·</span>
+                    <span class="orders-meta"><i class="bi bi-grid-3x3-gap me-1"></i>Mesa 8</span>
+                  </div>
+                  <div class="orders-subtitle">Servicio de mediodía</div>
+                </div>
+
+                <div class="orders-status status-cooking">
+                  <i class="bi bi-hourglass-split me-1"></i> En preparación
+                </div>
+              </div>
+
+              <hr class="orders-sep">
+
+              <div class="orders-items">
+                <div class="orders-item">
+                  <div class="orders-item-left">
+                    <span class="orders-qty">1x</span>
+                    <span class="orders-name">Entrecot a la piedra</span>
+                    <span class="orders-tags">Punto: <strong>Poco hecho</strong></span>
+                  </div>
+                  <div class="orders-price">18,90€</div>
+                </div>
+
+                <div class="orders-item">
+                  <div class="orders-item-left">
+                    <span class="orders-qty">1x</span>
+                    <span class="orders-name">Ensalada de temporada</span>
+                  </div>
+                  <div class="orders-price">6,90€</div>
+                </div>
+
+                <div class="orders-item">
+                  <div class="orders-item-left">
+                    <span class="orders-qty">1x</span>
+                    <span class="orders-name">Tarta de queso</span>
+                  </div>
+                  <div class="orders-price">6,50€</div>
+                </div>
+              </div>
+
+              <div class="orders-bottom d-flex flex-wrap gap-3 justify-content-between align-items-start mt-3">
+                <div class="orders-note">
+                  <div class="orders-note-title"><i class="bi bi-chat-left-text me-1"></i>Comentario</div>
+                  <div class="orders-note-body">Si puede ser, el entrecot bien caliente. 🙏</div>
+                </div>
+
+                <div class="orders-total">
+                  <div class="orders-total-label">Total</div>
+                  <div class="orders-total-value">32,30€</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ORDER 3 -->
+          <div class="col-12">
+            <div class="orders-card">
+              <div class="orders-card-head d-flex flex-wrap justify-content-between align-items-start gap-2">
+                <div>
+                  <div class="orders-title">
+                    <span class="orders-id">Pedido #1004</span>
+                    <span class="orders-dot">·</span>
+                    <span class="orders-meta"><i class="bi bi-clock me-1"></i>12/01/2026, 21:02</span>
+                    <span class="orders-dot">·</span>
+                    <span class="orders-meta"><i class="bi bi-grid-3x3-gap me-1"></i>Mesa 5</span>
+                  </div>
+                  <div class="orders-subtitle">Cena</div>
+                </div>
+
+                <div class="orders-status status-served">
+                  <i class="bi bi-check2-circle me-1"></i> Servido
+                </div>
+              </div>
+
+              <hr class="orders-sep">
+
+              <div class="orders-items">
+                <div class="orders-item">
+                  <div class="orders-item-left">
+                    <span class="orders-qty">1x</span>
+                    <span class="orders-name">Costillar a la brasa</span>
+                  </div>
+                  <div class="orders-price">19,50€</div>
+                </div>
+
+                <div class="orders-item">
+                  <div class="orders-item-left">
+                    <span class="orders-qty">1x</span>
+                    <span class="orders-name">Agua mineral</span>
+                    <span class="orders-tags">Opción: <strong>Con gas</strong></span>
+                  </div>
+                  <div class="orders-price">2,00€</div>
+                </div>
+              </div>
+
+              <div class="orders-bottom d-flex flex-wrap gap-3 justify-content-between align-items-start mt-3">
+                <div class="orders-note orders-note-muted">
+                  <div class="orders-note-title"><i class="bi bi-chat-left-text me-1"></i>Comentario</div>
+                  <div class="orders-note-body">—</div>
+                </div>
+
+                <div class="orders-total">
+                  <div class="orders-total-label">Total</div>
+                  <div class="orders-total-value">21,50€</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Info note (mock) -->
+        <div class="orders-foot-note mt-4">
+          <small>
+            * En esta entrega, el historial es una simulación. En próximas fases se conectará con el sistema real de comandas.
+          </small>
+        </div>
+
+      </div>
+    </section>
+    <!-- End Orders Section -->
+
+  </main>
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="container copyright text-center mt-4">
+      <p>© <strong class="px-1 sitename">Fuego Lento</strong> · Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+  <script>
+    if (typeof AOS !== "undefined") {
+      AOS.init({ duration: 600, easing: "ease-in-out", once: true });
+    }
+  </script>
+
+</body>
+
+</html>

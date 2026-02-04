@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Comanda enviada | Fuego Lento</title>
+
+  <link rel="icon" href="assets/img/logo.png">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Vendor CSS -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- Main CSS -->
+  <link href="assets/css/main.css" rel="stylesheet">
+</head>
+
+<body class="index-page">
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="branding d-flex align-items-center">
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+
+        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+          <img src="assets/img/logo.png" alt="Logo Fuego Lento">
+          <h1 class="sitename">Fuego Lento</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="index.html#hero">Inicio</a></li>
+            <li><a href="index.html#about">Nuestra brasa</a></li>
+            <li><a href="carta.html">Carta</a></li>
+            <li><a href="index.html#gallery">Galería</a></li>
+            <li><a href="index.html#contact">Contacto</a></li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+        <div class="header-actions d-none d-xl-flex align-items-center">
+          <a href="profile.html" class="btn-login me-3">Mi cuenta</a>
+          <a href="index.html#book-a-table" class="btn-book-a-table">Reservar</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- End Header -->
+
+  <main class="main">
+
+    <!-- ======= Confirmation Section ======= -->
+    <section class="section comanda-confirmation">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+
+            <div class="confirmation-card text-center">
+              <div class="confirmation-icon">
+                <i class="bi bi-check2"></i>
+              </div>
+
+              <h2 class="confirmation-title">Comanda enviada</h2>
+              <p class="confirmation-text">
+                Hemos recibido tu comanda y ya está en cola para cocina.
+                <br>
+                <span class="confirmation-subtext">En esta entrega es una simulación.</span>
+              </p>
+
+              <div class="confirmation-details">
+                <div class="row g-3">
+                  <div class="col-md-4">
+                    <div class="confirmation-pill">
+                      <span class="label">Estado</span>
+                      <span class="value">En preparación</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="confirmation-pill">
+                      <span class="label">Mesa</span>
+                      <span class="value">12</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="confirmation-pill">
+                      <span class="label">Tiempo estimado</span>
+                      <span class="value">15–25 min</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-center gap-2 flex-wrap mt-4">
+                <a href="carta.html" class="btn btn-outline-light btn-confirm-ghost">
+                  <i class="bi bi-arrow-left me-2"></i> Volver a la carta
+                </a>
+                <a href="profile.html" class="btn btn-primary btn-confirm-primary">
+                  <i class="bi bi-person me-2"></i> Ir a mi cuenta
+                </a>
+              </div>
+
+              <div class="confirmation-note mt-4">
+                <i class="bi bi-info-circle me-2"></i>
+                Si necesitas modificar algo, avisa al personal antes de que la comanda entre en fuego.
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <!-- End Confirmation Section -->
+
+  </main>
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="container copyright text-center mt-4">
+      <p>© <strong class="px-1 sitename">Fuego Lento</strong> · Todos los derechos reservados</p>
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+  </a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+
+  <!-- Main JS -->
+  <script src="assets/js/main.js"></script>
+
+  <script>
+    if (typeof AOS !== "undefined") {
+      AOS.init({ duration: 600, easing: "ease-in-out", once: true });
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <!-- ====== Basic document setup ====== -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <!-- ====== Browser tab title ====== -->
+  <title>Comanda | Fuego Lento</title>
+
+  <!-- ====== Favicon ====== -->
+  <link rel="icon" href="assets/img/logo.png">
+
+  <!-- ====== Fonts (project default) ====== -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- ====== Vendor CSS (Bootstrap + Icons + AOS) ====== -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- ====== Main CSS ====== -->
+  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/admin.css" rel="stylesheet">
+</head>
+
+<body class="index-page">
+
+  <!-- =========================
+       HEADER (reused)
+       ========================= -->
+  <header id="header" class="header fixed-top">
+    <div class="branding d-flex align-items-center">
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+
+        <!-- Logo + name (goes to home) -->
+        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+          <img src="assets/img/logo.png" alt="Logo Fuego Lento">
+          <h1 class="sitename">Fuego Lento</h1>
+        </a>
+
+        <!-- Navigation menu -->
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="index.html#hero">Inicio</a></li>
+            <li><a href="index.html#about">Nuestra brasa</a></li>
+            <li><a href="carta.html">Carta</a></li>
+            <li><a href="index.html#gallery">Galería</a></li>
+            <li><a href="index.html#contact">Contacto</a></li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+        <div class="header-actions d-none d-xl-flex align-items-center">
+          <a href="profile.html" class="btn-login me-3">Mi cuenta</a>
+          <a href="comanda.html" class="btn-login me-3 active">
+            <i class="bi bi-cart me-1"></i> Comanda
+          </a>
+          <a href="index.html#book-a-table" class="btn-book-a-table">Reservar</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================
+       MAIN
+       ========================= -->
+  <main class="main">
+
+    <!-- ====== Page title banner ====== -->
+    <div class="page-title position-relative" data-aos="fade" style="background-image: url(assets/img/page-title-bg.webp);">
+      <div class="container position-relative">
+        <h1>Tu comanda</h1>
+        <p>Revisa tu pedido antes de enviarlo a cocina. Puedes ajustar cantidades y el punto de la carne.</p>
+      </div>
+    </div>
+
+    <!-- ====== Order / Cart section ====== -->
+    <section class="section" style="padding-top: 40px; padding-bottom: 70px;">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row g-4 align-items-start">
+
+          <!-- =========================
+               LEFT: Items
+               ========================= -->
+          <div class="col-lg-8">
+
+            <!-- Card wrapper -->
+            <div class="p-4 rounded-4"
+              style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+
+              <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap mb-3">
+                <div>
+                  <h3 class="mb-1">Resumen</h3>
+                  <small style="opacity:0.8;">* Maqueta: los botones no envían nada todavía.</small>
+                </div>
+
+                <a href="carta.html" class="btn btn-outline-light">
+                  <i class="bi bi-plus-lg me-2"></i> Seguir añadiendo
+                </a>
+              </div>
+
+              <hr style="border-color: var(--border-color);">
+
+              <!-- Item 1: Carne -->
+              <div class="d-flex gap-3 py-3">
+                <img src="assets/img/menu/chuleton-piedra.png" alt="Chuletón a la piedra"
+                  style="width:92px;height:92px;object-fit:cover;border-radius:12px;">
+                <div class="flex-grow-1">
+                  <div class="d-flex justify-content-between gap-3">
+                    <div>
+                      <h5 class="mb-1 fw-bold">Chuletón a la piedra</h5>
+                      <div class="small" style="opacity:0.8;">Carne premium · Piedra caliente</div>
+                    </div>
+                    <div class="text-end">
+                      <div class="fw-bold" style="color: var(--accent-color);">24,90€</div>
+                      <div class="small" style="opacity:0.75;">Unidad</div>
+                    </div>
+                  </div>
+
+                  <div class="row g-3 align-items-center mt-2">
+                    <div class="col-md-4">
+                      <label class="form-label mb-1">Cantidad</label>
+                      <div class="input-group">
+                        <button class="btn btn-outline-light" type="button"><i class="bi bi-dash"></i></button>
+                        <input type="text" class="form-control text-center" value="1" readonly>
+                        <button class="btn btn-outline-light" type="button"><i class="bi bi-plus"></i></button>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <label class="form-label mb-1">Punto de la carne</label>
+                      <select class="form-control">
+                        <option selected>Al punto</option>
+                        <option>Poco hecho</option>
+                        <option>Hecho</option>
+                      </select>
+                    </div>
+
+                    <div class="col-md-4 text-md-end">
+                      <label class="form-label mb-1 d-block">&nbsp;</label>
+                      <button class="btn btn-outline-danger">
+                        <i class="bi bi-trash3 me-2"></i> Quitar
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="mt-3">
+                    <label class="form-label mb-1">Comentario para cocina (opcional)</label>
+                    <input type="text" class="form-control" placeholder="Ej: sin sal, más hecho, sin guarnición...">
+                  </div>
+                </div>
+              </div>
+
+              <hr style="border-color: var(--border-color);">
+
+              <!-- Item 2: Carne -->
+              <div class="d-flex gap-3 py-3">
+                <img src="assets/img/menu/secreto-iberico.png" alt="Secreto ibérico a la brasa"
+                  style="width:92px;height:92px;object-fit:cover;border-radius:12px;">
+                <div class="flex-grow-1">
+                  <div class="d-flex justify-content-between gap-3">
+                    <div>
+                      <h5 class="mb-1 fw-bold">Secreto ibérico a la brasa</h5>
+                      <div class="small" style="opacity:0.8;">Carne · Brasa</div>
+                    </div>
+                    <div class="text-end">
+                      <div class="fw-bold" style="color: var(--accent-color);">16,90€</div>
+                      <div class="small" style="opacity:0.75;">Unidad</div>
+                    </div>
+                  </div>
+
+                  <div class="row g-3 align-items-center mt-2">
+                    <div class="col-md-4">
+                      <label class="form-label mb-1">Cantidad</label>
+                      <div class="input-group">
+                        <button class="btn btn-outline-light" type="button"><i class="bi bi-dash"></i></button>
+                        <input type="text" class="form-control text-center" value="1" readonly>
+                        <button class="btn btn-outline-light" type="button"><i class="bi bi-plus"></i></button>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <label class="form-label mb-1">Punto de la carne</label>
+                      <select class="form-control">
+                        <option selected>Hecho</option>
+                        <option>Al punto</option>
+                        <option>Poco hecho</option>
+                      </select>
+                    </div>
+
+                    <div class="col-md-4 text-md-end">
+                      <label class="form-label mb-1 d-block">&nbsp;</label>
+                      <button class="btn btn-outline-danger">
+                        <i class="bi bi-trash3 me-2"></i> Quitar
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="mt-3">
+                    <label class="form-label mb-1">Comentario para cocina (opcional)</label>
+                    <input type="text" class="form-control" placeholder="Ej: sin sal, más hecho, sin guarnición...">
+                  </div>
+                </div>
+              </div>
+
+              <hr style="border-color: var(--border-color);">
+
+              <!-- Item 3: Entrante -->
+              <div class="d-flex gap-3 py-3">
+                <img src="assets/img/menu/croquetas.png" alt="Croquetas caseras"
+                  style="width:92px;height:92px;object-fit:cover;border-radius:12px;">
+                <div class="flex-grow-1">
+                  <div class="d-flex justify-content-between gap-3">
+                    <div>
+                      <h5 class="mb-1 fw-bold">Croquetas caseras</h5>
+                      <div class="small" style="opacity:0.8;">Entrante · Recién hechas</div>
+                    </div>
+                    <div class="text-end">
+                      <div class="fw-bold" style="color: var(--accent-color);">7,50€</div>
+                      <div class="small" style="opacity:0.75;">Unidad</div>
+                    </div>
+                  </div>
+
+                  <div class="row g-3 align-items-center mt-2">
+                    <div class="col-md-4">
+                      <label class="form-label mb-1">Cantidad</label>
+                      <div class="input-group">
+                        <button class="btn btn-outline-light" type="button"><i class="bi bi-dash"></i></button>
+                        <input type="text" class="form-control text-center" value="2" readonly>
+                        <button class="btn btn-outline-light" type="button"><i class="bi bi-plus"></i></button>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <label class="form-label mb-1">Nota</label>
+                      <input type="text" class="form-control" placeholder="Ej: sin lactosa (si aplica)">
+                    </div>
+
+                    <div class="col-md-4 text-md-end">
+                      <label class="form-label mb-1 d-block">&nbsp;</label>
+                      <button class="btn btn-outline-danger">
+                        <i class="bi bi-trash3 me-2"></i> Quitar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr style="border-color: var(--border-color);">
+
+              <!-- Item 4: Bebida -->
+              <div class="d-flex gap-3 py-3">
+                <img src="assets/img/menu/agua-mineral.png" alt="Agua mineral"
+                  style="width:92px;height:92px;object-fit:cover;border-radius:12px;">
+                <div class="flex-grow-1">
+                  <div class="d-flex justify-content-between gap-3">
+                    <div>
+                      <h5 class="mb-1 fw-bold">Agua mineral</h5>
+                      <div class="small" style="opacity:0.8;">Bebida</div>
+                    </div>
+                    <div class="text-end">
+                      <div class="fw-bold" style="color: var(--accent-color);">2,00€</div>
+                      <div class="small" style="opacity:0.75;">Unidad</div>
+                    </div>
+                  </div>
+
+                  <div class="row g-3 align-items-center mt-2">
+                    <div class="col-md-4">
+                      <label class="form-label mb-1">Cantidad</label>
+                      <div class="input-group">
+                        <button class="btn btn-outline-light" type="button"><i class="bi bi-dash"></i></button>
+                        <input type="text" class="form-control text-center" value="1" readonly>
+                        <button class="btn btn-outline-light" type="button"><i class="bi bi-plus"></i></button>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <label class="form-label mb-1">Tipo</label>
+                      <select class="form-control">
+                        <option selected>Sin gas</option>
+                        <option>Con gas</option>
+                      </select>
+                    </div>
+
+                    <div class="col-md-4 text-md-end">
+                      <label class="form-label mb-1 d-block">&nbsp;</label>
+                      <button class="btn btn-outline-danger">
+                        <i class="bi bi-trash3 me-2"></i> Quitar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- =========================
+               RIGHT: Summary + Actions
+               ========================= -->
+          <div class="col-lg-4">
+
+            <div class="p-4 rounded-4 mb-4"
+              style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+
+              <h4 class="mb-3">Total</h4>
+
+              <div class="d-flex justify-content-between mb-2">
+                <span style="opacity:0.85;">Productos</span>
+                <strong>58,90€</strong>
+              </div>
+
+              <div class="d-flex justify-content-between mb-3">
+                <span style="opacity:0.85;">Servicio</span>
+                <strong>0,00€</strong>
+              </div>
+
+              <hr style="border-color: var(--border-color);">
+
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-bold">Total</span>
+                <span class="fw-bold" style="color: var(--accent-color); font-size: 20px;">58,90€</span>
+              </div>
+
+              <div class="comanda-field">
+                <label for="tableNumber" class="comanda-label">
+                    Número de mesa <span class="required">*</span>
+                </label>
+
+                <select id="tableNumber" class="form-control comanda-select" required>
+                    <option value="" selected disabled>Selecciona tu mesa (1 - 20)</option>
+                    <option value="1">Mesa 1</option>
+                    <option value="2">Mesa 2</option>
+                    <option value="3">Mesa 3</option>
+                    <option value="4">Mesa 4</option>
+                    <option value="5">Mesa 5</option>
+                    <option value="6">Mesa 6</option>
+                    <option value="7">Mesa 7</option>
+                    <option value="8">Mesa 8</option>
+                    <option value="9">Mesa 9</option>
+                    <option value="10">Mesa 10</option>
+                    <option value="11">Mesa 11</option>
+                    <option value="12">Mesa 12</option>
+                    <option value="13">Mesa 13</option>
+                    <option value="14">Mesa 14</option>
+                    <option value="15">Mesa 15</option>
+                    <option value="16">Mesa 16</option>
+                    <option value="17">Mesa 17</option>
+                    <option value="18">Mesa 18</option>
+                    <option value="19">Mesa 19</option>
+                    <option value="20">Mesa 20</option>
+                </select>
+
+                <small class="comanda-hint">
+                    El número de mesa está indicado en la esquina de la mesa.
+                </small>
+                </div>
+
+              <div class="mt-4">
+                <label class="form-label mb-1">Comentario general (opcional)</label>
+                <textarea class="form-control" rows="3" placeholder="Ej: mesa 12, alergias, sin picante..."></textarea>
+              </div>
+
+              <div class="mt-4 d-grid gap-2">
+                <button type="button" class="btn btn-primary w-100" style="border-radius:999px;"
+                        data-bs-toggle="modal" data-bs-target="#confirmKitchenModal">
+                    <i class="bi bi-send me-1"></i> Enviar a cocina
+                </button>
+                <a href="carta.html" class="btn btn-outline-light" style="border-radius: 999px;">
+                  <i class="bi bi-arrow-left me-2"></i> Volver a la carta
+                </a>
+              </div>
+
+              <div class="mt-3 p-3 rounded-3"
+                style="background: color-mix(in srgb, var(--background-color), white 3%); border: 1px solid var(--border-color);">
+                <small style="opacity:0.8;">
+                 *El tiempo estimado de espera una vez enviada la comanda es de aproximadamente 20-25 minutos.
+                </small>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-4"
+              style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+              <h5 class="mb-2">¿Cómo funciona?</h5>
+              <p class="mb-0" style="opacity:0.85;">
+                Añade platos desde la carta, ajusta el punto de la carne y envía la comanda. En cocina aparecerá en el tablón.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <div class="modal fade" id="confirmKitchenModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 16px;">
+                <div class="modal-header" style="border-bottom: 1px solid var(--border-color);">
+                    <h5 class="modal-title">Confirmar comanda</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body" style="color: color-mix(in srgb, var(--default-color), transparent 10%);">
+                    ¿Seguro que quieres enviar la comanda a cocina? No podrás editarla después.
+                </div>
+
+                <div class="modal-footer" style="border-top: 1px solid var(--border-color);">
+                    <button type="button" class="btn btn-outline-light" style="border-radius:999px; border-color: var(--border-color);" data-bs-dismiss="modal">
+                    Cancelar
+                    </button>
+
+                    <!-- Aquí simulamos el envío -->
+                    <a href="comanda-enviada.html" class="btn btn-primary" style="border-radius:999px;">
+                    Sí, enviar
+                    </a>
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+  </main>
+
+  <!-- =========================
+       FOOTER (reused)
+       ========================= -->
+  <footer id="footer" class="footer">
+    <div class="container copyright text-center mt-4">
+      <p>© <strong class="px-1 sitename">Fuego Lento</strong> · Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <!-- ====== Vendor JS ====== -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+
+  <!-- ====== Main JS ====== -->
+  <script src="assets/js/main.js"></script>
+
+  <!-- Initialize AOS if available -->
+  <script>
+    if (typeof AOS !== "undefined") {
+      AOS.init({ duration: 600, easing: "ease-in-out", once: true });
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- ====== Basic document setup ====== -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <!-- ====== Browser tab title ====== -->
+  <title>Panel Admin - Productos | Fuego Lento</title>
+
+  <!-- ====== Favicon ====== -->
+  <link rel="icon" href="assets/img/logo.png">
+
+  <!-- ====== Fonts (project default) ====== -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- ====== Vendor CSS (Bootstrap + Icons + AOS) ====== -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- ====== Main CSS ====== -->
+  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/admin.css" rel="stylesheet">
+</head>
+
+<body class="index-page">
+
+  <!-- =========================
+       HEADER (reused)
+       ========================= -->
+  <header id="header" class="header fixed-top">
+    <div class="branding d-flex align-items-center">
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+
+        <!-- Logo + name (goes to home) -->
+        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+          <img src="assets/img/logo.png" alt="Logo Fuego Lento">
+          <h1 class="sitename">Fuego Lento</h1>
+        </a>
+
+        <!-- Navigation menu -->
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="index.html#hero">Inicio</a></li>
+            <li><a href="index.html#about">Nuestra brasa</a></li>
+            <li><a href="carta.html">Carta</a></li>
+            <li><a href="index.html#gallery">Galería</a></li>
+            <li><a href="index.html#contact">Contacto</a></li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+        <!-- Right buttons (admin session mock) -->
+        <a class="btn-login d-none d-xl-block" href="profile.html">Mi cuenta</a>
+        <a class="btn-book-a-table d-none d-xl-block" href="index.html#book-a-table">Reservar</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================
+       MAIN
+       ========================= -->
+  <main class="main">
+
+    <!-- ====== Page title banner ====== -->
+    <div class="page-title position-relative" data-aos="fade" style="background-image: url(assets/img/page-title-bg.webp);">
+      <div class="container position-relative">
+        <h1>Gestión de productos</h1>
+        <p>Añade, edita o elimina platos de la carta desde el panel de administración.</p>
+      </div>
+    </div>
+
+    <!-- ====== Admin products table ====== -->
+    <section class="section admin-section">
+      <div class="container" data-aos="fade-up">
+
+        <!-- Toolbar: title + actions + search -->
+        <div class="admin-toolbar d-flex align-items-end justify-content-between gap-3 flex-wrap">
+
+            <div>
+                <h2 class="admin-title mb-1">Productos</h2>
+                <p class="mb-0" style="opacity: 0.8;">
+                Vista general de la carta. Acciones simuladas.
+                </p>
+            </div>
+
+            <!-- Center: add product button -->
+            <div class="d-flex justify-content-center flex-grow-1">
+                <a href="admin-producto-editor.html"
+                    class="btn btn-kds-primary"
+                    style="height: 44px; display: flex; align-items: center;">
+                <i class="bi bi-plus-circle me-1"></i> Añadir producto
+                </a>
+            </div>
+
+                <!-- Search box (visual only) -->
+            <div class="admin-search" style="min-width: 360px;">
+                <i class="bi bi-search"></i>
+                <input type="text" class="form-control" placeholder="Buscar por nombre o categoría...">
+            </div>
+
+        </div>
+
+        <!-- Table wrapper -->
+        <div class="table-responsive admin-table-wrap">
+          <table class="table admin-table align-middle">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Imagen</th>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Disponible</th>
+                <th class="text-end">Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <!-- Product row -->
+              <tr>
+                <td>1</td>
+                <td>
+                  <img src="assets/img/menu/chuleton-piedra.png" alt="Chuletón a la piedra" style="width:56px;height:56px;border-radius:8px;object-fit:cover;">
+                </td>
+                <td>
+                  <strong>Chuletón a la piedra</strong><br>
+                  <small style="opacity:0.8;">Corte premium con piedra caliente y guarnición.</small>
+                </td>
+                <td><span class="badge" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);">Carnes</span></td>
+                <td><strong>24,90€</strong></td>
+                <td><span class="badge status-active">Sí</span></td>
+                <td class="text-end">
+                  <a href="admin-producto-editor.html" class="btn btn-sm btn-kds-secondary me-2">
+                    <i class="bi bi-pencil me-1"></i> Editar
+                  </a>
+                  <button class="btn btn-sm btn-danger-soft" type="button" disabled>
+                    <i class="bi bi-trash3 me-1"></i> Eliminar
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>2</td>
+                <td>
+                  <img src="assets/img/menu/entrecot-piedra.png" alt="Entrecot a la piedra" style="width:56px;height:56px;border-radius:8px;object-fit:cover;">
+                </td>
+                <td>
+                  <strong>Entrecot a la piedra</strong><br>
+                  <small style="opacity:0.8;">Carne tierna para terminar al punto en mesa.</small>
+                </td>
+                <td><span class="badge" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);">Carnes</span></td>
+                <td><strong>18,90€</strong></td>
+                <td><span class="badge status-active">Sí</span></td>
+                <td class="text-end">
+                  <a href="admin-producto-editor.html" class="btn btn-sm btn-kds-secondary me-2">
+                    <i class="bi bi-pencil me-1"></i> Editar
+                  </a>
+                  <button class="btn btn-sm btn-danger-soft" type="button" disabled>
+                    <i class="bi bi-trash3 me-1"></i> Eliminar
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>3</td>
+                <td>
+                  <img src="assets/img/menu/costillar-brasa.png" alt="Costillar a la brasa" style="width:56px;height:56px;border-radius:8px;object-fit:cover;">
+                </td>
+                <td>
+                  <strong>Costillar a la brasa</strong><br>
+                  <small style="opacity:0.8;">Cocción lenta, glaseado suave y sabor ahumado.</small>
+                </td>
+                <td><span class="badge" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);">Carnes</span></td>
+                <td><strong>19,50€</strong></td>
+                <td><span class="badge status-active">Sí</span></td>
+                <td class="text-end">
+                  <a href="admin-producto-editor.html" class="btn btn-sm btn-kds-secondary me-2">
+                    <i class="bi bi-pencil me-1"></i> Editar
+                  </a>
+                  <button class="btn btn-sm btn-danger-soft" type="button" disabled>
+                    <i class="bi bi-trash3 me-1"></i> Eliminar
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>4</td>
+                <td>
+                  <img src="assets/img/menu/secreto-iberico.png" alt="Secreto ibérico a la brasa" style="width:56px;height:56px;border-radius:8px;object-fit:cover;">
+                </td>
+                <td>
+                  <strong>Secreto ibérico a la brasa</strong><br>
+                  <small style="opacity:0.8;">Jugoso y dorado al carbón, con sal en escamas.</small>
+                </td>
+                <td><span class="badge" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);">Carnes</span></td>
+                <td><strong>16,90€</strong></td>
+                <td><span class="badge status-active">Sí</span></td>
+                <td class="text-end">
+                  <a href="admin-producto-editor.html" class="btn btn-sm btn-kds-secondary me-2">
+                    <i class="bi bi-pencil me-1"></i> Editar
+                  </a>
+                  <button class="btn btn-sm btn-danger-soft" type="button" disabled>
+                    <i class="bi bi-trash3 me-1"></i> Eliminar
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>5</td>
+                <td>
+                  <img src="assets/img/menu/croquetas.png" alt="Croquetas caseras" style="width:56px;height:56px;border-radius:8px;object-fit:cover;">
+                </td>
+                <td>
+                  <strong>Croquetas caseras</strong><br>
+                  <small style="opacity:0.8;">Cremosas, crujientes y recién hechas.</small>
+                </td>
+                <td><span class="badge" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);">Entrantes</span></td>
+                <td><strong>7,50€</strong></td>
+                <td><span class="badge status-active">Sí</span></td>
+                <td class="text-end">
+                  <a href="admin-producto-editor.html" class="btn btn-sm btn-kds-secondary me-2">
+                    <i class="bi bi-pencil me-1"></i> Editar
+                  </a>
+                  <button class="btn btn-sm btn-danger-soft" type="button" disabled>
+                    <i class="bi bi-trash3 me-1"></i> Eliminar
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>6</td>
+                <td>
+                  <img src="assets/img/menu/ensalada-temporada.png" alt="Ensalada de temporada" style="width:56px;height:56px;border-radius:8px;object-fit:cover;">
+                </td>
+                <td>
+                  <strong>Ensalada de temporada</strong><br>
+                  <small style="opacity:0.8;">Fresca, ligera y perfecta para compartir.</small>
+                </td>
+                <td><span class="badge" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);">Entrantes</span></td>
+                <td><strong>6,90€</strong></td>
+                <td><span class="badge status-active">Sí</span></td>
+                <td class="text-end">
+                  <a href="admin-producto-editor.html" class="btn btn-sm btn-kds-secondary me-2">
+                    <i class="bi bi-pencil me-1"></i> Editar
+                  </a>
+                  <button class="btn btn-sm btn-danger-soft" type="button" disabled>
+                    <i class="bi bi-trash3 me-1"></i> Eliminar
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>7</td>
+                <td>
+                  <img src="assets/img/menu/tarta-queso.png" alt="Tarta de queso" style="width:56px;height:56px;border-radius:8px;object-fit:cover;">
+                </td>
+                <td>
+                  <strong>Tarta de queso</strong><br>
+                  <small style="opacity:0.8;">Horneada, cremosa y con base de galleta.</small>
+                </td>
+                <td><span class="badge" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);">Postres</span></td>
+                <td><strong>6,50€</strong></td>
+                <td><span class="badge status-active">Sí</span></td>
+                <td class="text-end">
+                  <a href="admin-producto-editor.html" class="btn btn-sm btn-kds-secondary me-2">
+                    <i class="bi bi-pencil me-1"></i> Editar
+                  </a>
+                  <button class="btn btn-sm btn-danger-soft" type="button" disabled>
+                    <i class="bi bi-trash3 me-1"></i> Eliminar
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>8</td>
+                <td>
+                  <img src="assets/img/menu/agua-mineral.png" alt="Agua mineral" style="width:56px;height:56px;border-radius:8px;object-fit:cover;">
+                </td>
+                <td>
+                  <strong>Agua mineral</strong><br>
+                  <small style="opacity:0.8;">Agua fría (con o sin gas).</small>
+                </td>
+                <td><span class="badge" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);">Bebidas</span></td>
+                <td><strong>2,00€</strong></td>
+                <td><span class="badge status-active">Sí</span></td>
+                <td class="text-end">
+                  <a href="admin-producto-editor.html" class="btn btn-sm btn-kds-secondary me-2">
+                    <i class="bi bi-pencil me-1"></i> Editar
+                  </a>
+                  <button class="btn btn-sm btn-danger-soft" type="button" disabled>
+                    <i class="bi bi-trash3 me-1"></i> Eliminar
+                  </button>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Back button -->
+        <div class="mt-4">
+          <a href="index.html" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left me-2"></i> Volver al inicio
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================
+       FOOTER (reused)
+       ========================= -->
+  <footer id="footer" class="footer">
+    <div class="container copyright text-center mt-4">
+      <p>© <strong class="px-1 sitename">Fuego Lento</strong> · Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <!-- ====== Vendor JS ====== -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+
+  <!-- ====== Main JS ====== -->
+  <script src="assets/js/main.js"></script>
+
+  <!-- Initialize AOS if available -->
+  <script>
+    if (typeof AOS !== "undefined") {
+      AOS.init({ duration: 600, easing: "ease-in-out", once: true });
+    }
+  </script>
+
+</body>
+</html>

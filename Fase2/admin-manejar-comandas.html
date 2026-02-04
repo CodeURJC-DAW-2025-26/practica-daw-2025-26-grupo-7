@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- ====== Basic document setup ====== -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <!-- ====== Browser tab title ====== -->
+  <title>Panel Admin - Comandas | Fuego Lento</title>
+
+  <!-- ====== Favicon ====== -->
+  <link rel="icon" href="assets/img/logo.png">
+
+  <!-- ====== Fonts (project default) ====== -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- ====== Vendor CSS (Bootstrap + Icons + AOS) ====== -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- ====== Main CSS ====== -->
+  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/admin.css" rel="stylesheet">
+</head>
+
+<body class="index-page">
+
+  <!-- =========================
+       HEADER (reused)
+       ========================= -->
+  <header id="header" class="header fixed-top">
+    <div class="branding d-flex align-items-center">
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+
+        <!-- Logo + name (goes to home) -->
+        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+          <img src="assets/img/logo.png" alt="Logo Fuego Lento">
+          <h1 class="sitename">Fuego Lento</h1>
+        </a>
+
+        <!-- Navigation menu -->
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="index.html#hero">Inicio</a></li>
+            <li><a href="index.html#about">Nuestra brasa</a></li>
+            <li><a href="index.html#menu">Carta</a></li>
+            <li><a href="index.html#gallery">Galería</a></li>
+            <li><a href="index.html#contact">Contacto</a></li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+        <!-- Right buttons -->
+        <a class="btn-login d-none d-xl-block" href="profile.html">Mi cuenta</a>
+        <a class="btn-book-a-table d-none d-xl-block" href="index.html#book-a-table">Reservar</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================
+       MAIN
+       ========================= -->
+  <main class="main">
+
+    <!-- ====== Page title banner ====== -->
+    <div class="page-title position-relative" data-aos="fade" style="background-image: url(assets/img/page-title-bg.webp);">
+      <div class="container position-relative">
+        <h1>Gestión de comandas</h1>
+        <p>Revisa y gestiona el estado de las comandas de las mesas.</p>
+      </div>
+    </div>
+
+    <!-- ====== Admin Orders Table ====== -->
+    <section class="section admin-section">
+      <div class="container" data-aos="fade-up">
+
+        <!-- Toolbar: title + search -->
+        <div class="admin-toolbar d-flex align-items-end justify-content-between gap-3 flex-wrap">
+          <div>
+            <h2 class="admin-title mb-1">Comandas</h2>
+            <p class="mb-0" style="opacity: 0.8;">
+              Cambia el estado, consulta detalles o cancela una comanda.
+            </p>
+          </div>
+
+          <!-- Search box (visual only) -->
+          <div class="admin-search">
+            <i class="bi bi-search"></i>
+            <input type="text" class="form-control" placeholder="Buscar por mesa o número de comanda...">
+          </div>
+        </div>
+
+        <!-- Table card -->
+        <div class="table-responsive admin-table-wrap">
+          <table class="table admin-table align-middle">
+            <thead>
+              <tr>
+                <th>Nº</th>
+                <th>Mesa</th>
+                <th>Hora</th>
+                <th>Platos</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th class="text-end">Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <!-- Order: Received -->
+              <tr>
+                <td><strong>#1036</strong></td>
+                <td>Mesa 12</td>
+                <td><i class="bi bi-clock me-1"></i>20:45</td>
+                <td>5</td>
+                <td><strong>58,50€</strong></td>
+                <td>
+                  <span class="badge status-active">Recibida</span>
+                  <!-- Status selector is disabled because this is a static mockup -->
+                  <select class="form-select form-select-sm mt-2" disabled>
+                    <option selected>Recibida</option>
+                    <option>En marcha</option>
+                    <option>Preparada</option>
+                    <option>Cancelada</option>
+                  </select>
+                </td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-kds-secondary me-2" type="button" disabled>
+                    <i class="bi bi-eye me-1"></i> Detalles
+                  </button>
+                  <button class="btn btn-sm btn-danger-soft" type="button" disabled>
+                    <i class="bi bi-x-circle me-1"></i> Cancelar
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Order: In progress -->
+              <tr>
+                <td><strong>#1035</strong></td>
+                <td>Mesa 3</td>
+                <td><i class="bi bi-clock me-1"></i>20:43</td>
+                <td>2</td>
+                <td><strong>24,00€</strong></td>
+                <td>
+                  <span class="badge status-active">En marcha</span>
+                  <select class="form-select form-select-sm mt-2" disabled>
+                    <option>Recibida</option>
+                    <option selected>En marcha</option>
+                    <option>Preparada</option>
+                    <option>Cancelada</option>
+                  </select>
+                </td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-kds-secondary me-2" type="button" disabled>
+                    <i class="bi bi-eye me-1"></i> Detalles
+                  </button>
+                  <button class="btn btn-sm btn-danger-soft" type="button" disabled>
+                    <i class="bi bi-x-circle me-1"></i> Cancelar
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Order: Ready -->
+              <tr>
+                <td><strong>#1032</strong></td>
+                <td>Mesa 7</td>
+                <td><i class="bi bi-clock me-1"></i>20:35</td>
+                <td>2</td>
+                <td><strong>31,50€</strong></td>
+                <td>
+                  <span class="badge status-active">Preparada</span>
+                  <select class="form-select form-select-sm mt-2" disabled>
+                    <option>Recibida</option>
+                    <option>En marcha</option>
+                    <option selected>Preparada</option>
+                    <option>Cancelada</option>
+                  </select>
+                </td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-kds-secondary me-2" type="button" disabled>
+                    <i class="bi bi-eye me-1"></i> Detalles
+                  </button>
+                  <button class="btn btn-sm btn-danger-soft" type="button" disabled>
+                    <i class="bi bi-x-circle me-1"></i> Cancelar
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Order: Cancelled -->
+              <tr>
+                <td><strong>#1028</strong></td>
+                <td>Mesa 1</td>
+                <td><i class="bi bi-clock me-1"></i>20:22</td>
+                <td>3</td>
+                <td><strong>12,00€</strong></td>
+                <td>
+                  <span class="badge status-banned">Cancelada</span>
+                  <select class="form-select form-select-sm mt-2" disabled>
+                    <option>Recibida</option>
+                    <option>En marcha</option>
+                    <option>Preparada</option>
+                    <option selected>Cancelada</option>
+                  </select>
+                </td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-kds-secondary me-2" type="button" disabled>
+                    <i class="bi bi-eye me-1"></i> Detalles
+                  </button>
+                  <button class="btn btn-sm btn-danger-soft" type="button" disabled>
+                    <i class="bi bi-trash3 me-1"></i> Eliminar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Navigation helpers -->
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-3">
+          <small style="opacity: 0.75;">
+            Mostrando <strong>4</strong> comandas · Datos de ejemplo
+          </small>
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-kds-secondary" type="button" disabled>
+              <i class="bi bi-chevron-left"></i>
+            </button>
+            <button class="btn btn-sm btn-kds-secondary" type="button" disabled>
+              <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Back button -->
+        <div class="mt-4">
+          <a href="index.html" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left me-2"></i> Volver al inicio
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================
+       FOOTER (reused)
+       ========================= -->
+  <footer id="footer" class="footer">
+    <div class="container copyright text-center mt-4">
+      <p>© <strong class="px-1 sitename">Fuego Lento</strong> · Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <!-- ====== Vendor JS ====== -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+
+  <!-- ====== Main JS ====== -->
+  <script src="assets/js/main.js"></script>
+
+  <!-- Initialize AOS if available -->
+  <script>
+    if (typeof AOS !== "undefined") {
+      AOS.init({ duration: 600, easing: "ease-in-out", once: true });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- ====== Basic document setup ====== -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <!-- ====== Browser tab title ====== -->
+  <title>Detalle del plato | Fuego Lento</title>
+
+  <!-- ====== Favicon ====== -->
+  <link rel="icon" href="assets/img/logo.png">
+
+  <!-- ====== Fonts (project default) ====== -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- ====== Vendor CSS (Bootstrap + Icons + AOS) ====== -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- ====== Main CSS ====== -->
+  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/admin.css" rel="stylesheet">
+</head>
+
+<body class="index-page">
+
+  <!-- =========================
+       HEADER (reused)
+       ========================= -->
+  <header id="header" class="header fixed-top">
+    <div class="branding d-flex align-items-center">
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+
+        <!-- Logo + name (goes to home) -->
+        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+          <img src="assets/img/logo.png" alt="Logo Fuego Lento">
+          <h1 class="sitename">Fuego Lento</h1>
+        </a>
+
+        <!-- Navigation menu -->
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="index.html#hero">Inicio</a></li>
+            <li><a href="index.html#about">Nuestra brasa</a></li>
+            <li><a class="active" href="carta.html">Carta</a></li>
+            <li><a href="index.html#gallery">Galería</a></li>
+            <li><a href="index.html#contact">Contacto</a></li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+        <div class="header-actions d-none d-xl-flex align-items-center">
+          <a href="login.html" class="btn-login me-3">Iniciar sesión</a>
+          <a href="#book-a-table" class="btn-book-a-table">Reservar</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================
+       MAIN
+       ========================= -->
+  <main class="main">
+
+    <!-- ====== Page title banner ====== -->
+    <div class="page-title position-relative" data-aos="fade" style="background-image: url(assets/img/page-title-bg.webp);">
+      <div class="container position-relative">
+        <h1>Detalle del plato</h1>
+        <p>Información completa del plato, ingredientes y alérgenos.</p>
+      </div>
+    </div>
+
+    <!-- ====== Dish detail layout ====== -->
+    <section class="section" style="padding-top: 40px; padding-bottom: 60px;">
+      <div class="container" data-aos="fade-up">
+
+        <!-- Card layout: image left, details right -->
+        <div class="row g-4 align-items-stretch">
+
+          <!-- Image column -->
+          <div class="col-lg-6">
+            <div class="rounded-4 overflow-hidden h-100" style="border: 1px solid var(--border-color); background: rgba(255,255,255,0.03);">
+              <!-- Using an existing placeholder image from your menu assets -->
+              <img
+                src="assets/img/menu/chuleton-piedra.png"
+                alt="Chuletón a la piedra"
+                style="width:100%; height:100%; object-fit:cover; min-height: 420px;"
+              >
+            </div>
+          </div>
+
+          <!-- Details column -->
+          <div class="col-lg-6">
+            <div class="h-100 p-4 rounded-4" style="border: 1px solid var(--border-color); background: color-mix(in srgb, var(--surface-color), transparent 10%); box-shadow: 0 10px 30px rgba(0,0,0,0.25);">
+
+              <!-- Dish title -->
+              <div class="d-flex align-items-start justify-content-between gap-3">
+                <div>
+                  <p class="mb-1" style="letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.75;">
+                    Detalles del plato
+                  </p>
+                  <h2 class="mb-2" style="font-weight: 900;">Chuletón a la piedra</h2>
+                </div>
+
+                <!-- Price -->
+                <div class="text-end">
+                  <p class="mb-1" style="opacity: 0.75;">Precio</p>
+                  <div class="fw-bold" style="font-size: 22px; color: var(--accent-color);">24,90€</div>
+                </div>
+              </div>
+
+              <!-- Short description -->
+              <p class="mb-3" style="opacity: 0.9;">
+                Corte premium servido con piedra caliente para terminar al punto en mesa. Incluye guarnición a elegir.
+              </p>
+
+              <!-- Rating (visual only) -->
+              <div class="mb-3" aria-label="Valoración (maqueta)">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star" style="opacity:0.7;"></i>
+                <span class="ms-2" style="opacity:0.8;">4,0</span>
+              </div>
+
+              <!-- Ingredients -->
+              <div class="mb-4">
+                <h5 class="mb-2 fw-bold">Ingredientes</h5>
+                <ul class="mb-0" style="opacity:0.9;">
+                  <li>Carne de vacuno</li>
+                  <li>Sal en escamas</li>
+                  <li>Aceite de oliva virgen extra</li>
+                  <li>Guarnición: patatas / ensalada</li>
+                </ul>
+              </div>
+
+              <!-- Allergens -->
+              <div class="mb-4">
+                <h5 class="mb-2 fw-bold">Alérgenos</h5>
+
+                <!-- Small badges for allergens (visual only) -->
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="badge" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);">Gluten (trazas)</span>
+                  <span class="badge" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);">Lácteos (salsa opcional)</span>
+                  <span class="badge" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);">Mostaza (trazas)</span>
+                </div>
+
+                <p class="mt-2 mb-0" style="opacity:0.7; font-size: 13px;">
+                  * Información orientativa. Consulta al personal para detalles actualizados.
+                </p>
+              </div>
+
+              <!-- Actions -->
+              <div class="d-flex flex-wrap gap-2 justify-content-end">
+                <a href="carta.html" class="btn btn-kds-secondary">
+                  <i class="bi bi-arrow-left me-1"></i> Volver a la carta
+                </a>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Extra info block -->
+        <div class="mt-4 p-4 rounded-4" style="border: 1px solid var(--border-color); background: rgba(255,255,255,0.03);">
+          <h5 class="fw-bold mb-2">Notas</h5>
+          <p class="mb-0" style="opacity:0.85;">
+            Si tienes alergias o intolerancias, indícalo al hacer tu comanda. Podemos adaptar algunos platos según disponibilidad.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================
+       FOOTER (reused)
+       ========================= -->
+  <footer id="footer" class="footer">
+    <div class="container copyright text-center mt-4">
+      <p>© <strong class="px-1 sitename">Fuego Lento</strong> · Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <!-- ====== Vendor JS ====== -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+
+  <!-- ====== Main JS ====== -->
+  <script src="assets/js/main.js"></script>
+
+  <!-- Initialize AOS if available -->
+  <script>
+    if (typeof AOS !== "undefined") {
+      AOS.init({ duration: 600, easing: "ease-in-out", once: true });
+    }
+  </script>
+
+</body>
+</html>

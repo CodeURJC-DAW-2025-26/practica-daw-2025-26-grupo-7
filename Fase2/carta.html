@@ -1,161 +1,272 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
+  <!-- ====== Basic document setup ====== -->
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Fuego Lento</title>
-  <meta name="description" content="Restaurante Fuego Lento - carnes a la brasa y a la piedra.">
-  <meta name="keywords" content="restaurante, brasa, carne a la piedra, chuleton, Fuego Lento">
+  <!-- ====== Browser tab title ====== -->
+  <title>Carta | Fuego Lento</title>
 
-  <!-- Favicon (icono de la pestaña) -->
-  <link href="assets/img/logo.png" rel="icon">
-  <link href="assets/img/logo.png" rel="apple-touch-icon">
+  <!-- ====== Favicon ====== -->
+  <link rel="icon" href="assets/img/logo.png">
 
-  <!-- Fonts -->
+  <!-- ====== Fonts (project default) ====== -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Vendor CSS Files -->
+  <!-- ====== Vendor CSS (Bootstrap + Icons + AOS) ====== -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-  <!-- Main CSS File -->
+  <!-- ====== Main CSS ====== -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/admin.css" rel="stylesheet">
 </head>
 
-<body class="page">
+<body class="index-page">
 
-  <!-- Header -->
+  <!-- =========================
+       HEADER (reused)
+       ========================= -->
   <header id="header" class="header fixed-top">
     <div class="branding d-flex align-items-center">
       <div class="container position-relative d-flex align-items-center justify-content-between">
 
-        <!-- Logo -->
+        <!-- Logo + name (goes to home) -->
         <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
           <img src="assets/img/logo.png" alt="Logo Fuego Lento">
           <h1 class="sitename">Fuego Lento</h1>
         </a>
 
-        <!-- Menú -->
+        <!-- Navigation menu -->
         <nav id="navmenu" class="navmenu">
           <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="brasa.html">Nuestra brasa</a></li>
-            <li><a href="carta.html">Carta</a></li>
-            <li><a href="galeria.html">Galería</a></li>
-            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="index.html#hero">Inicio</a></li>
+            <li><a href="index.html#about">Nuestra brasa</a></li>
+            <li><a class="active" href="carta.html">Carta</a></li>
+            <li><a href="index.html#gallery">Galería</a></li>
+            <li><a href="index.html#contact">Contacto</a></li>
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <!-- Botones derecha -->
         <div class="header-actions d-none d-xl-flex align-items-center">
           <a href="login.html" class="btn-login me-3">Iniciar sesión</a>
-          <a href="reservar.html" class="btn-book-a-table">Reservar</a>
+          <a href="#book-a-table" class="btn-book-a-table">Reservar</a>
         </div>
-
       </div>
     </div>
   </header>
 
-  <!-- Main -->
+  <!-- =========================
+       MAIN
+       ========================= -->
   <main class="main">
 
-    <!-- HERO / CABECERA DE PÁGINA -->
-    <section class="page-hero section">
-      <div class="container" data-aos="fade-up">
-        <h2 class="page-title">Nuestra Carta</h2>
-        <p class="page-subtitle">Carnes maduradas, cocina a la brasa y producto de primera calidad.</p>
+    <!-- ====== Page title banner ====== -->
+    <div class="page-title position-relative" data-aos="fade" style="background-image: url(assets/img/page-title-bg.webp);">
+      <div class="container position-relative">
+        <h1>Carta</h1>
+        <p>Nuestras carnes y especialidades a fuego lento. Elige tu favorito.</p>
       </div>
-    </section>
+    </div>
 
-    <!-- CONTENIDO -->
-    <section class="section">
+    <!-- ====== Menu section ====== -->
+    <section class="section" style="padding-top: 40px; padding-bottom: 60px;">
       <div class="container" data-aos="fade-up">
-        <p>
-          Contenido de la página...
-        </p>
+
+        <!-- Top controls: filters + search (visual only) -->
+        <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap mb-4">
+
+          <!-- Filters (visual only) -->
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <button class="btn btn-sm btn-kds-primary" type="button" disabled>Todo</button>
+            <button class="btn btn-sm btn-kds-secondary" type="button" disabled>Entrantes</button>
+            <button class="btn btn-sm btn-kds-secondary" type="button" disabled>Carnes</button>
+            <button class="btn btn-sm btn-kds-secondary" type="button" disabled>Postres</button>
+            <button class="btn btn-sm btn-kds-secondary" type="button" disabled>Bebidas</button>
+          </div>
+
+          <!-- Search box (visual only) -->
+          <div class="admin-search" style="min-width: 360px;">
+            <i class="bi bi-search"></i>
+            <input type="text" class="form-control" placeholder="Buscar por plato o ingrediente...">
+          </div>
+
+        </div>
+
+        <!-- Menu list (2 columns on desktop) -->
+        <div class="row g-4">
+
+          <!-- ====== LEFT COLUMN ====== -->
+          <div class="col-lg-6">
+
+            <!-- Item -->
+            <div class="d-flex align-items-start gap-3 p-3 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+              <img src="assets/img/menu/chuleton-piedra.png" alt="Chuletón a la piedra" style="width:80px;height:80px;border-radius:0;object-fit:cover;">
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between gap-3">
+                  <h5 class="mb-1 fw-bold">Chuletón a la piedra</h5>
+                  <span class="fw-bold" style="color: var(--accent-color);">24,90€</span>
+                </div>
+                <p class="mb-2" style="opacity:0.85;">Corte premium servido con piedra caliente y guarnición.</p>
+                <a href="plato.html" class="small" style="text-decoration: none;">
+                  <i class="bi bi-info-circle me-1"></i> Ver detalles
+                </a>
+              </div>
+            </div>
+
+            <!-- Item -->
+            <div class="d-flex align-items-start gap-3 p-3 rounded-3 mt-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+              <img src="assets/img/menu/costillar-brasa.png" alt="Costillar a la brasa" style="width:80px;height:80px;border-radius:0;object-fit:cover;">
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between gap-3">
+                  <h5 class="mb-1 fw-bold">Costillar a la brasa</h5>
+                  <span class="fw-bold" style="color: var(--accent-color);">19,50€</span>
+                </div>
+                <p class="mb-2" style="opacity:0.85;">Cocción lenta, glaseado suave y sabor ahumado.</p>
+                <a href="plato.html" class="small" style="text-decoration: none;">
+                  <i class="bi bi-info-circle me-1"></i> Ver detalles
+                </a>
+              </div>
+            </div>
+
+            <!-- Item -->
+            <div class="d-flex align-items-start gap-3 p-3 rounded-3 mt-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+              <img src="assets/img/menu/croquetas.png" alt="Croquetas caseras" style="width:80px;height:80px;border-radius:0;object-fit:cover;">
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between gap-3">
+                  <h5 class="mb-1 fw-bold">Croquetas caseras</h5>
+                  <span class="fw-bold" style="color: var(--accent-color);">7,50€</span>
+                </div>
+                <p class="mb-2" style="opacity:0.85;">Cremosas, crujientes y recién hechas.</p>
+                <a href="plato.html" class="small" style="text-decoration: none;">
+                  <i class="bi bi-info-circle me-1"></i> Ver detalles
+                </a>
+              </div>
+            </div>
+
+            <!-- Item -->
+            <div class="d-flex align-items-start gap-3 p-3 rounded-3 mt-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+              <img src="assets/img/menu/tarta-queso.png" alt="Tarta de queso" style="width:80px;height:80px;border-radius:0;object-fit:cover;">
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between gap-3">
+                  <h5 class="mb-1 fw-bold">Tarta de queso</h5>
+                  <span class="fw-bold" style="color: var(--accent-color);">6,50€</span>
+                </div>
+                <p class="mb-2" style="opacity:0.85;">Horneada, cremosa y con base de galleta.</p>
+                <a href="plato.html" class="small" style="text-decoration: none;">
+                  <i class="bi bi-info-circle me-1"></i> Ver detalles
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ====== RIGHT COLUMN ====== -->
+          <div class="col-lg-6">
+
+            <!-- Item -->
+            <div class="d-flex align-items-start gap-3 p-3 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+              <img src="assets/img/menu/entrecot-piedra.png" alt="Entrecot a la piedra" style="width:80px;height:80px;border-radius:0;object-fit:cover;">
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between gap-3">
+                  <h5 class="mb-1 fw-bold">Entrecot a la piedra</h5>
+                  <span class="fw-bold" style="color: var(--accent-color);">18,90€</span>
+                </div>
+                <p class="mb-2" style="opacity:0.85;">Carne tierna para terminar al punto en mesa.</p>
+                <a href="plato.html" class="small" style="text-decoration: none;">
+                  <i class="bi bi-info-circle me-1"></i> Ver detalles
+                </a>
+              </div>
+            </div>
+
+            <!-- Item -->
+            <div class="d-flex align-items-start gap-3 p-3 rounded-3 mt-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+              <img src="assets/img/menu/secreto-iberico.png" alt="Secreto ibérico a la brasa" style="width:80px;height:80px;border-radius:0;object-fit:cover;">
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between gap-3">
+                  <h5 class="mb-1 fw-bold">Secreto ibérico a la brasa</h5>
+                  <span class="fw-bold" style="color: var(--accent-color);">16,90€</span>
+                </div>
+                <p class="mb-2" style="opacity:0.85;">Jugoso y dorado al carbón, con toque de sal en escamas.</p>
+                <a href="plato.html" class="small" style="text-decoration: none;">
+                  <i class="bi bi-info-circle me-1"></i> Ver detalles
+                </a>
+              </div>
+            </div>
+
+            <!-- Item -->
+            <div class="d-flex align-items-start gap-3 p-3 rounded-3 mt-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+              <img src="assets/img/menu/ensalada-temporada.png" alt="Ensalada de temporada" style="width:80px;height:80px;border-radius:0;object-fit:cover;">
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between gap-3">
+                  <h5 class="mb-1 fw-bold">Ensalada de temporada</h5>
+                  <span class="fw-bold" style="color: var(--accent-color);">6,90€</span>
+                </div>
+                <p class="mb-2" style="opacity:0.85;">Fresca, ligera y perfecta para compartir.</p>
+                <a href="plato.html" class="small" style="text-decoration: none;">
+                  <i class="bi bi-info-circle me-1"></i> Ver detalles
+                </a>
+              </div>
+            </div>
+
+            <!-- Item -->
+            <div class="d-flex align-items-start gap-3 p-3 rounded-3 mt-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+              <img src="assets/img/menu/agua-mineral.png" alt="Agua mineral" style="width:80px;height:80px;border-radius:0;object-fit:cover;">
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between gap-3">
+                  <h5 class="mb-1 fw-bold">Agua mineral</h5>
+                  <span class="fw-bold" style="color: var(--accent-color);">2,00€</span>
+                </div>
+                <p class="mb-2" style="opacity:0.85;">Agua fría (con o sin gas).</p>
+                <a href="plato.html" class="small" style="text-decoration: none;">
+                  <i class="bi bi-info-circle me-1"></i> Ver detalles
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Back button -->
+        <div class="mt-5">
+          <a href="index.html" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left me-2"></i> Volver al inicio
+          </a>
+        </div>
+
       </div>
     </section>
 
   </main>
 
-  <!-- Footer -->
+  <!-- =========================
+       FOOTER (reused)
+       ========================= -->
   <footer id="footer" class="footer">
-    <div class="container footer-top">
-      <div class="row gy-4">
-
-        <div class="col-lg-5 col-md-6 footer-about">
-          <div class="d-flex align-items-center mb-3">
-            <img src="assets/img/logo.png" alt="Logo Fuego Lento" style="height:48px; margin-right:12px;">
-            <div>
-              <h3 class="mb-0">Fuego Lento</h3>
-              <small>Carnes a la brasa y a la piedra</small>
-            </div>
-          </div>
-
-          <div class="footer-contact">
-            <p class="mb-1"><strong>Dirección:</strong> Calle (por definir), Madrid</p>
-            <p class="mb-1"><strong>Teléfono:</strong> +34 999 999 999</p>
-            <p class="mb-3"><strong>Email:</strong> reservas@fuegolento.com</p>
-          </div>
-
-          <div class="social-links d-flex">
-            <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-            <a href="#" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 footer-links">
-          <h4>Enlaces</h4>
-          <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="carta.html">Carta</a></li>
-            <li><a href="galeria.html">Galería</a></li>
-            <li><a href="contacto.html">Contacto</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-4 col-md-12 footer-links">
-          <h4>Horarios</h4>
-          <ul>
-            <li>Lunes a Jueves: 13:00–16:00 / 20:00–23:00</li>
-            <li>Viernes y Sábado: 13:00–16:30 / 20:00–00:00</li>
-            <li>Domingo: 13:00–16:30</li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-
     <div class="container copyright text-center mt-4">
-      <p>© <strong>Fuego Lento</strong> - Todos los derechos reservados.</p>
+      <p>© <strong class="px-1 sitename">Fuego Lento</strong> · Todos los derechos reservados</p>
     </div>
   </footer>
 
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
-    <i class="bi bi-arrow-up-short"></i>
-  </a>
-
-  <!-- Vendor JS Files -->
+  <!-- ====== Vendor JS ====== -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 
-  <!-- Main JS File -->
+  <!-- ====== Main JS ====== -->
   <script src="assets/js/main.js"></script>
 
-</body>
+  <!-- Initialize AOS if available -->
+  <script>
+    if (typeof AOS !== "undefined") {
+      AOS.init({ duration: 600, easing: "ease-in-out", once: true });
+    }
+  </script>
 
+</body>
 </html>

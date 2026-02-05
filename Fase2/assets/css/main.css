@@ -39,6 +39,11 @@ body {
   font-family: var(--default-font);
 }
 
+html {
+  overflow-y: scroll; /* Always reserve space for vertical scrollbar */
+}
+
+
 a {
   color: var(--default-color);
   text-decoration: none;

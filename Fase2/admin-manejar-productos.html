@@ -29,8 +29,8 @@
 <body class="index-page">
 
   <!-- =========================
-       HEADER (reused)
-       ========================= -->
+     HEADER (ADMIN reused)
+     ========================= -->
   <header id="header" class="header fixed-top">
     <div class="branding d-flex align-items-center">
       <div class="container position-relative d-flex align-items-center justify-content-between">
@@ -53,13 +53,67 @@
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <!-- Right buttons (admin session mock) -->
-        <a class="btn-login d-none d-xl-block" href="profile.html">Mi cuenta</a>
-        <a class="btn-book-a-table d-none d-xl-block" href="index.html#book-a-table">Reservar</a>
+        <!-- Right actions (ADMIN) -->
+        <div class="header-actions d-none d-xl-flex align-items-center gap-3">
+
+          <!-- Admin dropdown -->
+          <div class="dropdown">
+            <button
+              class="btn btn-login dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="bi bi-shield-lock me-1"></i> Admin
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+
+              <li>
+                <a class="dropdown-item" href="admin-comandas-cocina.html">
+                  <i class="bi bi-fire me-2"></i> Comandas cocina
+                </a>
+              </li>
+
+              <li>
+                <a class="dropdown-item" href="admin-manejar-comandas.html">
+                  <i class="bi bi-list-check me-2"></i> Administrar comandas
+                </a>
+              </li>
+
+              <li>
+                <a class="dropdown-item" href="admin-manejar-productos.html">
+                  <i class="bi bi-box-seam me-2"></i> Administrar productos
+                </a>
+              </li>
+
+              <li>
+                <a class="dropdown-item" href="admin-manejar-usuarios.html">
+                  <i class="bi bi-people me-2"></i> Administrar usuarios
+                </a>
+              </li>
+
+              <li><hr class="dropdown-divider"></li>
+
+              <!-- Optional: quick exit to user mock -->
+              <li>
+                <a class="dropdown-item" href="profile.html">
+                  <i class="bi bi-person me-2"></i> Volver a modo usuario
+                </a>
+              </li>
+
+            </ul>
+          </div>
+
+          <!-- Admin account -->
+          <a href="profile.html" class="btn-login">
+            <i class="bi bi-person-circle me-1"></i> Perfil admin
+          </a>
+
+        </div>
       </div>
     </div>
   </header>
-
   <!-- =========================
        MAIN
        ========================= -->

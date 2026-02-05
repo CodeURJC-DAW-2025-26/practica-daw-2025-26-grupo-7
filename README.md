@@ -82,114 +82,113 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 ### **Capturas de Pantalla y Descripción de Páginas**
 
 #### **1. Página Principal / Inicio**
-![Página Principal](Fase2/img/pantallas/inicio.PNG)
+![Página Principal](Fase2/assets/img/pantallas/inicio.PNG)
 
 > Página principal de la aplicación que actúa como punto de entrada para todos los usuarios. Incluye una barra de navegación superior con acceso a las secciones informativas del restaurante: Inicio, Nuestra brasa, Carta, Galería, Contacto y Reservar. Desde esta pantalla los usuarios no autenticados pueden consultar información general y acceder al inicio de sesión o registro.
 
 
 #### **2. Página Nuestra Brasa**
-![Nuestra Brasa](Fase2/img/pantallas/nuestra-brasa.PNG)
+![Nuestra Brasa](Fase2/assets/img/pantallas/nuestra-brasa.PNG)
 
 > Sección de la página principal que presenta la filosofía del restaurante, el tipo de cocina y el proceso de elaboración de los platos. Su objetivo es transmitir la identidad del negocio y reforzar la experiencia del usuario antes de realizar una reserva o pedido.
 
 
 #### **3. Página de Reservas**
-![Reservar Mesa](Fase2/img/pantallas/reservar.PNG)
+![Reservar Mesa](Fase2/assets/img/pantallas/reservar.PNG)
 
 > Sección accesible desde la página principal que permite al usuario realizar una reserva de mesa en el restaurante mediante un formulario. En esta entrega, la funcionalidad se presenta de forma simulada a la espera de la implementación del backend.
 
 
 #### **4. Página de Galería**
-![Galería](Fase2/img/pantallas/galeria.PNG)
+![Galería](Fase2/assets/img/pantallas/galeria.PNG)
 
 > Sección de la página principal que muestra una galería de imágenes representativas del restaurante, los platos y el ambiente. Su finalidad es reforzar la imagen del negocio y ofrecer una vista previa de la experiencia gastronómica.
 
 
 #### **5. Página de Contacto**
-![Contacto](Fase2/img/pantallas/contacto.PNG)
+![Contacto](Fase2/assets/img/pantallas/contacto.PNG)
 
 > Sección informativa de la página principal que proporciona los datos de contacto del restaurante, como la ubicación y los medios de comunicación disponibles. Permite al usuario obtener información adicional o realizar consultas.
 
 
 #### **6. Página de Carta**
-![Carta](Fase2/img/pantallas/carta.PNG)
+![Carta](Fase2/assets/img/pantallas/carta.PNG)
 
 > Pantalla que muestra la carta completa del restaurante, organizada por categorías. Desde esta página, los usuarios registrados pueden acceder al detalle de los platos y añadir productos a la comanda, mientras que los usuarios no registrados pueden visualizar la información.
 
 
 #### **7. Página de Detalle de Plato**
-![Detalle de Plato](Fase2/img/pantallas/plato.PNG)
+![Detalle de Plato](Fase2/assets/img/pantallas/plato.PNG)
 
 > Pantalla que muestra la información detallada de un plato concreto, incluyendo imagen, descripción y precio. Desde esta vista, los usuarios registrados pueden añadir el producto a la comanda activa.
 
 
 #### **8. Página de Iniciar Sesión / Registro**
-![Iniciar sesión](Fase2/img/pantallas/iniciar-sesion.PNG)
+![Iniciar sesión](Fase2/assets/img/pantallas/iniciar-sesion.PNG)
 
-![Registro](Fase2/img/pantallas/registro.PNG)
+![Registro](Fase2/assets/img/pantallas/registro.PNG)
 
 > Pantalla de autenticación que permite a los usuarios iniciar sesión o registrarse en la aplicación. En esta entrega, la autenticación está simulada y permite acceder tanto al perfil de usuario como al modo administrador para mostrar las vistas según el rol.
 
 
 #### **9. Página de Comanda**
-![Comanda](Fase2/img/pantallas/comanda.PNG)
+![Comanda](Fase2/assets/img/pantallas/comanda.PNG)
 
 > Pantalla donde el usuario puede visualizar los productos añadidos a su comanda, modificar cantidades o eliminar elementos antes de confirmar el pedido. Representa el paso previo al envío de la comanda a cocina.
 
 
 #### **10. Página de Confirmación de Comanda Enviada**
-![Comanda Enviada](Fase2/img/pantallas/comanda-enviada.PNG)
+![Comanda Enviada](Fase2/assets/img/pantallas/comanda-enviada.PNG)
 
 > Pantalla de confirmación que se muestra una vez el usuario ha enviado correctamente la comanda. Informa de que el pedido ha sido registrado correctamente y muestra un mensaje de confirmación al usuario.
 
 
 #### **11. Perfil de Usuario**
-![Comanda Enviada](Fase2/img/pantallas/perfil.PNG)
+![Comanda Enviada](Fase2/assets/img/pantallas/perfil.PNG)
 
 > Pantalla accesible para usuarios autenticados que muestra la información básica del perfil. Desde esta vista, el usuario puede consultar sus datos y acceder a funcionalidades relacionadas con su cuenta, como la visualización del historial de pedidos.
 
 
 #### **12. Historial de Pedidos**
-![Comanda Enviada](Fase2/img/pantallas/pedidos.PNG)
+![Comanda Enviada](Fase2/assets/img/pantallas/pedidos.PNG)
 
 > Pantalla accesible para usuarios autenticados que muestra la información básica del perfil. Desde esta vista, el usuario puede consultar sus datos y acceder a funcionalidades relacionadas con su cuenta, como la visualización del historial de pedidos.
 
 
 #### **13. Comandas Cocina**
-![Comandas Cocina](Fase2/img/pantallas/admin-comandas-cocina.PNG)
+![Comandas Cocina](Fase2/assets/img/pantallas/admin-comandas-cocina.PNG)
 
 > Pantalla destinada al personal de cocina que muestra un tablón de comandas organizado por estados (recibidas, en marcha y preparadas). Permite visualizar en tiempo real las comandas activas y facilita la gestión del flujo de trabajo en cocina.
 
 
 #### **14. Administrar Comandas**
-![Administrar Comandas](Fase2/img/pantallas/admin-manejar-comandas.PNG)
+![Administrar Comandas](Fase2/assets/img/pantallas/admin-manejar-comandas.PNG)
 
 > Pantalla de administración que permite al usuario con rol administrador consultar y gestionar las comandas realizadas. Desde esta vista se pueden revisar los detalles de cada comanda, cambiar su estado o cancelarlas.
 
 
 #### **15. Administrar Usuarios**
-![Administrar Usuarios](Fase2/img/pantallas/admin-manejar-usuarios.PNG)
+![Administrar Usuarios](Fase2/assets/img/pantallas/admin-manejar-usuarios.PNG)
 
 > Pantalla de administración que permite gestionar los usuarios registrados en la aplicación. Desde esta vista, el administrador puede visualizar el listado de usuarios y modificar su estado, como bloquear o reactivar cuentas.
 
 
 #### **16. Administrar Productos**
-![Administrar Productos](Fase2/img/pantallas/admin-manejar-productos.PNG)
+![Administrar Productos](Fase2/assets/img/pantallas/admin-manejar-productos.PNG)
 
 > Pantalla de administración que muestra el listado completo de productos disponibles en la carta. Permite al administrador acceder a las opciones de creación, edición y eliminación de productos.
 
 
 #### **17. Editar Producto**
-![Editar Producto](Fase2/img/pantallas/admin-producto-editor.PNG)
+![Editar Producto](Fase2/assets/img/pantallas/admin-producto-editor.PNG)
 
 > Pantalla que permite al administrador modificar la información de un producto existente, como nombre, categoría, precio, descripción y disponibilidad. Desde esta vista se pueden actualizar los datos del producto seleccionado.
 
 
 #### **18. Añadir Producto**
-![Añadir Producto](Fase2/img/pantallas/admin-producto-nuevo.PNG)
+![Añadir Producto](Fase2/assets/img/pantallas/admin-producto-nuevo.PNG)
 
 > Pantalla que permite al administrador crear un nuevo producto para la carta del restaurante. Incluye un formulario para introducir los datos necesarios del producto.
-
 
 
 ## 🛠 **Práctica 1: Web con HTML generado en servidor y AJAX**

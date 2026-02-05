@@ -82,7 +82,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 ### **Capturas de Pantalla y Descripción de Páginas**
 
 #### **1. Página Principal / Inicio**
-![Página Principal](Fase2/assets/img/pantallas/inicio.PNG)
+![Página Principal](Fase2/assets/img/pantallas/Inicio.PNG)
 
 > Página principal de la aplicación que actúa como punto de entrada para todos los usuarios. Incluye una barra de navegación superior con acceso a las secciones informativas del restaurante: Inicio, Nuestra brasa, Carta, Galería, Contacto y Reservar. Desde esta pantalla los usuarios no autenticados pueden consultar información general y acceder al inicio de sesión o registro.
 

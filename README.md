@@ -152,7 +152,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 #### **12. Historial de Pedidos**
 ![Comanda Enviada](Fase2/assets/img/pantallas/pedidos.PNG)
 
-> Pantalla accesible para usuarios autenticados que muestra la información básica del perfil. Desde esta vista, el usuario puede consultar sus datos y acceder a funcionalidades relacionadas con su cuenta, como la visualización del historial de pedidos.
+> Pantalla que permite al usuario consultar el historial de pedidos realizados en el restaurante. Muestra una lista de comandas ordenadas cronológicamente, facilitando el seguimiento de pedidos anteriores y su estado.
 
 
 #### **13. Comandas Cocina**
@@ -182,7 +182,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 #### **17. Editar Producto**
 ![Editar Producto](Fase2/assets/img/pantallas/admin-producto-editor.PNG)
 
-> Pantalla que permite al administrador modificar la información de un producto existente, como nombre, categoría, precio, descripción y disponibilidad. Desde esta vista se pueden actualizar los datos del producto seleccionado.
+> Pantalla que permite al administrador modificar la información de un producto existente, como nombre, categoría, precio, descripción, imagen y disponibilidad. Desde esta vista se pueden actualizar los datos del producto seleccionado.
 
 
 #### **18. Añadir Producto**

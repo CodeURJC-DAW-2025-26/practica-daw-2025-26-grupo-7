@@ -75,9 +75,18 @@ Indicar cuál será el algoritmo o consulta avanzada que se implementará:
 ### **Diagrama de Navegación**
 Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicación:
 
-![Diagrama de Navegación](images/navigation-diagram.png)
+![Diagrama de Navegación](Fase2/assets/img/pantallas/Navegación.jpg)
 
-> [Descripción opcional del flujo de navegación: Ej: "El usuario puede acceder desde la página principal a todas las secciones mediante el menú de navegación. Los usuarios anónimos solo tienen acceso a las páginas públicas, mientras que los registrados pueden acceder a su perfil y panel de usuario."]
+> El diagrama de navegación muestra el flujo entre las diferentes pantallas de la aplicación en función del tipo de usuario que accede al sistema. Se distinguen tres perfiles principales: usuarios no autenticados, usuarios registrados y administrador, representados mediante diferentes colores para facilitar su comprensión.
+>
+> Los **usuarios no autenticados** acceden inicialmente a la página principal, desde la cual pueden navegar libremente por las secciones informativas del sitio, como *Nuestra brasa*, *Galería*, *Contacto* y *Reservar*. Además, pueden consultar la carta y acceder al detalle de los platos sin posibilidad de realizar pedidos. En cualquier momento, el usuario puede acceder a la pantalla de inicio de sesión o registro.
+>
+> Los **usuarios registrados**, tras iniciar sesión, acceden a su perfil personal. Desde esta vista pueden navegar a la carta, consultar el detalle de los platos, gestionar su comanda, confirmar el envío del pedido y visualizar el historial de pedidos realizados. El flujo de pedido se representa de forma secuencial, desde la selección de productos hasta la confirmación de la comanda enviada. Asimismo, el usuario puede volver al perfil o a otras secciones principales en cualquier momento.
+>
+> El **administrador** accede a un conjunto de pantallas específicas destinadas a la gestión interna del sistema. Desde el panel de administración, puede consultar el estado de las comandas en cocina, gestionar las comandas realizadas, administrar los usuarios registrados y gestionar los productos de la carta. La gestión de productos incluye tanto la creación de nuevos productos como la edición de productos existentes.
+>
+> La aplicación incorpora una **barra de navegación superior común** a todas las pantallas, lo que permite acceder rápidamente a las funcionalidades principales independientemente del punto en el que se encuentre el usuario. Esta estructura favorece una navegación clara, coherente y accesible, permitiendo que la mayoría de las pantallas sean alcanzables desde cualquier otra sin necesidad de seguir flujos rígidos.
+
 
 ### **Capturas de Pantalla y Descripción de Páginas**
 

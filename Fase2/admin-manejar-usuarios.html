@@ -32,85 +32,106 @@
      HEADER (ADMIN reused)
      ========================= -->
   <header id="header" class="header fixed-top">
-    <div class="branding d-flex align-items-center">
-      <div class="container position-relative d-flex align-items-center justify-content-between">
+    <div class="branding">
+      <div class="container">
 
-        <!-- Logo + name (goes to home) -->
-        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-          <img src="assets/img/logo.png" alt="Logo Fuego Lento">
-          <h1 class="sitename">Fuego Lento</h1>
-        </a>
+        <nav class="navbar navbar-expand-xl navbar-dark py-2">
 
-        <!-- Navigation menu -->
-        <nav id="navmenu" class="navmenu">
-          <ul>
-            <li><a href="index.html#hero">Inicio</a></li>
-            <li><a href="index.html#about">Nuestra brasa</a></li>
-            <li><a href="carta.html">Carta</a></li>
-            <li><a href="index.html#gallery">Galería</a></li>
-            <li><a href="index.html#contact">Contacto</a></li>
-          </ul>
-          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-        </nav>
-
-        <!-- Right actions (ADMIN) -->
-        <div class="header-actions d-none d-xl-flex align-items-center gap-3">
-
-          <!-- Admin dropdown -->
-          <div class="dropdown">
-            <button
-              class="btn btn-login dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i class="bi bi-shield-lock me-1"></i> Admin
-            </button>
-
-            <ul class="dropdown-menu dropdown-menu-end">
-
-              <li>
-                <a class="dropdown-item" href="admin-comandas-cocina.html">
-                  <i class="bi bi-fire me-2"></i> Comandas cocina
-                </a>
-              </li>
-
-              <li>
-                <a class="dropdown-item" href="admin-manejar-comandas.html">
-                  <i class="bi bi-list-check me-2"></i> Administrar comandas
-                </a>
-              </li>
-
-              <li>
-                <a class="dropdown-item" href="admin-manejar-productos.html">
-                  <i class="bi bi-box-seam me-2"></i> Administrar productos
-                </a>
-              </li>
-
-              <li>
-                <a class="dropdown-item" href="admin-manejar-usuarios.html">
-                  <i class="bi bi-people me-2"></i> Administrar usuarios
-                </a>
-              </li>
-
-              <li><hr class="dropdown-divider"></li>
-
-              <!-- Optional: quick exit to user mock -->
-              <li>
-                <a class="dropdown-item" href="profile.html">
-                  <i class="bi bi-person me-2"></i> Volver a modo usuario
-                </a>
-              </li>
-
-            </ul>
-          </div>
-
-          <!-- Admin account -->
-          <a href="profile.html" class="btn-login">
-            <i class="bi bi-person-circle me-1"></i> Perfil admin
+          <!-- Logo -->
+          <a href="index.html" class="navbar-brand d-flex align-items-center">
+            <img src="assets/img/logo.png" alt="Logo Fuego Lento" style="max-height:60px; margin-right:14px;">
+            <span class="sitename" style="font-weight:800; letter-spacing:1px; font-size:30px;">
+              Fuego Lento
+            </span>
           </a>
 
-        </div>
+          <!-- Toggler -->
+          <button class="navbar-toggler" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                  aria-controls="navbarCollapse" aria-expanded="false"
+                  aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Collapsible content -->
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+
+            <!-- Center links (IGUALES en todas las pantallas) -->
+            <ul class="navbar-nav mx-xl-auto justify-content-xl-center align-items-xl-center">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#hero">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#about">Nuestra brasa</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="carta.html">Carta</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#gallery">Galería</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#contact">Contacto</a>
+              </li>
+            </ul>
+
+            <!-- Admin actions -->
+            <div class="d-flex flex-column flex-xl-row gap-2 gap-xl-3 ms-xl-auto mt-3 mt-xl-0 navbar-actions">
+
+              <!-- Admin dropdown -->
+              <div class="dropdown">
+                <button
+                  class="btn-login dropdown-toggle w-100"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <i class="bi bi-shield-lock me-1"></i> Admin
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <a class="dropdown-item" href="admin-comandas-cocina.html">
+                      <i class="bi bi-fire me-2"></i> Comandas cocina
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="admin-manejar-comandas.html">
+                      <i class="bi bi-list-check me-2"></i> Administrar comandas
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="admin-manejar-productos.html">
+                      <i class="bi bi-box-seam me-2"></i> Administrar productos
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item active" href="admin-manejar-usuarios.html">
+                      <i class="bi bi-people me-2"></i> Administrar usuarios
+                    </a>
+                  </li>
+
+                  <li><hr class="dropdown-divider"></li>
+
+                  <li>
+                    <a class="dropdown-item" href="profile.html">
+                      <i class="bi bi-person me-2"></i> Volver a modo usuario
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Admin profile -->
+              <a href="profile.html" class="btn-login text-center">
+                <i class="bi bi-person-circle me-1"></i> Perfil admin
+              </a>
+
+            </div>
+          </div>
+        </nav>
+
       </div>
     </div>
   </header>

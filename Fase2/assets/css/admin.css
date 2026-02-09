@@ -410,3 +410,57 @@
   opacity: 0.92;
   border-style: solid;
 }
+
+/*--------------------------------------------------------------
+# Header - Admin dropdown (dark)
+--------------------------------------------------------------*/
+.header .dropdown-menu {
+  background: color-mix(in srgb, var(--surface-color), transparent 0%);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+}
+
+.header .dropdown-item {
+  color: color-mix(in srgb, var(--default-color), transparent 10%);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header .dropdown-item i {
+  color: color-mix(in srgb, var(--default-color), transparent 15%);
+}
+
+.header .dropdown-item:hover,
+.header .dropdown-item:focus {
+  background: color-mix(in srgb, var(--background-color), white 6%);
+  color: var(--default-color);
+}
+
+.header .dropdown-item.active,
+.header .dropdown-item:active {
+  background: color-mix(in srgb, var(--accent-color), transparent 65%);
+  color: var(--default-color);
+}
+
+.header .dropdown-divider {
+  border-top: 1px solid color-mix(in srgb, var(--border-color), transparent 0%);
+  opacity: 1;
+  margin: 8px 0;
+}
+
+/* Fix: Admin button should not look grey (Bootstrap button default) */
+.header .dropdown .btn-login.dropdown-toggle{
+  background: transparent !important;  /* removes grey fill */
+  color: var(--default-color) !important;
+  border-color: color-mix(in srgb, var(--accent-color), transparent 30%) !important;
+}
+
+/* Optional: when open, keep it the same (no grey) */
+.header .dropdown .btn-login.dropdown-toggle[aria-expanded="true"]{
+  background: transparent !important;
+}

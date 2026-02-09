@@ -143,26 +143,57 @@ section, .section {
 .header .branding {
   min-height: 82px;
   padding: 10px 0;
+  display: flex;
+  align-items: center;
 }
 
-.header .logo img {
+/* Navbar (Bootstrap) */
+.header .navbar {
+  background: transparent !important;
+  padding: 0;
+}
+
+.header .navbar-brand {
+  padding: 0;
+  margin-right: 0;
+}
+
+.header .navbar-brand img {
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
   max-height: 60px;
   margin-right: 14px;
-  border-radius: 0px;
-  background: none;     /* sin fondo */
-  padding: 0;           /* sin margen interno */
-  border: none; 
+  border-radius: 0;
+  background: none;
+  padding: 0;
+  border: none;
 }
 
-.header .logo h1 {
+/* Si usas <span class="sitename"> en vez de h1 */
+.header .sitename {
   font-size: 30px;
   margin: 0;
   font-weight: 800;
   letter-spacing: 1px;
   color: var(--heading-color);
+  font-family: var(--heading-font);
 }
 
+/* Links */
+.header .navbar-nav .nav-link {
+  color: var(--nav-color);
+  font-family: var(--nav-font);
+  font-weight: 500;
+  font-size: 14px;
+  padding: 18px 12px;
+  transition: 0.2s;
+}
+
+.header .navbar-nav .nav-link:hover,
+.header .navbar-nav .nav-link.active {
+  color: var(--nav-hover-color);
+}
+
+/* Buttons (keeps your style) */
 .header .btn-book-a-table {
   color: var(--default-color);
   background: var(--accent-color);
@@ -172,6 +203,7 @@ section, .section {
   padding: 10px 22px;
   border-radius: 999px;
   transition: 0.2s;
+  display: inline-block;
 }
 
 .header .btn-book-a-table:hover {
@@ -187,6 +219,7 @@ section, .section {
   border-radius: 50px;
   transition: 0.3s;
   opacity: 0.85;
+  display: inline-block;
 }
 
 .header .btn-login:hover {
@@ -194,86 +227,57 @@ section, .section {
   opacity: 1;
 }
 
-
-/*--------------------------------------------------------------
-# Navmenu (Desktop)
---------------------------------------------------------------*/
-@media (min-width: 1200px) {
-  .navmenu ul {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 6px;
-    list-style: none;
-    align-items: center;
-  }
-
-  .navmenu a {
-    color: var(--nav-color);
-    padding: 18px 12px;
-    font-size: 14px;
-    font-family: var(--nav-font);
-    font-weight: 500;
-    transition: 0.2s;
-  }
-
-  .navmenu a:hover,
-  .navmenu .active {
-    color: var(--nav-hover-color);
-  }
+/* Toggler (hamburger) */
+.header .navbar-toggler {
+  border: 1px solid color-mix(in srgb, var(--border-color), transparent 25%);
+  padding: 6px 10px;
+  border-radius: 10px;
 }
 
-/* Navmenu (Mobile) */
-@media (max-width: 1199px) {
-  .mobile-nav-toggle {
-    color: var(--default-color);
-    font-size: 28px;
-    cursor: pointer;
+.header .navbar-toggler:focus {
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent-color), transparent 75%);
+}
+
+/* Mobile dropdown panel */
+@media (max-width: 1199.98px) {
+
+  .header .navbar-nav .nav-link {
+    padding: 10px 6px;
+    font-size: 15px;
   }
 
-  .navmenu ul {
-    display: none;
-    list-style: none;
-    position: absolute;
-    inset: 70px 20px 20px 20px;
-    padding: 10px 0;
-    margin: 0;
-    border-radius: 10px;
-    background-color: var(--nav-mobile-bg);
+  .header .navbar-collapse {
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--background-color), transparent 8%);
     border: 1px solid var(--border-color);
-    overflow-y: auto;
-    z-index: 9998;
   }
 
-  .navmenu a {
-    display: block;
-    color: var(--default-color);
-    padding: 12px 20px;
-    font-family: var(--nav-font);
-    font-size: 16px;
-    font-weight: 600;
+  .header .navbar-collapse .navbar-nav {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid color-mix(in srgb, var(--border-color), transparent 20%);
   }
 
-  .navmenu a:hover,
-  .navmenu .active {
-    color: var(--accent-hover);
-  }
-
-  .mobile-nav-active {
-    overflow: hidden;
-  }
-
-  .mobile-nav-active .navmenu {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.75);
-    z-index: 9997;
-  }
-
-  .mobile-nav-active .navmenu > ul {
-    display: block;
+  .header .navbar-collapse .btn-login,
+  .header .navbar-collapse .btn-book-a-table {
+    width: 100%;
   }
 }
+
+/* Keep navbar links always aligned across pages */
+.header .navbar-actions {
+  min-width: 360px;             /* ajusta si lo necesitas */
+  justify-content: flex-end;
+}
+
+/* Reserve space but hide element */
+.header .nav-action-placeholder {
+  visibility: hidden;           /* mantiene hueco */
+  pointer-events: none;
+}
+
 
 /*--------------------------------------------------------------
 # Hero

@@ -8,12 +8,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-
 /**
  * Represents a single line of an order.
  * It links a dish with a quantity and stores the unit price at the time of purchase.
  */
-@Entity
+@Entity(name="OrderItemTable")
 public class OrderItem {
 
     @Id

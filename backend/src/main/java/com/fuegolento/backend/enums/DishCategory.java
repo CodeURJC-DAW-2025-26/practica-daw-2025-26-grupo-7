@@ -1,4 +1,4 @@
-package com.fuegolento.backend.model;
+package com.fuegolento.backend.enums;
 
 /**
  * Dish categories shown in the menu.
@@ -9,4 +9,3 @@ public enum DishCategory {
     DESSERT,
     DRINK
 } 
-    

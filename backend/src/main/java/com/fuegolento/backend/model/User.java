@@ -37,6 +37,9 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
 
+    // Indicates whether the user is banned (cannot log in)
+    private boolean banned = false;
+
     public User() {
         // Required by JPA
     }
@@ -47,6 +50,7 @@ public class User {
         this.birthDate = birthDate;
         this.encodedPassword = encodedPassword;
         this.roles = List.of(roles);
+        this.banned = false;
     }
 
     public Long getId() {
@@ -91,5 +95,13 @@ public class User {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public boolean isBanned() {
+        return banned;
+    }
+
+    public void setBanned(boolean banned) {
+        this.banned = banned;
     }
 }

@@ -1,8 +1,10 @@
 package com.fuegolento.backend.security;
 
 import java.util.ArrayList;
-import org.springframework.security.core.GrantedAuthority;
 import java.util.List;
+
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +17,6 @@ import com.fuegolento.backend.repository.UserRepository;
 @Service
 public class RepositoryUserDetailsService implements UserDetailsService {
 
-
     private final UserRepository userRepository;
 
     public RepositoryUserDetailsService(UserRepository userRepository) {
@@ -24,15 +25,26 @@ public class RepositoryUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user= userRepository.findByUsername(username)
+
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-        
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for (String role : user.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+
+        // Block login if the user is banned
+        if (user.isBanned()) {
+            throw new DisabledException("User is banned");
         }
-        
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getEncodedPassword(), authorities);
-    } 
-    
+
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        if (user.getRoles() != null) {
+            for (String role : user.getRoles()) {
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+            }
+        }
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getEncodedPassword(),
+                authorities
+        );
+    }
 }

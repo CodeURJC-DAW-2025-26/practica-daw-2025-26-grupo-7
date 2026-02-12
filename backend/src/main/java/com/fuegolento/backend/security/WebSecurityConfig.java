@@ -57,7 +57,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/dish", "/dish/**").permitAll()
 
                 // Auth pages (public)
-                .requestMatchers("/login", "/register", "/loginerror").permitAll()
+                .requestMatchers("/login", "/register", "/loginerror", "/banned").permitAll()
 
                 // Static resources (public)
                 .requestMatchers(
@@ -98,7 +98,14 @@ public class WebSecurityConfig {
             .formLogin(formLogin -> formLogin
                 .loginPage("/login")
                 .defaultSuccessUrl("/profile", true)
-                .failureUrl("/loginerror")
+                .failureHandler((request, response, exception) -> {
+                    // If the account is disabled (banned), redirect to a dedicated page
+                    if (exception instanceof org.springframework.security.authentication.DisabledException) {
+                        response.sendRedirect("/banned");
+                    } else {
+                        response.sendRedirect("/loginerror");
+                    }
+                })
                 .permitAll()
             )
             .logout(logout -> logout

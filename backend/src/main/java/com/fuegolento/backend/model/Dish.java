@@ -40,6 +40,8 @@ public class Dish {
 
     private BigDecimal price;
 
+    private boolean available = true;
+
     @Lob
     private byte[] image;
 
@@ -98,6 +100,14 @@ public class Dish {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     public byte[] getImage() {

@@ -12,9 +12,16 @@ import com.fuegolento.backend.model.Dish;
  */
 public interface DishRepository extends JpaRepository<Dish, Long> {
 
-    // Get all dishes of a given category
-    List<Dish> findByCategory(DishCategory category);
+    // Public menu: only available dishes
+    List<Dish> findByAvailableTrue();
 
-    // Search dishes by name (case-insensitive)
+    // Public menu by category: only available dishes
+    List<Dish> findByCategoryAndAvailableTrue(DishCategory category);
+
+    // Public search: only available dishes
+    List<Dish> findByNameContainingIgnoreCaseAndAvailableTrue(String name);
+
+    // Admin search (optional): includes unavailable dishes too
+    List<Dish> findByCategory(DishCategory category);
     List<Dish> findByNameContainingIgnoreCase(String name);
 }

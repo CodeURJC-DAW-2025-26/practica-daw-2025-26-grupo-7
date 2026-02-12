@@ -18,7 +18,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByUser(User user);
 
     // Get all orders with a specific status
-    List<Order> findByStatus(OrderStatus status);
+    List<Order> findByStatusOrderByCreatedAtAsc(OrderStatus status);
 
     // Get all orders of a user with a specific status
     List<Order> findByUserAndStatus(User user, OrderStatus status);

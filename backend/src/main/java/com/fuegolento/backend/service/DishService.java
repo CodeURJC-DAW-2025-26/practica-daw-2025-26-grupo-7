@@ -2,9 +2,13 @@ package com.fuegolento.backend.service;
 
 import com.fuegolento.backend.enums.DishCategory;
 import com.fuegolento.backend.model.Dish;
+import com.fuegolento.backend.model.Image;
 import com.fuegolento.backend.repository.DishRepository;
-import org.springframework.stereotype.Service;
 
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -12,9 +16,11 @@ import java.util.List;
 public class DishService {
 
     private final DishRepository dishRepository;
+    private final ImageService imageService;
 
-    public DishService(DishRepository dishRepository) {
+    public DishService(DishRepository dishRepository, ImageService imageService) {
         this.dishRepository = dishRepository;
+        this.imageService = imageService;
     }
 
     /* =========================
@@ -64,18 +70,23 @@ public class DishService {
        CREATE / UPDATE / DELETE
        ========================= */
 
-    public Dish create(Dish dish) {
+    public Dish create(Dish dish, MultipartFile imageFile) throws IOException {
         validateDish(dish);
 
         if (dish.getId() != null) {
             throw new IllegalArgumentException("New dish must not have an id");
         }
 
-        // If not set, keep default true
+        // Attach image if provided
+        if (imageFile != null && !imageFile.isEmpty()) {
+            Image img = imageService.createImage(imageFile);
+            dish.setImage(img);
+        }
+
         return dishRepository.save(dish);
     }
 
-    public Dish update(Long id, Dish updated) {
+    public Dish update(Long id, Dish updated, MultipartFile imageFile) throws IOException {
         Dish existing = findById(id);
 
         validateDish(updated);
@@ -88,8 +99,9 @@ public class DishService {
         existing.setAvailable(updated.isAvailable());
 
         // Keep existing image unless a new one is provided
-        if (updated.getImage() != null && updated.getImage().length > 0) {
-            existing.setImage(updated.getImage());
+        if (imageFile != null && !imageFile.isEmpty()) {
+            Image newImg = imageService.createImage(imageFile);
+            existing.setImage(newImg); // orphanRemoval=true will delete old image
         }
 
         return dishRepository.save(existing);
@@ -100,6 +112,7 @@ public class DishService {
             throw new RuntimeException("Dish not found with id: " + id);
         }
         dishRepository.deleteById(id);
+        // Image is automatically removed thanks to cascade + orphanRemoval in Dish
     }
 
     /* =========================

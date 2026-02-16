@@ -3,6 +3,9 @@ package com.fuegolento.backend.model;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.fuegolento.backend.enums.Allergen;
+import com.fuegolento.backend.enums.DishCategory;
+
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,14 +14,13 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-
-import com.fuegolento.backend.enums.Allergen;
-import com.fuegolento.backend.enums.DishCategory;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.CascadeType;
 
 /**
  * Represents a menu dish.
- * Images are stored in the database as a BLOB to simplify deployment.
+ * Each dish has exactly one image stored in DB using the Image entity.
  */
 @Entity(name = "DishTable")
 public class Dish {
@@ -42,20 +44,21 @@ public class Dish {
 
     private boolean available = true;
 
-    @Lob
-    private byte[] image;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "image_id")
+    private Image image;
 
     public Dish() {
         // Required by JPA
     }
 
-    public Dish(DishCategory category, String name, String description, List<Allergen> allergens, BigDecimal price, byte[] image) {
+    public Dish(DishCategory category, String name, String description, List<Allergen> allergens, BigDecimal price, boolean available) {
         this.category = category;
         this.name = name;
         this.description = description;
         this.allergens = allergens;
         this.price = price;
-        this.image = image;
+        this.available = available;
     }
 
     public Long getId() {
@@ -110,11 +113,11 @@ public class Dish {
         this.available = available;
     }
 
-    public byte[] getImage() {
+    public Image getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 }

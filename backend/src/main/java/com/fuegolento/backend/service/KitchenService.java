@@ -87,7 +87,7 @@ public class KitchenService {
        ========================= */
 
     private List<Order> getOrdersSortedByCreatedAtAsc(OrderStatus status) {
-        List<Order> orders = orderRepository.findByStatus(status);
+        List<Order> orders = orderRepository.findByStatusOrderByCreatedAtAsc(status);
         orders.sort(Comparator.comparing(Order::getCreatedAt)); // oldest first (like a kitchen queue)
         return orders;
     }

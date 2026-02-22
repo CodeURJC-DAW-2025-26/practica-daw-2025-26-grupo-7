@@ -76,8 +76,6 @@ public class WebSecurityConfig {
                 .requestMatchers(
                     "/profile",
                     "/profile/**",
-                    "/cart",
-                    "/cart/**",
                     "/order",
                     "/order/**",
                     "/orders",

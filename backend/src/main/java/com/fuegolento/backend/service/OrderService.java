@@ -1,5 +1,6 @@
 package com.fuegolento.backend.service;
 
+import com.fuegolento.backend.enums.DishCategory;
 import com.fuegolento.backend.enums.OrderStatus;
 import com.fuegolento.backend.model.Dish;
 import com.fuegolento.backend.model.Order;
@@ -8,12 +9,14 @@ import com.fuegolento.backend.model.User;
 import com.fuegolento.backend.repository.OrderItemRepository;
 import com.fuegolento.backend.repository.OrderRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Transactional
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -58,88 +61,151 @@ public class OrderService {
     }
 
     /* =========================
-       CREATE / CART-LIKE FLOW
+       CART (PENDING order in DB)
        ========================= */
 
     /**
-     * Creates a new empty order in PENDING status.
-     * You can call this when user starts an order.
+     * Returns the current cart of the user (latest PENDING order).
+     * If not exists, creates a new PENDING order.
      */
-    public Order createOrder(User user) {
+    public Order getOrCreateCart(User user) {
         if (user == null) throw new IllegalArgumentException("User is required");
 
-        Order order = new Order(user);
-        order.setStatus(OrderStatus.PENDING);
-        return orderRepository.save(order);
+        return orderRepository
+                .findFirstByUserAndStatusOrderByCreatedAtDesc(user, OrderStatus.PENDING)
+                .orElseGet(() -> {
+                    Order order = new Order(user);
+                    order.setStatus(OrderStatus.PENDING);
+                    return orderRepository.save(order);
+                });
     }
 
     /**
-     * Adds a dish to an existing order.
-     * - Only allowed if order is PENDING
-     * - Dish must be available
-     * - If dish already exists in the order, increases quantity
+     * Returns the current cart if exists, otherwise null.
+     * Useful for pages like /order to show "empty cart" without creating a new row.
      */
-    public Order addDish(Long orderId, Long dishId, int quantity) {
+    public Order getCartIfExists(User user) {
+        if (user == null) throw new IllegalArgumentException("User is required");
+
+        return orderRepository
+                .findFirstByUserAndStatusOrderByCreatedAtDesc(user, OrderStatus.PENDING)
+                .orElse(null);
+    }
+
+    /**
+     * Adds 1 unit (or more) of a dish to the user's cart.
+     * - Creates cart if needed
+     * - If item exists, increases quantity
+     */
+    public Order addToCart(User user, Long dishId, int quantity) {
         if (quantity <= 0) throw new IllegalArgumentException("Quantity must be > 0");
 
-        Order order = findById(orderId);
-        ensureEditable(order);
+        Order cart = getOrCreateCart(user);
+        ensureEditable(cart);
 
         Dish dish = dishService.findById(dishId);
         if (!dish.isAvailable()) {
             throw new IllegalStateException("Dish is not available");
         }
 
-        OrderItem item = orderItemRepository.findByOrderAndDishId(order, dishId)
-                .orElse(null);
+        OrderItem item = orderItemRepository.findByOrderAndDish_Id(cart, dishId).orElse(null);
 
         if (item == null) {
             OrderItem newItem = new OrderItem(dish, quantity, dish.getPrice());
-            order.addItem(newItem);
+            cart.addItem(newItem);
         } else {
             item.setQuantity(item.getQuantity() + quantity);
         }
 
-        return orderRepository.save(order);
+        return orderRepository.save(cart);
     }
 
     /**
-     * Sets a specific quantity for a dish in the order.
+     * Sets quantity for a dish inside the user's cart.
      * If quantity <= 0, removes the item.
      */
-    public Order setDishQuantity(Long orderId, Long dishId, int quantity) {
-        Order order = findById(orderId);
-        ensureEditable(order);
+    public Order setCartDishQuantity(User user, Long dishId, int quantity) {
+        Order cart = getOrCreateCart(user);
+        ensureEditable(cart);
 
-        OrderItem item = orderItemRepository.findByOrderAndDishId(order, dishId)
-                .orElseThrow(() -> new RuntimeException("Dish not found in order"));
+        OrderItem item = orderItemRepository.findByOrderAndDish_Id(cart, dishId)
+                .orElseThrow(() -> new RuntimeException("Dish not found in cart"));
 
         if (quantity <= 0) {
-            order.removeItem(item);
+            cart.removeItem(item);
         } else {
             item.setQuantity(quantity);
         }
 
-        return orderRepository.save(order);
+        return orderRepository.save(cart);
     }
 
-    public Order removeDish(Long orderId, Long dishId) {
-        Order order = findById(orderId);
-        ensureEditable(order);
+    /**
+     * Removes a dish from the user's cart.
+     */
+    public Order removeFromCart(User user, Long dishId) {
+        Order cart = getOrCreateCart(user);
+        ensureEditable(cart);
 
-        OrderItem item = orderItemRepository.findByOrderAndDishId(order, dishId)
-                .orElseThrow(() -> new RuntimeException("Dish not found in order"));
+        OrderItem item = orderItemRepository.findByOrderAndDish_Id(cart, dishId)
+                .orElseThrow(() -> new RuntimeException("Dish not found in cart"));
 
-        order.removeItem(item);
-        return orderRepository.save(order);
+        cart.removeItem(item);
+        return orderRepository.save(cart);
+    }
+
+    /**
+     * Empties the user's cart (removes all items).
+     * We keep the cart row to avoid creating orders repeatedly.
+     */
+    public Order clearCart(User user) {
+        Order cart = getOrCreateCart(user);
+        ensureEditable(cart);
+
+        // orphanRemoval=true, so removing from the list deletes rows
+        cart.getItems().clear();
+        return orderRepository.save(cart);
+    }
+
+    /**
+     * Cart badge count (recommended):
+     * total quantities (e.g., 2+1 = 3)
+     */
+    public int getCartItemCount(User user) {
+        Order cart = getCartIfExists(user);
+        if (cart == null) return 0;
+
+        return orderItemRepository.sumQuantitiesByOrder(cart);
+    }
+
+    public BigDecimal calculateCartTotal(Order cart) {
+        if (cart == null || cart.getItems() == null) {
+            return BigDecimal.ZERO;
+        }
+        return cart.calculateTotalFromItems();
     }
 
     /* =========================
-       STATUS CHANGES
+       SUBMIT / STATUS CHANGES
        ========================= */
 
     /**
-     * Moves order from PENDING to IN_PROGRESS (kitchen starts).
+     * Submits the current cart to the kitchen.
+     * PENDING -> IN_PROGRESS
+     */
+    public Order submitCart(User user) {
+        Order cart = getCartIfExists(user);
+        if (cart == null || cart.getItems() == null || cart.getItems().isEmpty()) {
+            throw new IllegalStateException("Cannot submit an empty cart");
+        }
+        ensureEditable(cart);
+
+        cart.setStatus(OrderStatus.IN_PROGRESS);
+        return orderRepository.save(cart);
+    }
+
+    /**
+     * Moves order from PENDING to IN_PROGRESS (admin/kitchen start).
      */
     public Order startPreparing(Long orderId) {
         Order order = findById(orderId);
@@ -198,6 +264,80 @@ public class OrderService {
 
         order.setStatus(OrderStatus.CANCELLED);
         return orderRepository.save(order);
+    }
+
+    public Order setCartItemKitchenNote(User user, Long dishId, String kitchenNote) {
+        Order cart = getOrCreateCart(user);
+        ensureEditable(cart);
+
+        OrderItem item = orderItemRepository.findByOrderAndDish_Id(cart, dishId)
+                .orElseThrow(() -> new RuntimeException("Dish not found in cart"));
+
+        // Normalize empty -> null (optional)
+        if (kitchenNote != null && kitchenNote.trim().isEmpty()) kitchenNote = null;
+
+        item.setKitchenNote(kitchenNote);
+        return orderRepository.save(cart);
+    }
+
+    public Order setCartItemMeatPoint(User user, Long dishId, String meatPoint) {
+        Order cart = getOrCreateCart(user);
+        ensureEditable(cart);
+
+        // Validate dish category (must be MEAT)
+        Dish dish = dishService.findById(dishId);
+        if (dish.getCategory() != DishCategory.MEAT) {
+            throw new IllegalStateException("Meat point can only be set for MEAT dishes");
+        }
+
+        if (meatPoint != null) {
+            meatPoint = meatPoint.trim().toUpperCase();
+        }
+
+        // Normalize empty -> null
+        if (meatPoint == null || meatPoint.isEmpty()) {
+            meatPoint = null;
+        } else {
+            // Validate allowed values
+            switch (meatPoint) {
+                case "MUY_HECHO":
+                case "HECHO":
+                case "AL_PUNTO":
+                case "POCO_HECHO":
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid meat point");
+            }
+        }
+
+        OrderItem item = orderItemRepository.findByOrderAndDish_Id(cart, dishId)
+                .orElseThrow(() -> new RuntimeException("Dish not found in cart"));
+
+        item.setMeatPoint(meatPoint);
+
+        return orderRepository.save(cart);
+    }
+
+    public Order setCartTableNumber(User user, Integer tableNumber) {
+        Order cart = getOrCreateCart(user);
+        ensureEditable(cart);
+
+        if (tableNumber == null || tableNumber < 1 || tableNumber > 20) {
+            throw new IllegalArgumentException("Table number must be between 1 and 20");
+        }
+
+        cart.setTableNumber(tableNumber);
+        return orderRepository.save(cart);
+    }
+
+    public Order setCartCustomerNote(User user, String customerNote) {
+        Order cart = getOrCreateCart(user);
+        ensureEditable(cart);
+
+        if (customerNote != null && customerNote.trim().isEmpty()) customerNote = null;
+
+        cart.setCustomerNote(customerNote);
+        return orderRepository.save(cart);
     }
 
     /* =========================

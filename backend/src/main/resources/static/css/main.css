@@ -1377,3 +1377,12 @@ body.orders-page {
   color: color-mix(in srgb, var(--default-color), transparent 45%);
 }
 
+.cart-bump {
+  animation: cartBump 0.45s ease-in-out;
+}
+
+@keyframes cartBump {
+  0%   { transform: translate(-50%, -50%) scale(1); }
+  40%  { transform: translate(-50%, -50%) scale(1.35); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}

@@ -2,17 +2,23 @@ package com.fuegolento.backend.model;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
 /**
  * Represents a single line of an order.
  * It links a dish with a quantity and stores the unit price at the time of purchase.
+ *
+ * Extra fields were added to support:
+ * - Kitchen note per dish
+ * - Meat point selection for MEAT dishes
  */
-@Entity(name="OrderItemTable")
+@Entity(name = "OrderItemTable")
 public class OrderItem {
 
     @Id
@@ -37,6 +43,21 @@ public class OrderItem {
      * This value is stored to preserve price history.
      */
     private BigDecimal unitPrice;
+
+    // ====== NEW FIELDS for the "comanda" screen ======
+
+    /**
+     * Optional note for the kitchen, per dish.
+     * Example: "no salt", "extra cooked", "no garnish".
+     */
+    @Column(length = 500)
+    private String kitchenNote;
+
+    /**
+     * Optional meat point (only meaningful if dish.category == MEAT).
+     * Example values: "Poco hecho", "Al punto", "Hecho".
+     */
+    private String meatPoint;
 
     public OrderItem() {
         // Required by JPA
@@ -83,6 +104,22 @@ public class OrderItem {
 
     public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public String getKitchenNote() {
+        return kitchenNote;
+    }
+
+    public void setKitchenNote(String kitchenNote) {
+        this.kitchenNote = kitchenNote;
+    }
+
+    public String getMeatPoint() {
+        return meatPoint;
+    }
+
+    public void setMeatPoint(String meatPoint) {
+        this.meatPoint = meatPoint;
     }
 
     /**

@@ -2,6 +2,7 @@ package com.fuegolento.backend.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,11 +12,17 @@ import com.fuegolento.backend.model.User;
 
 /**
  * Repository for Order entity.
+ *
+ * Cart strategy:
+ * - The current cart is the most recent Order with status = PENDING.
  */
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
     // Get all orders of a user
     List<Order> findByUser(User user);
+
+    // Get the latest order of a user with a given status (used for cart=PENDING)
+    Optional<Order> findFirstByUserAndStatusOrderByCreatedAtDesc(User user, OrderStatus status);
 
     // Get all orders with a specific status
     List<Order> findByStatusOrderByCreatedAtAsc(OrderStatus status);

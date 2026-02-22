@@ -63,6 +63,8 @@ public class WebSecurityConfig {
                 .requestMatchers(
                     "/assets/**",
                     "/images/**",
+                    "/img/**",
+                    "/vendor/**",
                     "/css/**",
                     "/js/**",
                     "/favicon.ico"

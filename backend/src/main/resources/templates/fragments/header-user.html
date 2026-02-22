@@ -25,7 +25,7 @@
           <ul class="navbar-nav mx-xl-auto justify-content-xl-center align-items-xl-center">
             <li class="nav-item"><a class="nav-link" href="/#hero">Inicio</a></li>
             <li class="nav-item"><a class="nav-link" href="/#about">Nuestra brasa</a></li>
-            <li class="nav-item"><a class="nav-link" href="/carta">Carta</a></li>
+            <li class="nav-item"><a class="nav-link" href="/menu">Menu</a></li>
             <li class="nav-item"><a class="nav-link" href="/#gallery">Galería</a></li>
             <li class="nav-item"><a class="nav-link" href="/#contact">Contacto</a></li>
           </ul>
@@ -33,9 +33,16 @@
           <!-- Actions -->
           <div class="d-flex flex-column flex-xl-row gap-2 gap-xl-3 ms-xl-auto mt-3 mt-xl-0 navbar-actions">
 
-            <!-- Comanda (hidden ONLY in desktop on index) -->
-            <a href="/comanda" class="btn-login text-center hide-xl">
-              <i class="bi bi-cart me-1"></i> Comanda
+            <!-- Comanda -->
+            <a href="/order" class="btn-login text-center position-relative" aria-label="Ir a tu comanda">
+              <i class="bi bi-cart me-1"></i> COMANDA
+
+              {{#cartCount}}
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                    aria-label="Platos en la comanda">
+                {{cartCount}}
+              </span>
+              {{/cartCount}}
             </a>
 
             <a href="/profile" class="btn-login text-center">Mi cuenta</a>

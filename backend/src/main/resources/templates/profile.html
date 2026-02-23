@@ -52,6 +52,15 @@
           </div>
         </div>
 
+        {{#updated}}
+        <div class="alert alert-success d-flex align-items-center" role="alert" style="margin-top: 14px;">
+          <i class="bi bi-check-circle-fill me-2"></i>
+          <div>
+            Tus datos se han actualizado correctamente.
+          </div>
+        </div>
+        {{/updated}}
+
         <div class="row g-4 align-items-start">
 
           <!-- Card: Datos -->
@@ -103,8 +112,8 @@
               </div>
 
               <div class="profile-actions">
-                <a href="#" class="btn btn-outline-light profile-pill" title="Funcionalidad no incluida en esta entrega">
-                  <i class="bi bi-pencil-square me-1"></i> Editar perfil (próximamente)
+                <a href="/profile/edit" class="btn btn-outline-light profile-pill">
+                  <i class="bi bi-pencil-square me-1"></i> Editar perfil
                 </a>
 
                 <a href="/pedidos" class="btn btn-outline-light profile-pill">

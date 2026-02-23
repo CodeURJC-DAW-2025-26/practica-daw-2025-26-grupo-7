@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -124,6 +125,27 @@ public class UserService {
         user.setBanned(false);
 
         return userRepository.save(user);
+    }
+
+    @Transactional
+    public void updateProfile(User user, String email, String birthDate) {
+
+        if (user == null) throw new IllegalArgumentException("User is required");
+
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("Email is required");
+        }
+
+        user.setEmail(email.trim());
+
+        if (birthDate != null && !birthDate.trim().isEmpty()) {
+            // Expected format from <input type="date"> is yyyy-MM-dd
+            user.setBirthDate(java.time.LocalDate.parse(birthDate.trim()));
+        } else {
+            user.setBirthDate(null);
+        }
+
+        userRepository.save(user);
     }
 
     /* =========================

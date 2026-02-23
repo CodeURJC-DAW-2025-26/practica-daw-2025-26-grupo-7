@@ -39,4 +39,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         LocalDateTime start,
         LocalDateTime end
     );
+
+    List<Order> findByUserAndStatusNotOrderByCreatedAtDesc(User user, OrderStatus status);
 }

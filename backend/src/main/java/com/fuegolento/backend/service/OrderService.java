@@ -210,8 +210,8 @@ public class OrderService {
     public Order startPreparing(Long orderId) {
         Order order = findById(orderId);
 
-        if (order.getStatus() != OrderStatus.PENDING) {
-            throw new IllegalStateException("Only PENDING orders can be started");
+        if (order.getStatus() != OrderStatus.IN_PROGRESS) {
+            throw new IllegalStateException("Only IN_PROGRESS orders can be started");
         }
         if (order.getItems() == null || order.getItems().isEmpty()) {
             throw new IllegalStateException("Cannot start an empty order");
@@ -349,6 +349,10 @@ public class OrderService {
             throw new RuntimeException("Order not found with id: " + orderId);
         }
         orderRepository.deleteById(orderId);
+    }
+
+    public List<Order> getOrderHistory(User user) {
+        return orderRepository.findByUserAndStatusNotOrderByCreatedAtDesc(user, OrderStatus.PENDING);
     }
 
     /* =========================

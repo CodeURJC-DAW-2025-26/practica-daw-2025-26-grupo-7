@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UserOrdersController {
@@ -29,7 +32,7 @@ public class UserOrdersController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/pedidos")
+    @GetMapping("/orders")
     public String ordersPage(Model model, CsrfToken csrfToken) {
 
         User user = userService.getAuthenticatedUser()
@@ -41,14 +44,12 @@ public class UserOrdersController {
         boolean hasOrders = orders != null && !orders.isEmpty();
         model.addAttribute("hasOrders", hasOrders);
 
-        // CSRF token (only needed if you later add actions here)
         if (csrfToken != null) {
             model.addAttribute("token", csrfToken.getToken());
         }
 
         if (hasOrders) {
-            List<Map<String, Object>> ordersVm = buildOrdersViewModel(orders);
-            model.addAttribute("orders", ordersVm);
+            model.addAttribute("orders", buildOrdersViewModel(orders));
         } else {
             model.addAttribute("orders", null);
         }
@@ -63,7 +64,6 @@ public class UserOrdersController {
     private List<Map<String, Object>> buildOrdersViewModel(List<Order> orders) {
 
         List<Map<String, Object>> result = new ArrayList<>();
-
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
 
         for (Order o : orders) {
@@ -71,33 +71,27 @@ public class UserOrdersController {
 
             vm.put("id", o.getId());
 
-            // createdAt pretty
             String createdAtText = (o.getCreatedAt() != null) ? o.getCreatedAt().format(fmt) : "";
             vm.put("createdAtText", createdAtText);
 
             vm.put("tableNumber", o.getTableNumber()); // can be null
 
-            // Status UI helpers
             OrderStatus st = o.getStatus();
             vm.put("statusText", statusText(st));
             vm.put("statusClass", statusClass(st));
             vm.put("statusIcon", statusIcon(st));
 
-            // General note
             String note = (o.getCustomerNote() == null || o.getCustomerNote().trim().isEmpty())
                     ? "—"
                     : o.getCustomerNote();
             vm.put("noteText", note);
             vm.put("noteEmpty", "—".equals(note));
 
-            // Items
-            List<Map<String, Object>> itemsVm = buildOrderItemsViewModel(o.getItems());
-            vm.put("items", itemsVm);
+            vm.put("items", buildOrderItemsViewModel(o.getItems()));
 
-            // Total: DELIVERED -> snapshot (if exists), else calculate from items
             BigDecimal total;
             if (st == OrderStatus.DELIVERED && o.getTotalPrice() != null) {
-                total = o.getTotalPrice();
+                total = o.getTotalPrice(); // snapshot
             } else {
                 total = (o.getItems() == null) ? BigDecimal.ZERO : o.calculateTotalFromItems();
             }
@@ -119,11 +113,8 @@ public class UserOrdersController {
             Map<String, Object> vm = new HashMap<>();
             vm.put("quantity", oi.getQuantity());
             vm.put("name", (d != null) ? d.getName() : "Producto");
-
-            // line total
             vm.put("lineTotalText", formatMoney(oi.getTotalPrice()));
 
-            // meat point text only if MEAT
             boolean isMeat = (d != null && d.getCategory() == DishCategory.MEAT);
             String mp = oi.getMeatPoint();
 
@@ -134,7 +125,6 @@ public class UserOrdersController {
                 vm.put("meatPointText", null);
             }
 
-            // per-item kitchen note optional
             String kitchenNote = oi.getKitchenNote();
             if (kitchenNote != null && kitchenNote.trim().isEmpty()) kitchenNote = null;
             vm.put("kitchenNote", kitchenNote);
@@ -148,17 +138,19 @@ public class UserOrdersController {
     private String statusText(OrderStatus st) {
         if (st == null) return "—";
         return switch (st) {
+            case SENT_TO_KITCHEN -> "Enviado a cocina";
             case IN_PROGRESS -> "En preparación";
             case READY -> "Listo";
             case DELIVERED -> "Servido";
             case CANCELLED -> "Cancelado";
-            case PENDING -> "Carrito"; // should not appear here
+            case PENDING -> "Carrito";
         };
     }
 
     private String statusClass(OrderStatus st) {
         if (st == null) return "status-sent";
         return switch (st) {
+            case SENT_TO_KITCHEN -> "status-sent";
             case IN_PROGRESS -> "status-cooking";
             case READY -> "status-ready";
             case DELIVERED -> "status-served";
@@ -170,6 +162,7 @@ public class UserOrdersController {
     private String statusIcon(OrderStatus st) {
         if (st == null) return "bi-info-circle";
         return switch (st) {
+            case SENT_TO_KITCHEN -> "bi-send-check";
             case IN_PROGRESS -> "bi-hourglass-split";
             case READY -> "bi-bell";
             case DELIVERED -> "bi-check2-circle";
@@ -185,7 +178,7 @@ public class UserOrdersController {
             case "HECHO" -> "Hecho";
             case "AL_PUNTO" -> "Al punto";
             case "POCO_HECHO" -> "Poco hecho";
-            default -> mp; // fallback
+            default -> mp;
         };
     }
 

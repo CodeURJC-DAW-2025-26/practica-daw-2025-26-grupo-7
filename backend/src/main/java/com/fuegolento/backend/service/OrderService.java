@@ -93,9 +93,7 @@ public class OrderService {
     }
 
     /**
-     * Adds 1 unit (or more) of a dish to the user's cart.
-     * - Creates cart if needed
-     * - If item exists, increases quantity
+     * Adds quantity units of a dish to the user's cart.
      */
     public Order addToCart(User user, Long dishId, int quantity) {
         if (quantity <= 0) throw new IllegalArgumentException("Quantity must be > 0");
@@ -156,19 +154,20 @@ public class OrderService {
 
     /**
      * Empties the user's cart (removes all items).
-     * We keep the cart row to avoid creating orders repeatedly.
      */
     public Order clearCart(User user) {
         Order cart = getOrCreateCart(user);
         ensureEditable(cart);
 
-        // orphanRemoval=true, so removing from the list deletes rows
-        cart.getItems().clear();
+        if (cart.getItems() != null) {
+            cart.getItems().clear();
+        }
+
         return orderRepository.save(cart);
     }
 
     /**
-     * Cart badge count (recommended):
+     * Cart badge count:
      * total quantities (e.g., 2+1 = 3)
      */
     public int getCartItemCount(User user) {
@@ -191,7 +190,7 @@ public class OrderService {
 
     /**
      * Submits the current cart to the kitchen.
-     * PENDING -> IN_PROGRESS
+     * PENDING -> SENT_TO_KITCHEN
      */
     public Order submitCart(User user) {
         Order cart = getCartIfExists(user);
@@ -200,18 +199,18 @@ public class OrderService {
         }
         ensureEditable(cart);
 
-        cart.setStatus(OrderStatus.IN_PROGRESS);
+        cart.setStatus(OrderStatus.SENT_TO_KITCHEN);
         return orderRepository.save(cart);
     }
 
     /**
-     * Moves order from PENDING to IN_PROGRESS (admin/kitchen start).
+     * SENT_TO_KITCHEN -> IN_PROGRESS
      */
     public Order startPreparing(Long orderId) {
         Order order = findById(orderId);
 
-        if (order.getStatus() != OrderStatus.IN_PROGRESS) {
-            throw new IllegalStateException("Only IN_PROGRESS orders can be started");
+        if (order.getStatus() != OrderStatus.SENT_TO_KITCHEN) {
+            throw new IllegalStateException("Only SENT_TO_KITCHEN orders can be started");
         }
         if (order.getItems() == null || order.getItems().isEmpty()) {
             throw new IllegalStateException("Cannot start an empty order");
@@ -222,7 +221,7 @@ public class OrderService {
     }
 
     /**
-     * Moves order from IN_PROGRESS to READY.
+     * IN_PROGRESS -> READY
      */
     public Order markReady(Long orderId) {
         Order order = findById(orderId);
@@ -236,7 +235,7 @@ public class OrderService {
     }
 
     /**
-     * Moves order from READY to DELIVERED and stores total snapshot.
+     * READY -> DELIVERED and stores total snapshot.
      */
     public Order deliver(Long orderId) {
         Order order = findById(orderId);
@@ -246,7 +245,14 @@ public class OrderService {
         }
 
         BigDecimal total = order.calculateTotalFromItems();
+
+        // Snapshot for auditing/history
         order.setTotalPriceSnapshot(total);
+
+        // Optional: if your entity also has totalPrice used by views
+        // (Remove this line if your Order entity does not have setTotalPrice)
+        // order.setTotalPrice(total);
+
         order.setStatus(OrderStatus.DELIVERED);
 
         return orderRepository.save(order);
@@ -273,7 +279,6 @@ public class OrderService {
         OrderItem item = orderItemRepository.findByOrderAndDish_Id(cart, dishId)
                 .orElseThrow(() -> new RuntimeException("Dish not found in cart"));
 
-        // Normalize empty -> null (optional)
         if (kitchenNote != null && kitchenNote.trim().isEmpty()) kitchenNote = null;
 
         item.setKitchenNote(kitchenNote);
@@ -284,7 +289,6 @@ public class OrderService {
         Order cart = getOrCreateCart(user);
         ensureEditable(cart);
 
-        // Validate dish category (must be MEAT)
         Dish dish = dishService.findById(dishId);
         if (dish.getCategory() != DishCategory.MEAT) {
             throw new IllegalStateException("Meat point can only be set for MEAT dishes");
@@ -294,11 +298,9 @@ public class OrderService {
             meatPoint = meatPoint.trim().toUpperCase();
         }
 
-        // Normalize empty -> null
         if (meatPoint == null || meatPoint.isEmpty()) {
             meatPoint = null;
         } else {
-            // Validate allowed values
             switch (meatPoint) {
                 case "MUY_HECHO":
                 case "HECHO":
@@ -351,6 +353,9 @@ public class OrderService {
         orderRepository.deleteById(orderId);
     }
 
+    /**
+     * User "orders history": excludes the cart (PENDING).
+     */
     public List<Order> getOrderHistory(User user) {
         return orderRepository.findByUserAndStatusNotOrderByCreatedAtDesc(user, OrderStatus.PENDING);
     }

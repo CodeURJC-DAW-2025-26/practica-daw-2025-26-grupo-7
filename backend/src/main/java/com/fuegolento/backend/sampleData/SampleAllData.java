@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.annotation.PostConstruct;
-
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -167,7 +166,7 @@ public class SampleAllData {
         }
 
         // ---------------------------
-        // ORDERS for kitchen board (PENDING / IN_PROGRESS / READY)
+        // ORDERS for kitchen board (SENT_TO_KITCHEN / IN_PROGRESS / READY)
         // ---------------------------
         if (orderRepository.count() == 0) {
 
@@ -178,9 +177,11 @@ public class SampleAllData {
             Dish ensalada = findDish("Ensalada de temporada");
             Dish agua = findDish("Agua mineral");
 
-            // 1) RECEIVED (PENDING)
+            // 1) RECEIVED (SENT_TO_KITCHEN)
             Order o1 = new Order(sampleUser);
-            o1.setStatus(OrderStatus.PENDING);
+            o1.setStatus(OrderStatus.SENT_TO_KITCHEN);
+            o1.setTableNumber(7);
+            o1.setCustomerNote("Sin sal en la ensalada, por favor.");
             addItem(o1, chuleton, 2);
             addItem(o1, agua, 2);
             orderRepository.save(o1);
@@ -188,6 +189,7 @@ public class SampleAllData {
             // 2) IN PROGRESS
             Order o2 = new Order(sampleUser);
             o2.setStatus(OrderStatus.IN_PROGRESS);
+            o2.setTableNumber(3);
             addItem(o2, costillar, 1);
             addItem(o2, ensalada, 1);
             orderRepository.save(o2);
@@ -195,6 +197,7 @@ public class SampleAllData {
             // 3) READY
             Order o3 = new Order(sampleUser);
             o3.setStatus(OrderStatus.READY);
+            o3.setTableNumber(12);
             addItem(o3, entrecot, 1);
             addItem(o3, croquetas, 2);
             orderRepository.save(o3);

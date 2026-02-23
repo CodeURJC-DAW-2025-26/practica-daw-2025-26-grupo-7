@@ -7,9 +7,14 @@ package com.fuegolento.backend.enums;
 public enum OrderStatus {
 
     /**
-     * Order has been created but not processed yet.
+     * Order is in the cart but not processed yet.
      */
     PENDING,
+
+    /**
+     * Order is sent to the kitchen.
+     */
+    SENT_TO_KITCHEN,
 
     /**
      * Order is being prepared in the kitchen.

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.format.DateTimeFormatter;
@@ -26,8 +28,6 @@ public class KitchenController {
     @GetMapping
     public String kitchenBoard(Model model, CsrfToken csrfToken) {
 
-        // Security is handled by WebSecurityConfig:
-        // /admin/** -> hasRole("ADMIN")
         KitchenService.KitchenBoard board = kitchenService.getBoard();
 
         List<Map<String, Object>> receivedVm = buildOrdersVm(board.received);
@@ -46,43 +46,47 @@ public class KitchenController {
         model.addAttribute("hasProgress", !inProgressVm.isEmpty());
         model.addAttribute("hasDone", !readyVm.isEmpty());
 
-        // Use explicit names to avoid accidentally appending tokens to URLs
+        // CSRF token for Mustache forms
         if (csrfToken != null) {
             model.addAttribute("csrfToken", csrfToken.getToken());
-            model.addAttribute("csrfParameterName", csrfToken.getParameterName()); // usually "_csrf"
         }
 
-        model.addAttribute("kitchenActive", true);
+        // For active state in header-admin (optional)
+        model.addAttribute("activeKitchen", true);
 
         return "admin-kitchen";
     }
 
     /* =========================
-       ACTIONS
+       ACTIONS (POST) - use sendRedirect to avoid token in URL
        ========================= */
 
     @PostMapping("/to-in-progress")
-    public String moveToInProgress(@RequestParam("orderId") Long orderId) {
+    public void moveToInProgress(@RequestParam("orderId") Long orderId,
+                                 HttpServletResponse response) throws IOException {
         kitchenService.moveToInProgress(orderId);
-        return "redirect:/admin/kitchen";
+        response.sendRedirect("/admin/kitchen");
     }
 
     @PostMapping("/to-ready")
-    public String moveToReady(@RequestParam("orderId") Long orderId) {
+    public void moveToReady(@RequestParam("orderId") Long orderId,
+                            HttpServletResponse response) throws IOException {
         kitchenService.moveToReady(orderId);
-        return "redirect:/admin/kitchen";
+        response.sendRedirect("/admin/kitchen");
     }
 
     @PostMapping("/back-to-received")
-    public String backToReceived(@RequestParam("orderId") Long orderId) {
+    public void backToReceived(@RequestParam("orderId") Long orderId,
+                               HttpServletResponse response) throws IOException {
         kitchenService.backToReceived(orderId);
-        return "redirect:/admin/kitchen";
+        response.sendRedirect("/admin/kitchen");
     }
 
     @PostMapping("/back-to-in-progress")
-    public String backToInProgress(@RequestParam("orderId") Long orderId) {
+    public void backToInProgress(@RequestParam("orderId") Long orderId,
+                                 HttpServletResponse response) throws IOException {
         kitchenService.backToInProgress(orderId);
-        return "redirect:/admin/kitchen";
+        response.sendRedirect("/admin/kitchen");
     }
 
     /* =========================
@@ -124,7 +128,6 @@ public class KitchenController {
             vm.put("items", itemsVm);
             vm.put("hasItems", !itemsVm.isEmpty());
 
-            // For kitchen board: show calculated total (even if not delivered yet)
             BigDecimal total = (o.getItems() == null) ? BigDecimal.ZERO : o.calculateTotalFromItems();
             vm.put("total", formatMoney(total));
 

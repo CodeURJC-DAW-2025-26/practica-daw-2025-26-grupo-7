@@ -30,7 +30,12 @@
 
 <body class="index-page">
 
-  {{> fragments/header-guest}}
+  {{#isLogged}}
+    {{> fragments/header-user}}
+  {{/isLogged}}
+  {{^isLogged}}
+    {{> fragments/header-guest}}
+  {{/isLogged}}
 
   <main class="main">
 

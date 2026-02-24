@@ -420,3 +420,8 @@
   opacity: 0.92;
   border-style: solid;
 }
+
+.admin-order-card{
+  max-width: 980px;   /* prueba 900 / 980 / 1100 */
+  margin: 0 auto;     /* lo centra */
+}

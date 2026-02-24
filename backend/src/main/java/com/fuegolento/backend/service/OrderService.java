@@ -369,4 +369,79 @@ public class OrderService {
             throw new IllegalStateException("Only PENDING orders can be modified");
         }
     }
+
+    //ADMIN ORDER STATUS CHANGE (from details page, no status flow checks)
+    public Order adminMoveStatus(Long orderId, OrderStatus target) {
+
+        Order order = findById(orderId);
+        OrderStatus current = order.getStatus();
+
+        if (target == current) return order;
+
+        switch (target) {
+
+            case SENT_TO_KITCHEN -> {
+                // Only makes sense if it was a cart (PENDING)
+                if (current != OrderStatus.PENDING) {
+                    throw new IllegalStateException("Only PENDING orders can be sent to kitchen");
+                }
+                order.setStatus(OrderStatus.SENT_TO_KITCHEN);
+                return orderRepository.save(order);
+            }
+
+            case IN_PROGRESS -> {
+                // If it was SENT_TO_KITCHEN -> startPreparing
+                if (current == OrderStatus.SENT_TO_KITCHEN) {
+                    return startPreparing(orderId);
+                }
+                // If admin forces it:
+                order.setStatus(OrderStatus.IN_PROGRESS);
+                return orderRepository.save(order);
+            }
+
+            case READY -> {
+                if (current == OrderStatus.IN_PROGRESS) {
+                    return markReady(orderId);
+                }
+                // If it was SENT_TO_KITCHEN -> go IN_PROGRESS then READY
+                if (current == OrderStatus.SENT_TO_KITCHEN) {
+                    startPreparing(orderId);
+                    return markReady(orderId);
+                }
+                // If admin forces it:
+                order.setStatus(OrderStatus.READY);
+                return orderRepository.save(order);
+            }
+
+            case DELIVERED -> {
+                // Make it consistent: ensure READY before deliver
+                if (current == OrderStatus.SENT_TO_KITCHEN) {
+                    startPreparing(orderId);
+                    markReady(orderId);
+                    return deliver(orderId);
+                }
+                if (current == OrderStatus.IN_PROGRESS) {
+                    markReady(orderId);
+                    return deliver(orderId);
+                }
+                if (current == OrderStatus.READY) {
+                    return deliver(orderId);
+                }
+
+                // If admin tries to deliver a cart or cancelled, block
+                throw new IllegalStateException("Cannot deliver an order from status: " + current);
+            }
+
+            case CANCELLED -> {
+                return cancel(orderId);
+            }
+
+            case PENDING -> {
+                // Generally you don't want to revert to cart from admin
+                throw new IllegalStateException("Cannot move an order back to PENDING (cart)");
+            }
+        }
+
+        throw new IllegalStateException("Unsupported status change");
+    }
 }

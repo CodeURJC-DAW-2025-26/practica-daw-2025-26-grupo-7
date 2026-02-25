@@ -425,3 +425,111 @@
   max-width: 980px;   /* prueba 900 / 980 / 1100 */
   margin: 0 auto;     /* lo centra */
 }
+/* ================================
+   ADMIN - DROPDOWN (Dark theme)
+   ================================ */
+
+.admin-dropdown-menu {
+  background: color-mix(in srgb, var(--surface-color), transparent 6%);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 14px 36px rgba(0,0,0,0.45);
+  min-width: 260px;
+}
+
+.admin-dropdown-menu .dropdown-item {
+  color: var(--default-color);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 700;
+}
+
+.admin-dropdown-menu .dropdown-item i {
+  opacity: 0.9;
+}
+
+.admin-dropdown-menu .dropdown-item:hover,
+.admin-dropdown-menu .dropdown-item:focus {
+  background: rgba(255,255,255,0.06);
+  color: var(--default-color);
+}
+
+.admin-dropdown-menu .dropdown-item.active {
+  background: color-mix(in srgb, var(--accent-color), transparent 80%);
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 55%);
+  color: var(--default-color);
+}
+
+.admin-dropdown-menu .dropdown-divider {
+  border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+  opacity: 1;
+}
+
+/* ================================
+   HEADER ADMIN - Fix botón Admin
+   ================================ */
+
+/* ADMIN button: same size as .btn-login, but with "admin" accent */
+.btn-admin {
+  /* match .btn-login sizing */
+  padding: 6px 18px !important;
+  border-radius: 50px;
+  line-height: normal;
+
+  /* make it look "admin" but consistent */
+  background: color-mix(in srgb, var(--accent-color), transparent 80%) !important;
+  border: 2px solid color-mix(in srgb, var(--accent-color), transparent 30%) !important;
+  color: var(--default-color) !important;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  opacity: 1 !important;
+}
+
+/* Hover: stronger red */
+.btn-admin:hover {
+  background: color-mix(in srgb, var(--accent-color), transparent 65%) !important;
+  border-color: var(--accent-color) !important;
+  color: var(--default-color) !important;
+}
+
+/* When dropdown is open */
+.dropdown.show > .btn-admin {
+  background: color-mix(in srgb, var(--accent-color), transparent 65%) !important;
+  border-color: var(--accent-color) !important;
+}
+
+/* ================================
+   Botón ADMIN header fix
+   ================================ */
+
+.btn-admin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 40px;
+  padding: 0 18px;
+
+  background: transparent !important;
+  border: 2px solid rgba(255,255,255,0.25) !important;
+
+  opacity: 1 !important;
+  line-height: 1;
+}
+
+/* Hover */
+.btn-admin:hover {
+  border-color: var(--accent-color) !important;
+  color: var(--accent-color) !important;
+  background: rgba(255,255,255,0.05);
+}
+
+/* Cuando está abierto */
+.dropdown.show > .btn-admin {
+  border-color: var(--accent-color) !important;
+}

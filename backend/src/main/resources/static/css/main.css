@@ -1386,3 +1386,29 @@ body.orders-page {
   40%  { transform: translate(-50%, -50%) scale(1.35); }
   100% { transform: translate(-50%, -50%) scale(1); }
 }
+
+/* ================================
+   HEADER - Align action buttons
+   ================================ */
+
+.header .navbar-actions .btn-login,
+.header .navbar-actions .btn-book-a-table {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;         /* misma “altura” visual */
+  line-height: 1;       /* evita descentrado del texto */
+}
+
+/* Igualamos el padding vertical de btn-login al de Reservar */
+.header .navbar-actions .btn-login {
+  padding: 10px 18px;   /* antes 6px 18px -> ahora coincide en vertical */
+  opacity: 1;           /* si no lo quieres “apagado” */
+}
+
+/* El icono no debe empujar hacia arriba/abajo */
+.header .navbar-actions .btn-login i {
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}

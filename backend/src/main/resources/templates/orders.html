@@ -21,11 +21,19 @@
 
   <!-- Main CSS -->
   <link href="/css/main.css" rel="stylesheet">
+  <link href="/css/admin.css" rel="stylesheet">
 </head>
 
 <body class="orders-page">
 
-  {{> fragments/header-user}}
+  {{#isLogged}}
+  {{#isAdmin}}
+    {{> fragments/header-admin}}
+  {{/isAdmin}}
+  {{^isAdmin}}
+    {{> fragments/header-user}}
+  {{/isAdmin}}
+  {{/isLogged}}
 
   <main class="main">
 

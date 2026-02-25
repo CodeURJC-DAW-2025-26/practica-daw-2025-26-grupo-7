@@ -28,8 +28,14 @@
 <body class="index-page">
 
   {{#isLogged}}
+  {{#isAdmin}}
+    {{> fragments/header-admin}}
+  {{/isAdmin}}
+  {{^isAdmin}}
     {{> fragments/header-user}}
+  {{/isAdmin}}
   {{/isLogged}}
+
   {{^isLogged}}
     {{> fragments/header-guest}}
   {{/isLogged}}

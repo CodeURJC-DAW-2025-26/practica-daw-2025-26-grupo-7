@@ -26,13 +26,20 @@
 
   <!-- Main CSS File -->
   <link href="/css/main.css" rel="stylesheet">
+  <link href="/css/admin.css" rel="stylesheet">
 </head>
 
 <body class="index-page">
 
   {{#isLogged}}
-    {{> fragments/header-user}}
+    {{#isAdmin}}
+      {{> fragments/header-admin}}
+    {{/isAdmin}}
+    {{^isAdmin}}
+      {{> fragments/header-user}}
+    {{/isAdmin}}
   {{/isLogged}}
+
   {{^isLogged}}
     {{> fragments/header-guest}}
   {{/isLogged}}

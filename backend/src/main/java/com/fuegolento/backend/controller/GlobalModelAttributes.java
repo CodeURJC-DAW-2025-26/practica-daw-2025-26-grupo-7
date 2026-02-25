@@ -2,9 +2,11 @@ package com.fuegolento.backend.controller;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.Collection;
 import com.fuegolento.backend.model.User;
 import com.fuegolento.backend.service.OrderService;
 import com.fuegolento.backend.service.UserService;
@@ -26,6 +28,20 @@ public class GlobalModelAttributes {
                 && authentication.isAuthenticated()
                 && !(authentication instanceof AnonymousAuthenticationToken);
     }
+
+    @ModelAttribute("isAdmin")
+    public boolean isAdmin(Authentication authentication) {
+        if (authentication == null
+                || !authentication.isAuthenticated()
+                || authentication instanceof AnonymousAuthenticationToken) {
+            return false;
+        }
+
+        Collection<? extends GrantedAuthority> auths = authentication.getAuthorities();
+        return auths.stream().anyMatch(a ->
+                "ROLE_ADMIN".equals(a.getAuthority()) || "ADMIN".equals(a.getAuthority()));
+    }
+
 
     /**
      * Cart badge count for the navbar.

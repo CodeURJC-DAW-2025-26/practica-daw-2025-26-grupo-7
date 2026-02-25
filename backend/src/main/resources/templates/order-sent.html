@@ -16,15 +16,18 @@
   <link href="/vendor/aos/aos.css" rel="stylesheet">
 
   <link href="/css/main.css" rel="stylesheet">
+  <link href="/css/admin.css" rel="stylesheet">
 </head>
 
 <body class="index-page">
 
   {{#isLogged}}
+  {{#isAdmin}}
+    {{> fragments/header-admin}}
+  {{/isAdmin}}
+  {{^isAdmin}}
     {{> fragments/header-user}}
-  {{/isLogged}}
-  {{^isLogged}}
-    {{> fragments/header-guest}}
+  {{/isAdmin}}
   {{/isLogged}}
 
   <main class="main">

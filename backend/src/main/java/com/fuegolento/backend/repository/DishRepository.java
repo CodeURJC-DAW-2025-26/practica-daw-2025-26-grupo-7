@@ -1,6 +1,8 @@
 package com.fuegolento.backend.repository;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,6 +13,15 @@ import com.fuegolento.backend.model.Dish;
  * Repository for Dish entity.
  */
 public interface DishRepository extends JpaRepository<Dish, Long> {
+
+    //AJAX
+    Page<Dish> findByAvailableTrue(Pageable pageable);
+
+    Page<Dish> findByCategoryAndAvailableTrue(DishCategory category, Pageable pageable);
+
+    Page<Dish> findByNameContainingIgnoreCaseAndAvailableTrue(String name, Pageable pageable);
+
+    Page<Dish> findByNameContainingIgnoreCaseAndCategoryAndAvailableTrue(String name, DishCategory category, Pageable pageable);
 
     // Public menu: only available dishes
     List<Dish> findByAvailableTrue();

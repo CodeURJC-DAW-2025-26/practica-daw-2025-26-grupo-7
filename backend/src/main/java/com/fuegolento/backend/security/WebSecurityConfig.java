@@ -55,6 +55,9 @@ public class WebSecurityConfig {
                 .requestMatchers("/menu", "/menu/**").permitAll()
                 .requestMatchers("/dish", "/dish/**").permitAll()
 
+                // AJAX endpoints (public)
+                .requestMatchers("/api/menu/**").permitAll()
+
                 // Auth pages (public)
                 .requestMatchers("/login", "/register", "/loginerror", "/banned").permitAll()
 

@@ -5,9 +5,12 @@ import com.fuegolento.backend.model.Dish;
 import com.fuegolento.backend.model.Image;
 import com.fuegolento.backend.repository.DishRepository;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;    
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -41,6 +44,30 @@ public class DishService {
         }
         return dishRepository.findByNameContainingIgnoreCaseAndAvailableTrue(query.trim());
     }
+
+    // For AJAX pagination: combines search + filter + pagination
+     public Page<Dish> findAvailableMenuPage(String q, DishCategory category, int page, int size) {
+        String query = (q == null) ? "" : q.trim();
+
+        // Sort is optional, but helps keep stable results
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
+
+        boolean hasQuery = !query.isBlank();
+        boolean hasCategory = category != null;
+
+        if (hasQuery && hasCategory) {
+            return dishRepository.findByNameContainingIgnoreCaseAndCategoryAndAvailableTrue(query, category, pageable);
+        }
+        if (hasQuery) {
+            return dishRepository.findByNameContainingIgnoreCaseAndAvailableTrue(query, pageable);
+        }
+        if (hasCategory) {
+            return dishRepository.findByCategoryAndAvailableTrue(category, pageable);
+        }
+        return dishRepository.findByAvailableTrue(pageable);
+    }
+
+
 
     /* =========================
        ADMIN (all dishes)

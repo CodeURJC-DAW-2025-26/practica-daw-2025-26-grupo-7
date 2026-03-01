@@ -12,6 +12,11 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -57,9 +62,32 @@ public class UserOrdersController {
         return "orders"; // templates/orders.html
     }
 
-    /* =========================
-       PRIVATE HELPERS
-       ========================= */
+    /**
+     * ✅ CONTROL DE ACCESO: Duplicar/Reordenar una orden antigua
+     * Solo permite duplicar si la orden pertenece al usuario autenticado
+     * GET endpoint para fácil demostración (visible en URL)
+     */
+    @GetMapping("/orders/duplicate")
+    public void duplicateOrder(@RequestParam("orderId") Long orderId,
+                               HttpServletResponse response) throws IOException {
+
+        User user = userService.getAuthenticatedUser()
+                .orElseThrow(() -> new RuntimeException("User not authenticated"));
+
+        Order orderToDuplicate = orderService.findById(orderId);
+
+        // ✅ VALIDACIÓN DE PERTENENCIA (CONTROL DE ACCESO)
+        if (orderToDuplicate == null || !orderToDuplicate.getUser().getId().equals(user.getId())) {
+            // No existe la orden O no pertenece al usuario autenticado
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.sendError(403, "No tienes permiso para duplicar esta orden");
+            return;
+        }
+
+        // Si la validación pasó, duplicar la orden
+        orderService.duplicateOrder(user, orderId);
+        response.sendRedirect("/order");
+    }
 
     private List<Map<String, Object>> buildOrdersViewModel(List<Order> orders) {
 

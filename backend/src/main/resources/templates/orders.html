@@ -142,10 +142,18 @@
                   <div class="orders-note-body">{{noteText}}</div>
                 </div>
 
-                <!-- Total -->
-                <div class="orders-total">
-                  <div class="orders-total-label">Total</div>
-                  <div class="orders-total-value">{{totalText}}€</div>
+                <!-- Actions & Total -->
+                <div class="d-flex flex-column gap-2 align-items-end">
+                  <!-- Total -->
+                  <div class="orders-total">
+                    <div class="orders-total-label">Total</div>
+                    <div class="orders-total-value">{{totalText}}€</div>
+                  </div>
+
+                  <!-- Duplicate button -->
+                  <a href="/orders/duplicate?orderId={{id}}" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-arrow-down-up me-1"></i> Volver a pedir lo mismo
+                  </a>
                 </div>
               </div>
 

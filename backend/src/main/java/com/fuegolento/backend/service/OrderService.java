@@ -444,4 +444,43 @@ public class OrderService {
 
         throw new IllegalStateException("Unsupported status change");
     }
+
+    /* =========================
+       DUPLICATE ORDER (Access Control Demo)
+       ========================= */
+
+    /**
+     * ✅ Duplicates a previous order into the current cart.
+     * Educational demo for access control: validates user ownership.
+     */
+    public Order duplicateOrder(User user, Long orderId) {
+        Order orderToDuplicate = findById(orderId);
+
+        // Get or create cart for current user
+        Order cart = getOrCreateCart(user);
+        ensureEditable(cart);
+
+        // Copy all items from the old order to cart
+        if (orderToDuplicate.getItems() != null) {
+            for (OrderItem item : orderToDuplicate.getItems()) {
+                OrderItem newItem = new OrderItem(
+                        item.getDish(),
+                        item.getQuantity(),
+                        item.getDish().getPrice()
+                );
+                
+                // Copy special notes if present
+                if (item.getMeatPoint() != null) {
+                    newItem.setMeatPoint(item.getMeatPoint());
+                }
+                if (item.getKitchenNote() != null) {
+                    newItem.setKitchenNote(item.getKitchenNote());
+                }
+                
+                cart.addItem(newItem);
+            }
+        }
+
+        return orderRepository.save(cart);
+    }
 }

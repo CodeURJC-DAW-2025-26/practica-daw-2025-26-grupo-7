@@ -58,7 +58,7 @@ public class KitchenController {
     }
 
     /* =========================
-       ACTIONS (POST) - use sendRedirect to avoid token in URL
+       ACTIONS (POST)
        ========================= */
 
     @PostMapping("/to-in-progress")
@@ -72,6 +72,13 @@ public class KitchenController {
     public void moveToReady(@RequestParam("orderId") Long orderId,
                             HttpServletResponse response) throws IOException {
         kitchenService.moveToReady(orderId);
+        response.sendRedirect("/admin/kitchen");
+    }
+
+    @PostMapping("/to-delivered")
+    public void moveToDelivered(@RequestParam("orderId") Long orderId,
+                                HttpServletResponse response) throws IOException {
+        kitchenService.moveToDelivered(orderId);
         response.sendRedirect("/admin/kitchen");
     }
 

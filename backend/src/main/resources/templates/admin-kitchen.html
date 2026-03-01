@@ -239,21 +239,27 @@
                         <strong>{{total}}</strong>
                       </div>
 
-                      <div class="kds-actions">
-                        <form action="/admin/kitchen/back-to-in-progress" method="post" class="m-0">
-                          <input type="hidden" name="_csrf" value="{{csrfToken}}">
-                          <input type="hidden" name="orderId" value="{{id}}">
-                          <button class="btn btn-sm btn-kds-secondary" type="submit">
-                            <i class="bi bi-arrow-counterclockwise me-1"></i> Volver a “En marcha”
-                          </button>
-                        </form>
+                    <div class="kds-actions d-flex flex-row flex-nowrap gap-2 align-items-center">
 
-                        <!-- Optional: later action -->
-                        <button class="btn btn-sm btn-kds-primary" type="button" disabled
-                          title="Pendiente para próximas fases">
-                          <i class="bi bi-bell-fill me-1"></i> Avisar camarero
+                      <form action="/admin/kitchen/back-to-in-progress" method="post"
+                            class="m-0" style="flex: 0 0 auto; width: auto;">
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                        <input type="hidden" name="orderId" value="{{id}}">
+                        <button class="btn btn-sm btn-kds-secondary" type="submit" style="white-space: nowrap;">
+                          <i class="bi bi-arrow-counterclockwise me-1"></i> Volver a “En marcha”
                         </button>
-                      </div>
+                      </form>
+
+                      <form action="/admin/kitchen/to-delivered" method="post"
+                            class="m-0" style="flex: 0 0 auto; width: auto;">
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                        <input type="hidden" name="orderId" value="{{id}}">
+                        <button class="btn btn-sm btn-kds-primary" type="submit" title="Recogida por camarero" style="white-space: nowrap;">
+                          <i class="bi bi-check2-circle me-1"></i> Pasar a "Entregada"
+                        </button>
+                      </form>
+
+                    </div>
                     </footer>
                   </article>
                 {{/readyOrders}}
@@ -292,5 +298,11 @@
     }
   </script>
   
+  <script>
+  // ✅ Auto-refresh every 2 seconds to show new orders
+  setInterval(function () {
+    window.location.reload();
+  }, 10000);
+</script>
 </body>
 </html>

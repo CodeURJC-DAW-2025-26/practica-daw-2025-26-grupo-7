@@ -1,8 +1,10 @@
 package com.fuegolento.backend.sampleData;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.core.io.ClassPathResource;
@@ -25,7 +27,8 @@ import com.fuegolento.backend.repository.UserRepository;
 
 /**
  * Loads sample data into the database when the application starts.
- * Inserts users + dishes (with images as BLOB) + a few kitchen orders if tables are empty.
+ * Inserts users + dishes (with images as BLOB) + orders with realistic timestamps
+ * for dashboard charts (daily revenue, orders per time slot, user registrations).
  */
 @Service
 public class SampleAllData {
@@ -51,64 +54,102 @@ public class SampleAllData {
     public void init() {
 
         // ---------------------------
-        // USERS
+        // USERS (ensure base users + create many clients + fix null createdAt)
         // ---------------------------
-        if (userRepository.count() == 0) {
 
-            userRepository.save(new User(
-                    "user",
-                    "user@fuegolento.com",
-                    LocalDate.of(2000, 5, 10),
-                    passwordEncoder.encode("user123"),
-                    "USER"
-            ));
-
-            userRepository.save(new User(
-                    "admin",
-                    "admin@fuegolento.com",
-                    LocalDate.of(1995, 1, 1),
-                    passwordEncoder.encode("admin123"),
-                    "USER", "ADMIN"
-            ));
-
-            userRepository.save(new User(
-                    "maria",
-                    "maria@fuegolento.com",
-                    LocalDate.of(2001, 2, 18),
-                    passwordEncoder.encode("maria123"),
-                    "USER"
-            ));
-
-            userRepository.save(new User(
-                    "juan",
-                    "juan@fuegolento.com",
-                    LocalDate.of(1999, 9, 7),
-                    passwordEncoder.encode("juan123"),
-                    "USER"
-            ));
-
-            User lucia = new User(
-                    "lucia",
-                    "lucia@fuegolento.com",
-                    LocalDate.of(2002, 11, 25),
-                    passwordEncoder.encode("lucia123"),
-                    "USER"
-            );
-            lucia.setBanned(true); // to test banned flow
-            userRepository.save(lucia);
+        // 1) Fix existing users with null createdAt (in case they were created before adding the field)
+        List<User> existing = userRepository.findAll();
+        boolean updatedAny = false;
+        for (User u : existing) {
+            if (u.getCreatedAt() == null) {
+                // Put a reasonable default (now - random days) so charts look realistic
+                u.setCreatedAt(LocalDateTime.now().minusDays(new Random().nextInt(30) + 1));
+                updatedAny = true;
+            }
+        }
+        if (updatedAny) {
+            userRepository.saveAll(existing);
         }
 
-        User user = userRepository.findByUsername("user")
-                .orElseThrow(() -> new RuntimeException("Sample user not found: user"));
+        // 2) Ensure base accounts exist (upsert-style)
+        User user = ensureUser(
+                "user",
+                "user@fuegolento.com",
+                LocalDate.of(2000, 5, 10),
+                "user123",
+                false,
+                LocalDateTime.now().minusDays(25).withHour(12).withMinute(15),
+                "USER"
+        );
 
-        User maria = userRepository.findByUsername("maria")
-                .orElseThrow(() -> new RuntimeException("Sample user not found: maria"));
+        User admin = ensureUser(
+                "admin",
+                "admin@fuegolento.com",
+                LocalDate.of(1995, 1, 1),
+                "admin123",
+                false,
+                LocalDateTime.now().minusDays(60).withHour(10).withMinute(0),
+                "USER", "ADMIN"
+        );
 
-        User juan = userRepository.findByUsername("juan")
-                .orElseThrow(() -> new RuntimeException("Sample user not found: juan"));
+        User maria = ensureUser(
+                "maria",
+                "maria@fuegolento.com",
+                LocalDate.of(2001, 2, 18),
+                "maria123",
+                false,
+                LocalDateTime.now().minusDays(18).withHour(18).withMinute(30),
+                "USER"
+        );
 
-        User admin = userRepository.findByUsername("admin")
-                .orElseThrow(() -> new RuntimeException("Sample user not found: admin"));
+        User juan = ensureUser(
+                "juan",
+                "juan@fuegolento.com",
+                LocalDate.of(1999, 9, 7),
+                "juan123",
+                false,
+                LocalDateTime.now().minusDays(10).withHour(21).withMinute(5),
+                "USER"
+        );
+
+        User lucia = ensureUser(
+                "lucia",
+                "lucia@fuegolento.com",
+                LocalDate.of(2002, 11, 25),
+                "lucia123",
+                true, // banned
+                LocalDateTime.now().minusDays(5).withHour(9).withMinute(40),
+                "USER"
+        );
+
+        // 3) Create many extra clients for "registrations over time" chart
+        // Only create them if they don't exist already (safe to run multiple times).
+        Random rnd = new Random(42);
+        int clientsToCreate = 35;
+
+        for (int i = 1; i <= clientsToCreate; i++) {
+            String username = String.format("client%02d", i);
+            String email = username + "@fuegolento.com";
+
+            if (userRepository.findByUsername(username).isPresent()) {
+                continue;
+            }
+
+            // Spread registrations across the last ~40 days, with realistic hours
+            int daysAgo = 1 + rnd.nextInt(40);
+            int hour = pickHourForRegistrations(rnd); // more likely evening
+            int minute = rnd.nextInt(60);
+
+            User u = new User(
+                    username,
+                    email,
+                    LocalDate.of(1990 + rnd.nextInt(15), 1 + rnd.nextInt(12), 1 + rnd.nextInt(28)),
+                    passwordEncoder.encode("client123"),
+                    "USER"
+            );
+            u.setCreatedAt(LocalDateTime.now().minusDays(daysAgo).withHour(hour).withMinute(minute).withSecond(0).withNano(0));
+            userRepository.save(u);
+        }
 
         // ---------------------------
         // DISHES + IMAGES (BLOB)
@@ -401,9 +442,10 @@ public class SampleAllData {
         }
 
         // ---------------------------
-        // ORDERS for kitchen board
+        // ORDERS (kitchen board + delivered history for charts)
         // ---------------------------
-        if (orderRepository.count() == 0) {
+        // If you already have some orders, we still want enough delivered orders for charts.
+        if (orderRepository.count() < 30) {
 
             Dish tomahawk = findDishExact("Tomahawk a la brasa");
             Dish presa = findDishExact("Presa ibérica al carbón");
@@ -423,66 +465,150 @@ public class SampleAllData {
             Dish vinoBlanco = findDishExact("Vino blanco Pescadito (semidulce)");
             Dish rioja = findDishExact("Rioja crianza");
 
-            // 1) SENT_TO_KITCHEN
+            // --- Kitchen board examples (non-delivered) ---
             Order o1 = new Order(user);
             o1.setStatus(OrderStatus.SENT_TO_KITCHEN);
             o1.setTableNumber(7);
             o1.setCustomerNote("Presa al punto, por favor.");
+            o1.setCreatedAt(LocalDateTime.now().minusMinutes(35));
             addItem(o1, presa, 1);
             addItem(o1, provolone, 1);
             addItem(o1, cerveza, 2);
             orderRepository.save(o1);
 
-            // 2) IN_PROGRESS
             Order o2 = new Order(maria);
             o2.setStatus(OrderStatus.IN_PROGRESS);
             o2.setTableNumber(3);
             o2.setCustomerNote("Traer torreznos para compartir.");
+            o2.setCreatedAt(LocalDateTime.now().minusMinutes(55));
             addItem(o2, parrillada, 1);
             addItem(o2, torreznos, 1);
             addItem(o2, cervezaLimon, 2);
             orderRepository.save(o2);
 
-            // 3) READY
             Order o3 = new Order(juan);
             o3.setStatus(OrderStatus.READY);
             o3.setTableNumber(12);
             o3.setCustomerNote("Con patatas extra.");
+            o3.setCreatedAt(LocalDateTime.now().minusMinutes(75));
             addItem(o3, burger, 2);
             addItem(o3, patatas, 1);
             addItem(o3, rioja, 2);
             orderRepository.save(o3);
 
-            // 4) SENT_TO_KITCHEN (starter heavy)
-            Order o4 = new Order(maria);
-            o4.setStatus(OrderStatus.SENT_TO_KITCHEN);
-            o4.setTableNumber(9);
-            o4.setCustomerNote("Chorizo bien hecho.");
-            addItem(o4, chorizo, 1);
-            addItem(o4, provolone, 1);
-            addItem(o4, vinoBlanco, 2);
-            orderRepository.save(o4);
+            // --- Many DELIVERED orders for dashboard charts ---
+            // We'll create delivered orders distributed across last 14 days and realistic hours (lunch/dinner peaks).
+            List<User> usersPool = new ArrayList<>();
+            usersPool.add(user);
+            usersPool.add(maria);
+            usersPool.add(juan);
+            usersPool.add(admin);
 
-            // 5) IN_PROGRESS (premium cut)
-            Order o5 = new Order(juan);
-            o5.setStatus(OrderStatus.IN_PROGRESS);
-            o5.setTableNumber(5);
-            o5.setCustomerNote("Tomahawk muy hecho por fuera, jugoso por dentro.");
-            addItem(o5, tomahawk, 1);
-            addItem(o5, patatas, 1);
-            addItem(o5, cerveza, 1);
-            orderRepository.save(o5);
+            // Add some of the client users to the pool
+            for (int i = 1; i <= 20; i++) {
+                String uname = String.format("client%02d", i);
+                userRepository.findByUsername(uname).ifPresent(usersPool::add);
+            }
 
-            // 6) READY (dessert test)
-            Order o6 = new Order(admin);
-            o6.setStatus(OrderStatus.READY);
-            o6.setTableNumber(1);
-            o6.setCustomerNote("Pedido de prueba (admin) con postre.");
-            addItem(o6, burger, 1);
-            addItem(o6, brownie, 1);
-            addItem(o6, flan, 1);
-            orderRepository.save(o6);
+            Random r = new Random(99);
+            List<Dish> dishesPool = List.of(
+                    presa, parrillada, burger, tomahawk,
+                    provolone, chorizo, torreznos, patatas,
+                    brownie, flan,
+                    cerveza, cervezaLimon, vinoBlanco, rioja
+            );
+
+            int deliveredOrdersToCreate = 40;
+            for (int i = 0; i < deliveredOrdersToCreate; i++) {
+
+                User orderUser = usersPool.get(r.nextInt(usersPool.size()));
+
+                // Day distribution (last 14 days)
+                int daysAgo = r.nextInt(14);
+
+                // Lunch peak: 13-15, Dinner peak: 20-22, some random in between
+                int hour = pickHourForOrders(r);
+                int minute = r.nextInt(60);
+
+                LocalDateTime createdAt = LocalDateTime.now()
+                        .minusDays(daysAgo)
+                        .withHour(hour)
+                        .withMinute(minute)
+                        .withSecond(0)
+                        .withNano(0);
+
+                Order delivered = new Order(orderUser);
+                delivered.setStatus(OrderStatus.DELIVERED);
+                delivered.setTableNumber(1 + r.nextInt(12));
+                delivered.setCustomerNote(r.nextInt(10) < 2 ? "Sin cebolla, por favor." : null);
+                delivered.setCreatedAt(createdAt);
+
+                // 2-5 items, with quantities 1-2
+                int itemsCount = 2 + r.nextInt(4);
+                for (int k = 0; k < itemsCount; k++) {
+                    Dish dish = dishesPool.get(r.nextInt(dishesPool.size()));
+                    int qty = 1 + (r.nextInt(10) < 3 ? 1 : 0); // sometimes 2
+                    addItem(delivered, dish, qty);
+                }
+
+                // Store snapshot total for reporting
+                BigDecimal total = delivered.calculateTotalFromItems();
+                delivered.setTotalPriceSnapshot(total.setScale(2, RoundingMode.HALF_UP));
+
+                orderRepository.save(delivered);
+            }
         }
+    }
+
+    private User ensureUser(String username,
+                            String email,
+                            LocalDate birthDate,
+                            String rawPassword,
+                            boolean banned,
+                            LocalDateTime createdAt,
+                            String... roles) {
+
+        Optional<User> existing = userRepository.findByUsername(username);
+        if (existing.isPresent()) {
+            User u = existing.get();
+
+            // Keep existing data, but ensure createdAt is not null and banned is set if needed
+            if (u.getCreatedAt() == null && createdAt != null) {
+                u.setCreatedAt(createdAt);
+            }
+            if (banned && !u.isBanned()) {
+                u.setBanned(true);
+            }
+            return userRepository.save(u);
+        }
+
+        User u = new User(
+                username,
+                email,
+                birthDate,
+                passwordEncoder.encode(rawPassword),
+                roles
+        );
+        if (createdAt != null) u.setCreatedAt(createdAt);
+        u.setBanned(banned);
+        return userRepository.save(u);
+    }
+
+    private int pickHourForRegistrations(Random rnd) {
+        // More likely in the afternoon/evening
+        int roll = rnd.nextInt(100);
+        if (roll < 10) return 10 + rnd.nextInt(3);   // 10-12
+        if (roll < 45) return 16 + rnd.nextInt(4);   // 16-19
+        if (roll < 90) return 20 + rnd.nextInt(3);   // 20-22
+        return 13 + rnd.nextInt(3);                  // 13-15
+    }
+
+    private int pickHourForOrders(Random rnd) {
+        // Lunch / dinner peaks
+        int roll = rnd.nextInt(100);
+        if (roll < 50) return 13 + rnd.nextInt(3);   // 13-15
+        if (roll < 90) return 20 + rnd.nextInt(3);   // 20-22
+        return 17 + rnd.nextInt(3);                  // 17-19
     }
 
     private Dish findDishExact(String exactName) {

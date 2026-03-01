@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.fuegolento.backend.enums.OrderStatus;
 import com.fuegolento.backend.model.Order;
@@ -41,4 +43,40 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     );
 
     List<Order> findByUserAndStatusNotOrderByCreatedAtDesc(User user, OrderStatus status);
+    // ========= DASHBOARD QUERIES =========
+
+    interface DailyRevenueRow {
+        java.sql.Date getDay();
+        java.math.BigDecimal getRevenue();
+    }
+
+    interface HourCountRow {
+        Integer getHour();
+        Long getCount();
+    }
+
+    @Query("""
+        SELECT
+            function('date', o.createdAt) as day,
+            sum(o.totalPrice) as revenue
+        FROM OrderTable o
+        WHERE o.status = com.fuegolento.backend.enums.OrderStatus.DELIVERED
+          AND o.totalPrice IS NOT NULL
+          AND o.createdAt >= :from
+        GROUP BY function('date', o.createdAt)
+        ORDER BY function('date', o.createdAt)
+    """)
+    List<DailyRevenueRow> revenueByDaySince(@Param("from") LocalDateTime from);
+
+    @Query("""
+        SELECT
+            function('hour', o.createdAt) as hour,
+            count(o) as count
+        FROM OrderTable o
+        WHERE o.status = com.fuegolento.backend.enums.OrderStatus.DELIVERED
+          AND o.createdAt >= :from
+        GROUP BY function('hour', o.createdAt)
+        ORDER BY function('hour', o.createdAt)
+    """)
+    List<HourCountRow> deliveredCountByHourSince(@Param("from") LocalDateTime from);
 }

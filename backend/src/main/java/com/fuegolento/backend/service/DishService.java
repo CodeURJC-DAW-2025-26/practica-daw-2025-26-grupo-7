@@ -5,14 +5,16 @@ import com.fuegolento.backend.model.Dish;
 import com.fuegolento.backend.model.Image;
 import com.fuegolento.backend.repository.DishRepository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;    
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -45,29 +47,52 @@ public class DishService {
         return dishRepository.findByNameContainingIgnoreCaseAndAvailableTrue(query.trim());
     }
 
-    // For AJAX pagination: combines search + filter + pagination
-     public Page<Dish> findAvailableMenuPage(String q, DishCategory category, int page, int size) {
-        String query = (q == null) ? "" : q.trim();
+    /**
+     * ✅ SAFE pagination for Menu (AJAX "Load more")
+     *
+     * We intentionally keep this simple and robust to avoid Spring Data derived-query issues
+     * that can break template rendering (black page).
+     *
+     * Strategy:
+     * - Get all available dishes (simple query)
+     * - Apply filters in memory (name + category)
+     * - Paginate in memory
+     *
+     * For the practice, it is perfectly acceptable and avoids crashes.
+     */
+    public Page<Dish> findAvailableMenuPage(String q, DishCategory category, int page, int size) {
 
-        // Sort is optional, but helps keep stable results
-        PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
+        String query = (q == null) ? "" : q.trim().toLowerCase();
 
-        boolean hasQuery = !query.isBlank();
-        boolean hasCategory = category != null;
+        // 1) Load available dishes ordered by id (stable order)
+        List<Dish> all = dishRepository.findByAvailableTrue();
+        all.sort((a, b) -> Long.compare(a.getId(), b.getId()));
 
-        if (hasQuery && hasCategory) {
-            return dishRepository.findByNameContainingIgnoreCaseAndCategoryAndAvailableTrue(query, category, pageable);
+        // 2) Filter in memory
+        List<Dish> filtered = new ArrayList<>();
+        for (Dish d : all) {
+            boolean okQuery = query.isBlank()
+                    || (d.getName() != null && d.getName().toLowerCase().contains(query));
+
+            boolean okCategory = (category == null)
+                    || (d.getCategory() == category);
+
+            if (okQuery && okCategory) {
+                filtered.add(d);
+            }
         }
-        if (hasQuery) {
-            return dishRepository.findByNameContainingIgnoreCaseAndAvailableTrue(query, pageable);
+
+        // 3) Paginate in memory
+        int fromIndex = page * size;
+        if (fromIndex >= filtered.size()) {
+            return new PageImpl<>(List.of(), PageRequest.of(page, size, Sort.by("id")), filtered.size());
         }
-        if (hasCategory) {
-            return dishRepository.findByCategoryAndAvailableTrue(category, pageable);
-        }
-        return dishRepository.findByAvailableTrue(pageable);
+
+        int toIndex = Math.min(fromIndex + size, filtered.size());
+        List<Dish> pageContent = filtered.subList(fromIndex, toIndex);
+
+        return new PageImpl<>(pageContent, PageRequest.of(page, size, Sort.by("id")), filtered.size());
     }
-
-
 
     /* =========================
        ADMIN (all dishes)
@@ -104,7 +129,6 @@ public class DishService {
             throw new IllegalArgumentException("New dish must not have an id");
         }
 
-        // Attach image if provided
         if (imageFile != null && !imageFile.isEmpty()) {
             Image img = imageService.createImage(imageFile);
             dish.setImage(img);
@@ -125,10 +149,9 @@ public class DishService {
         existing.setPrice(updated.getPrice());
         existing.setAvailable(updated.isAvailable());
 
-        // Keep existing image unless a new one is provided
         if (imageFile != null && !imageFile.isEmpty()) {
             Image newImg = imageService.createImage(imageFile);
-            existing.setImage(newImg); // orphanRemoval=true will delete old image
+            existing.setImage(newImg);
         }
 
         return dishRepository.save(existing);
@@ -139,7 +162,6 @@ public class DishService {
             throw new RuntimeException("Dish not found with id: " + id);
         }
         dishRepository.deleteById(id);
-        // Image is automatically removed thanks to cascade + orphanRemoval in Dish
     }
 
     /* =========================

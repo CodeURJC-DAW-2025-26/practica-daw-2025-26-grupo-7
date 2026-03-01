@@ -1,14 +1,17 @@
 package com.fuegolento.backend.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 
 /**
  * Represents an application user.
@@ -40,6 +43,10 @@ public class User {
     // Indicates whether the user is banned (cannot log in)
     private boolean banned = false;
 
+    // User registration date/time (for analytics dashboards)
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
     public User() {
         // Required by JPA
     }
@@ -51,6 +58,14 @@ public class User {
         this.encodedPassword = encodedPassword;
         this.roles = List.of(roles);
         this.banned = false;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
     }
 
     public Long getId() {
@@ -103,5 +118,13 @@ public class User {
 
     public void setBanned(boolean banned) {
         this.banned = banned;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

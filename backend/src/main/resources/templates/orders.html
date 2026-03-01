@@ -144,16 +144,36 @@
 
                 <!-- Actions & Total -->
                 <div class="d-flex flex-column gap-2 align-items-end">
+
                   <!-- Total -->
                   <div class="orders-total">
                     <div class="orders-total-label">Total</div>
                     <div class="orders-total-value">{{totalText}}€</div>
                   </div>
 
-                  <!-- Duplicate button -->
-                  <a href="/orders/duplicate?orderId={{id}}" class="btn btn-sm btn-outline-primary">
-                    <i class="bi bi-arrow-down-up me-1"></i> Volver a pedir lo mismo
-                  </a>
+                  <!-- Actions -->
+                  <div class="d-flex flex-wrap gap-2 justify-content-end">
+                    <!-- Duplicate (prettier) -->
+                    <a href="/orders/duplicate?orderId={{id}}"
+                       class="btn btn-sm btn-primary d-inline-flex align-items-center gap-2"
+                       style="border-radius:999px; padding:8px 14px;">
+                      <i class="bi bi-arrow-repeat"></i>
+                      <span>Volver a pedir</span>
+                    </a>
+
+                    <!-- Invoice PDF -->
+                    <a href="/order/{{id}}/invoice"
+                       class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-2"
+                       style="border-radius:999px; padding:8px 14px;">
+                      <i class="bi bi-filetype-pdf"></i>
+                      <span>Factura (PDF)</span>
+                    </a>
+                  </div>
+
+                  <small class="text-muted" style="opacity:.8;">
+                    * La factura solo estará disponible cuando el pedido esté <strong>DELIVERED</strong>.
+                  </small>
+
                 </div>
               </div>
 

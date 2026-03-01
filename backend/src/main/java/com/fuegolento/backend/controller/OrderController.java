@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.fuegolento.backend.enums.DishCategory;
+import com.fuegolento.backend.enums.OrderStatus;
 import com.fuegolento.backend.model.Dish;
 import com.fuegolento.backend.model.Order;
 import com.fuegolento.backend.model.OrderItem;
 import com.fuegolento.backend.model.User;
+import com.fuegolento.backend.service.InvoicePdfService;
 import com.fuegolento.backend.service.OrderService;
 import com.fuegolento.backend.service.UserService;
 
@@ -20,7 +22,6 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
@@ -29,11 +30,14 @@ public class OrderController {
 
     private final OrderService orderService;
     private final UserService userService;
+    private final InvoicePdfService invoicePdfService;
 
     public OrderController(OrderService orderService,
-                           UserService userService) {
+                           UserService userService,
+                           InvoicePdfService invoicePdfService) {
         this.orderService = orderService;
         this.userService = userService;
+        this.invoicePdfService = invoicePdfService;
     }
 
     /* =========================
@@ -264,6 +268,32 @@ public class OrderController {
         }
 
         return result;
+    }
+
+    @GetMapping("/{id}/invoice")
+    public void downloadInvoice(@PathVariable Long id, HttpServletResponse response) throws IOException {
+
+        User user = userService.getAuthenticatedUser()
+                .orElseThrow(() -> new RuntimeException("User not authenticated"));
+
+        Order order = orderService.findById(id);
+
+        // ✅ Ownership check (only owner can download)
+        if (!order.getUser().getId().equals(user.getId())) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "You are not authorized to view this invoice");
+            return;
+        }
+
+        // ✅ (Recommended) Only allow invoice when delivered
+        if (order.getStatus() != OrderStatus.DELIVERED) {
+            response.sendError(HttpServletResponse.SC_CONFLICT, "Invoice available only for DELIVERED orders");
+            return;
+        }
+
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=invoice_" + order.getId() + ".pdf");
+
+        invoicePdfService.writeInvoicePdf(order, response.getOutputStream());
     }
 
     private void addTableSelectionFlags(Model model, Integer tableNumber) {

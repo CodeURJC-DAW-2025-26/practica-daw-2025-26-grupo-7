@@ -219,96 +219,97 @@ Solo si han cambiado.
 ### **Instrucciones de Ejecución**
 
 #### **Requisitos Previos**
-- **Java**: versión 21 o superior
-- **Maven**: versión 3.8 o superior
-- **MySQL**: versión 8.0 o superior
+- **Java JDK**: versión 21
+- **Maven**: versión 3.9 o superior
+- **Docker Desktop**: recomendado
+- **MySQL**: versión 8 (si no usas Docker)
 - **Git**: para clonar el repositorio
+- **IDE recomendado**: IntelliJ IDEA o Visual Studio Code
 
 #### **Pasos para ejecutar la aplicación**
 
 1. **Clonar el repositorio**
    ```bash
-   git clone https://github.com/[usuario]/[nombre-repositorio].git
-   cd [nombre-repositorio]
+   git clone https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-7.git
+   cd practica-daw-2025-26-grupo-7/backend
    ```
 
-2. **AQUÍ INDICAR LO SIGUIENTES PASOS**
+2. **Configurar la base de datos (Docker recomendado)**
+
+   La aplicación está configurada para conectarse a:
+   - **Base de datos**: `fuegolento`
+   - **Usuario**: `root`
+   - **Contraseña**: `root1234`
+   - **Puerto**: `3308`
+
+   Ejecutar MySQL con Docker:
+   ```bash
+   docker run -d \
+     --name fuegolentoDB \
+     -p 3308:3306 \
+     -e MYSQL_ROOT_PASSWORD=root1234 \
+     -e MYSQL_DATABASE=fuegolento \
+     mysql:latest
+   ```
+
+3. **Construir el proyecto**
+
+   Desde la carpeta `backend`:
+   ```bash
+   mvn clean install
+   ```
+
+4. **Ejecutar la aplicación**
+
+   ```bash
+   mvn spring-boot:run
+   ```
+
+   O ejecutar la clase `BackendApplication` desde el IDE.
+
+5. **Acceder a la aplicación**
+
+   La aplicación funciona con HTTPS:
+   ```text
+   https://localhost:8443
+   ```
+
+   ⚠ El navegador mostrará una advertencia de certificado autofirmado. Es normal y puede ignorarse para continuar.
 
 #### **Credenciales de prueba**
-- **Usuario Admin**: usuario: `admin`, contraseña: `admin`
-- **Usuario Registrado**: usuario: `user`, contraseña: `user`
+- **Usuario Admin**: usuario `admin`, contraseña `admin123`
+- **Usuario Registrado**: usuario `user`, contraseña `user123`
 
 ### **Diagrama de Entidades de Base de Datos**
 
 Diagrama mostrando las entidades, sus campos y relaciones:
 
-![Diagrama Entidad-Relación](images/database-diagram.png)
+![Diagrama Entidad-Relación](backend/src/main/resources/static/img/DiagramaEntidadesBasesDeDatos.png)
 
-> [Descripción opcional: Ej: "El diagrama muestra las 4 entidades principales: Usuario, Producto, Pedido y Categoría, con sus respectivos atributos y relaciones 1:N y N:M."]
+El diagrama representa las principales entidades del sistema:
+- `User`
+- `Order`
+- `OrderItem`
+- `Dish`
+- `Image`
+
+Con relaciones 1:N y composición entre pedidos y líneas de pedido.
 
 ### **Diagrama de Clases y Templates**
 
-Diagrama de clases de la aplicación con diferenciación por colores o secciones:
+Diagrama de clases de la aplicación con diferenciación por capas (MVC):
 
-![Diagrama de Clases](images/classes-diagram.png)
+![Diagrama de Clases](backend/src/main/resources/static/img/DiagramaGeneral.png)
 
-> [Descripción opcional del diagrama y relaciones principales]
+El diagrama muestra:
+- Vistas (Templates)
+- Controladores (`@Controller`)
+- Servicios (`@Service`)
+- Repositorios (`@Repository`)
+- Entidades del dominio
+- Componentes de seguridad
 
-### **Participación de Miembros en la Práctica 1**
-
-#### **Alumno 1 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 2 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 3 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 4 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+Cada capa está organizada siguiendo una arquitectura MVC con separación clara de responsabilidades.
 
 ---
 

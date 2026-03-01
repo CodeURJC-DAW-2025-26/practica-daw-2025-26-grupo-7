@@ -10,6 +10,6 @@ public class DashboardController {
     @GetMapping("/admin/dashboard")
     public String dashboard(Model model) {
         model.addAttribute("activeDashboard", true);
-        return "admin/dashboard";
+        return "admin-dashboard";
     }
 }

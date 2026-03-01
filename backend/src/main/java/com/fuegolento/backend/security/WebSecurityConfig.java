@@ -1,8 +1,12 @@
 package com.fuegolento.backend.security;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -42,14 +46,7 @@ public class WebSecurityConfig {
                 // PUBLIC (not authenticated)
                 // ===============================
                 .requestMatchers("/", "/index").permitAll()
-
-                // Info sections (public)
-                .requestMatchers(
-                    "/our-grill",      // Nuestra brasa
-                    "/gallery",        // Galería
-                    "/contact",        // Contacto
-                    "/booking"         // Reservar (informational or booking page)
-                ).permitAll()
+                .requestMatchers("/our-grill", "/gallery", "/contact", "/booking").permitAll()
 
                 // Menu (public)
                 .requestMatchers("/menu", "/menu/**").permitAll()
@@ -60,6 +57,9 @@ public class WebSecurityConfig {
 
                 // Auth pages (public)
                 .requestMatchers("/login", "/register", "/loginerror", "/banned").permitAll()
+
+                // IMPORTANT: allow /error to everyone (avoid loops)
+                .requestMatchers("/error").permitAll()
 
                 // Static resources (public)
                 .requestMatchers(
@@ -89,9 +89,16 @@ public class WebSecurityConfig {
                 // ===============================
                 .requestMatchers("/admin", "/admin/**").hasRole("ADMIN")
 
-                // Anything else -> authenticated (safe default)
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
             )
+            
+            .exceptionHandling(ex -> ex.accessDeniedHandler(
+                (HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) -> {
+                    request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 403);
+                    request.setAttribute(RequestDispatcher.ERROR_MESSAGE, "Forbidden");
+                    request.getRequestDispatcher("/error").forward(request, response);
+                }
+            ))
 
             // ===============================
             // Login / Logout
@@ -100,7 +107,6 @@ public class WebSecurityConfig {
                 .loginPage("/login")
                 .defaultSuccessUrl("/profile", true)
                 .failureHandler((request, response, exception) -> {
-                    // If the account is disabled (banned), redirect to a dedicated page
                     if (exception instanceof org.springframework.security.authentication.DisabledException) {
                         response.sendRedirect("/banned");
                     } else {

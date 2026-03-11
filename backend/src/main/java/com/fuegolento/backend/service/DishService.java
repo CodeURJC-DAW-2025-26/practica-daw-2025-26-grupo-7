@@ -1,10 +1,10 @@
 package com.fuegolento.backend.service;
 
 import com.fuegolento.backend.enums.DishCategory;
+import com.fuegolento.backend.exception.custom.ResourceNotFoundException;
 import com.fuegolento.backend.model.Dish;
 import com.fuegolento.backend.model.Image;
 import com.fuegolento.backend.repository.DishRepository;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -28,10 +28,6 @@ public class DishService {
         this.imageService = imageService;
     }
 
-    /* =========================
-       PUBLIC MENU (only available)
-       ========================= */
-
     public List<Dish> findAllAvailable() {
         return dishRepository.findByAvailableTrue();
     }
@@ -47,28 +43,12 @@ public class DishService {
         return dishRepository.findByNameContainingIgnoreCaseAndAvailableTrue(query.trim());
     }
 
-    /**
-     * ✅ SAFE pagination for Menu (AJAX "Load more")
-     *
-     * We intentionally keep this simple and robust to avoid Spring Data derived-query issues
-     * that can break template rendering (black page).
-     *
-     * Strategy:
-     * - Get all available dishes (simple query)
-     * - Apply filters in memory (name + category)
-     * - Paginate in memory
-     *
-     * For the practice, it is perfectly acceptable and avoids crashes.
-     */
     public Page<Dish> findAvailableMenuPage(String q, DishCategory category, int page, int size) {
-
         String query = (q == null) ? "" : q.trim().toLowerCase();
 
-        // 1) Load available dishes ordered by id (stable order)
         List<Dish> all = dishRepository.findByAvailableTrue();
         all.sort((a, b) -> Long.compare(a.getId(), b.getId()));
 
-        // 2) Filter in memory
         List<Dish> filtered = new ArrayList<>();
         for (Dish d : all) {
             boolean okQuery = query.isBlank()
@@ -82,7 +62,6 @@ public class DishService {
             }
         }
 
-        // 3) Paginate in memory
         int fromIndex = page * size;
         if (fromIndex >= filtered.size()) {
             return new PageImpl<>(List.of(), PageRequest.of(page, size, Sort.by("id")), filtered.size());
@@ -94,17 +73,13 @@ public class DishService {
         return new PageImpl<>(pageContent, PageRequest.of(page, size, Sort.by("id")), filtered.size());
     }
 
-    /* =========================
-       ADMIN (all dishes)
-       ========================= */
-
     public List<Dish> findAll() {
         return dishRepository.findAll();
     }
 
     public Dish findById(Long id) {
         return dishRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Dish not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Dish not found with id: " + id));
     }
 
     public List<Dish> findByCategory(DishCategory category) {
@@ -117,10 +92,6 @@ public class DishService {
         }
         return dishRepository.findByNameContainingIgnoreCase(query.trim());
     }
-
-    /* =========================
-       CREATE / UPDATE / DELETE
-       ========================= */
 
     public Dish create(Dish dish, MultipartFile imageFile) throws IOException {
         validateDish(dish);
@@ -157,16 +128,29 @@ public class DishService {
         return dishRepository.save(existing);
     }
 
+    /**
+     * Updates only the image of a dish.
+     */
+    public Dish updateDishImage(Long id, MultipartFile imageFile) throws IOException {
+
+        Dish existing = findById(id);
+
+        if (imageFile == null || imageFile.isEmpty()) {
+            throw new IllegalArgumentException("Image file is empty");
+        }
+
+        Image newImg = imageService.createImage(imageFile);
+        existing.setImage(newImg);
+
+        return dishRepository.save(existing);
+    }
+
     public void deleteById(Long id) {
         if (!dishRepository.existsById(id)) {
-            throw new RuntimeException("Dish not found with id: " + id);
+            throw new ResourceNotFoundException("Dish not found with id: " + id);
         }
         dishRepository.deleteById(id);
     }
-
-    /* =========================
-       VALIDATION
-       ========================= */
 
     private void validateDish(Dish dish) {
         if (dish.getCategory() == null) {

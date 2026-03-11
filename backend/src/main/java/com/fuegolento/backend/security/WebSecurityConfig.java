@@ -39,6 +39,9 @@ public class WebSecurityConfig {
 
         http.authenticationProvider(authenticationProvider());
 
+        // Disable CSRF protection only for REST API endpoints
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"));
+
         http
             .authorizeHttpRequests(authorize -> authorize
 
@@ -91,7 +94,7 @@ public class WebSecurityConfig {
 
                 .anyRequest().permitAll()
             )
-            
+
             .exceptionHandling(ex -> ex.accessDeniedHandler(
                 (HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) -> {
                     request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 403);

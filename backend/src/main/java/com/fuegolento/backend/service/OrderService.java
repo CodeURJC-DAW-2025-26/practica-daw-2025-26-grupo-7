@@ -2,6 +2,7 @@ package com.fuegolento.backend.service;
 
 import com.fuegolento.backend.enums.DishCategory;
 import com.fuegolento.backend.enums.OrderStatus;
+import com.fuegolento.backend.exception.custom.ResourceNotFoundException;
 import com.fuegolento.backend.model.Dish;
 import com.fuegolento.backend.model.Order;
 import com.fuegolento.backend.model.OrderItem;
@@ -41,7 +42,7 @@ public class OrderService {
 
     public Order findById(Long id) {
         return orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + id));
     }
 
     public List<Order> findByUser(User user) {
@@ -64,12 +65,10 @@ public class OrderService {
        CART (PENDING order in DB)
        ========================= */
 
-    /**
-     * Returns the current cart of the user (latest PENDING order).
-     * If not exists, creates a new PENDING order.
-     */
     public Order getOrCreateCart(User user) {
-        if (user == null) throw new IllegalArgumentException("User is required");
+        if (user == null) {
+            throw new IllegalArgumentException("User is required");
+        }
 
         return orderRepository
                 .findFirstByUserAndStatusOrderByCreatedAtDesc(user, OrderStatus.PENDING)
@@ -80,23 +79,20 @@ public class OrderService {
                 });
     }
 
-    /**
-     * Returns the current cart if exists, otherwise null.
-     * Useful for pages like /order to show "empty cart" without creating a new row.
-     */
     public Order getCartIfExists(User user) {
-        if (user == null) throw new IllegalArgumentException("User is required");
+        if (user == null) {
+            throw new IllegalArgumentException("User is required");
+        }
 
         return orderRepository
                 .findFirstByUserAndStatusOrderByCreatedAtDesc(user, OrderStatus.PENDING)
                 .orElse(null);
     }
 
-    /**
-     * Adds quantity units of a dish to the user's cart.
-     */
     public Order addToCart(User user, Long dishId, int quantity) {
-        if (quantity <= 0) throw new IllegalArgumentException("Quantity must be > 0");
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be > 0");
+        }
 
         Order cart = getOrCreateCart(user);
         ensureEditable(cart);
@@ -118,16 +114,12 @@ public class OrderService {
         return orderRepository.save(cart);
     }
 
-    /**
-     * Sets quantity for a dish inside the user's cart.
-     * If quantity <= 0, removes the item.
-     */
     public Order setCartDishQuantity(User user, Long dishId, int quantity) {
         Order cart = getOrCreateCart(user);
         ensureEditable(cart);
 
         OrderItem item = orderItemRepository.findByOrderAndDish_Id(cart, dishId)
-                .orElseThrow(() -> new RuntimeException("Dish not found in cart"));
+                .orElseThrow(() -> new ResourceNotFoundException("Dish not found in cart"));
 
         if (quantity <= 0) {
             cart.removeItem(item);
@@ -138,23 +130,17 @@ public class OrderService {
         return orderRepository.save(cart);
     }
 
-    /**
-     * Removes a dish from the user's cart.
-     */
     public Order removeFromCart(User user, Long dishId) {
         Order cart = getOrCreateCart(user);
         ensureEditable(cart);
 
         OrderItem item = orderItemRepository.findByOrderAndDish_Id(cart, dishId)
-                .orElseThrow(() -> new RuntimeException("Dish not found in cart"));
+                .orElseThrow(() -> new ResourceNotFoundException("Dish not found in cart"));
 
         cart.removeItem(item);
         return orderRepository.save(cart);
     }
 
-    /**
-     * Empties the user's cart (removes all items).
-     */
     public Order clearCart(User user) {
         Order cart = getOrCreateCart(user);
         ensureEditable(cart);
@@ -166,13 +152,11 @@ public class OrderService {
         return orderRepository.save(cart);
     }
 
-    /**
-     * Cart badge count:
-     * total quantities (e.g., 2+1 = 3)
-     */
     public int getCartItemCount(User user) {
         Order cart = getCartIfExists(user);
-        if (cart == null) return 0;
+        if (cart == null) {
+            return 0;
+        }
 
         return orderItemRepository.sumQuantitiesByOrder(cart);
     }
@@ -188,10 +172,6 @@ public class OrderService {
        SUBMIT / STATUS CHANGES
        ========================= */
 
-    /**
-     * Submits the current cart to the kitchen.
-     * PENDING -> SENT_TO_KITCHEN
-     */
     public Order submitCart(User user) {
         Order cart = getCartIfExists(user);
         if (cart == null || cart.getItems() == null || cart.getItems().isEmpty()) {
@@ -203,9 +183,13 @@ public class OrderService {
         return orderRepository.save(cart);
     }
 
-    /**
-     * SENT_TO_KITCHEN -> IN_PROGRESS
-     */
+    public Order updateCartStatus(User user, OrderStatus targetStatus) {
+        if (targetStatus != OrderStatus.SENT_TO_KITCHEN) {
+            throw new IllegalArgumentException("Cart can only be moved to SENT_TO_KITCHEN");
+        }
+        return submitCart(user);
+    }
+
     public Order startPreparing(Long orderId) {
         Order order = findById(orderId);
 
@@ -220,9 +204,6 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    /**
-     * IN_PROGRESS -> READY
-     */
     public Order markReady(Long orderId) {
         Order order = findById(orderId);
 
@@ -234,9 +215,6 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    /**
-     * READY -> DELIVERED and stores total snapshot.
-     */
     public Order deliver(Long orderId) {
         Order order = findById(orderId);
 
@@ -245,22 +223,12 @@ public class OrderService {
         }
 
         BigDecimal total = order.calculateTotalFromItems();
-
-        // Snapshot for auditing/history
         order.setTotalPriceSnapshot(total);
-
-        // Optional: if your entity also has totalPrice used by views
-        // (Remove this line if your Order entity does not have setTotalPrice)
-        // order.setTotalPrice(total);
-
         order.setStatus(OrderStatus.DELIVERED);
 
         return orderRepository.save(order);
     }
 
-    /**
-     * Cancels an order if it is not already DELIVERED.
-     */
     public Order cancel(Long orderId) {
         Order order = findById(orderId);
 
@@ -277,9 +245,11 @@ public class OrderService {
         ensureEditable(cart);
 
         OrderItem item = orderItemRepository.findByOrderAndDish_Id(cart, dishId)
-                .orElseThrow(() -> new RuntimeException("Dish not found in cart"));
+                .orElseThrow(() -> new ResourceNotFoundException("Dish not found in cart"));
 
-        if (kitchenNote != null && kitchenNote.trim().isEmpty()) kitchenNote = null;
+        if (kitchenNote != null && kitchenNote.trim().isEmpty()) {
+            kitchenNote = null;
+        }
 
         item.setKitchenNote(kitchenNote);
         return orderRepository.save(cart);
@@ -313,10 +283,9 @@ public class OrderService {
         }
 
         OrderItem item = orderItemRepository.findByOrderAndDish_Id(cart, dishId)
-                .orElseThrow(() -> new RuntimeException("Dish not found in cart"));
+                .orElseThrow(() -> new ResourceNotFoundException("Dish not found in cart"));
 
         item.setMeatPoint(meatPoint);
-
         return orderRepository.save(cart);
     }
 
@@ -336,26 +305,25 @@ public class OrderService {
         Order cart = getOrCreateCart(user);
         ensureEditable(cart);
 
-        if (customerNote != null && customerNote.trim().isEmpty()) customerNote = null;
+        if (customerNote != null && customerNote.trim().isEmpty()) {
+            customerNote = null;
+        }
 
         cart.setCustomerNote(customerNote);
         return orderRepository.save(cart);
     }
 
     /* =========================
-       DELETE (optional admin)
+       DELETE
        ========================= */
 
     public void deleteById(Long orderId) {
         if (!orderRepository.existsById(orderId)) {
-            throw new RuntimeException("Order not found with id: " + orderId);
+            throw new ResourceNotFoundException("Order not found with id: " + orderId);
         }
         orderRepository.deleteById(orderId);
     }
 
-    /**
-     * User "orders history": excludes the cart (PENDING).
-     */
     public List<Order> getOrderHistory(User user) {
         return orderRepository.findByUserAndStatusNotOrderByCreatedAtDesc(user, OrderStatus.PENDING);
     }
@@ -370,18 +338,17 @@ public class OrderService {
         }
     }
 
-    //ADMIN ORDER STATUS CHANGE (from details page, no status flow checks)
     public Order adminMoveStatus(Long orderId, OrderStatus target) {
 
         Order order = findById(orderId);
         OrderStatus current = order.getStatus();
 
-        if (target == current) return order;
+        if (target == current) {
+            return order;
+        }
 
         switch (target) {
-
             case SENT_TO_KITCHEN -> {
-                // Only makes sense if it was a cart (PENDING)
                 if (current != OrderStatus.PENDING) {
                     throw new IllegalStateException("Only PENDING orders can be sent to kitchen");
                 }
@@ -390,11 +357,9 @@ public class OrderService {
             }
 
             case IN_PROGRESS -> {
-                // If it was SENT_TO_KITCHEN -> startPreparing
                 if (current == OrderStatus.SENT_TO_KITCHEN) {
                     return startPreparing(orderId);
                 }
-                // If admin forces it:
                 order.setStatus(OrderStatus.IN_PROGRESS);
                 return orderRepository.save(order);
             }
@@ -403,18 +368,15 @@ public class OrderService {
                 if (current == OrderStatus.IN_PROGRESS) {
                     return markReady(orderId);
                 }
-                // If it was SENT_TO_KITCHEN -> go IN_PROGRESS then READY
                 if (current == OrderStatus.SENT_TO_KITCHEN) {
                     startPreparing(orderId);
                     return markReady(orderId);
                 }
-                // If admin forces it:
                 order.setStatus(OrderStatus.READY);
                 return orderRepository.save(order);
             }
 
             case DELIVERED -> {
-                // Make it consistent: ensure READY before deliver
                 if (current == OrderStatus.SENT_TO_KITCHEN) {
                     startPreparing(orderId);
                     markReady(orderId);
@@ -427,8 +389,6 @@ public class OrderService {
                 if (current == OrderStatus.READY) {
                     return deliver(orderId);
                 }
-
-                // If admin tries to deliver a cart or cancelled, block
                 throw new IllegalStateException("Cannot deliver an order from status: " + current);
             }
 
@@ -437,7 +397,6 @@ public class OrderService {
             }
 
             case PENDING -> {
-                // Generally you don't want to revert to cart from admin
                 throw new IllegalStateException("Cannot move an order back to PENDING (cart)");
             }
         }
@@ -445,22 +404,17 @@ public class OrderService {
         throw new IllegalStateException("Unsupported status change");
     }
 
-    /* =========================
-       DUPLICATE ORDER (Access Control Demo)
-       ========================= */
-
-    /**
-     * ✅ Duplicates a previous order into the current cart.
-     * Educational demo for access control: validates user ownership.
-     */
     public Order duplicateOrder(User user, Long orderId) {
         Order orderToDuplicate = findById(orderId);
 
-        // Get or create cart for current user
+        // Ownership check
+        if (orderToDuplicate.getUser() == null || !orderToDuplicate.getUser().getId().equals(user.getId())) {
+            throw new IllegalStateException("You are not allowed to duplicate this order");
+        }
+
         Order cart = getOrCreateCart(user);
         ensureEditable(cart);
 
-        // Copy all items from the old order to cart
         if (orderToDuplicate.getItems() != null) {
             for (OrderItem item : orderToDuplicate.getItems()) {
                 OrderItem newItem = new OrderItem(
@@ -468,20 +422,18 @@ public class OrderService {
                         item.getQuantity(),
                         item.getDish().getPrice()
                 );
-                
-                // Copy special notes if present
+
                 if (item.getMeatPoint() != null) {
                     newItem.setMeatPoint(item.getMeatPoint());
                 }
                 if (item.getKitchenNote() != null) {
                     newItem.setKitchenNote(item.getKitchenNote());
                 }
-                
+
                 cart.addItem(newItem);
             }
         }
 
         return orderRepository.save(cart);
     }
-    
 }

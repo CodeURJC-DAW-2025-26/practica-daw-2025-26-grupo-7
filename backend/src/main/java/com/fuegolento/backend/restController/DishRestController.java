@@ -134,7 +134,14 @@ public class DishRestController {
     public ResponseEntity<DishDTO> uploadDishImage(@PathVariable Long id,
                                                    @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
         Dish updatedDish = dishService.updateDishImage(id, imageFile);
-        return ResponseEntity.ok(dishMapper.toDTO(updatedDish));
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/api/v1/images/{id}")
+                .buildAndExpand(updatedDish.getImage().getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(dishMapper.toDTO(updatedDish));
     }
 
     @PutMapping("/{id}")

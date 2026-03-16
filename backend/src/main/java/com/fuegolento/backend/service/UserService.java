@@ -1,5 +1,6 @@
 package com.fuegolento.backend.service;
 
+import com.fuegolento.backend.exception.custom.ResourceNotFoundException;
 import com.fuegolento.backend.model.User;
 import com.fuegolento.backend.repository.UserRepository;
 import org.springframework.security.core.Authentication;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +36,7 @@ public class UserService {
 
     public User findById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     }
 
     public Optional<User> findByUsername(String username) {
@@ -55,13 +57,14 @@ public class UserService {
 
     public void deleteById(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User not found with id: " + id);
+            throw new ResourceNotFoundException("User not found with id: " + id);
         }
         userRepository.deleteById(id);
     }
+
     public List<User> searchUsers(String query) {
         return userRepository.findByUsernameContainingIgnoreCaseOrEmailContainingIgnoreCase(query, query);
-}
+    }
 
     /* =========================
        AUTHENTICATED USER
@@ -115,13 +118,8 @@ public class UserService {
             throw new IllegalArgumentException("Email already exists");
         }
 
-        // Encode raw password
         user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));
-
-        // Default role
         user.setRoles(List.of("USER"));
-
-        // New users are not banned
         user.setBanned(false);
 
         return userRepository.save(user);
@@ -130,7 +128,9 @@ public class UserService {
     @Transactional
     public void updateProfile(User user, String email, String birthDate) {
 
-        if (user == null) throw new IllegalArgumentException("User is required");
+        if (user == null) {
+            throw new IllegalArgumentException("User is required");
+        }
 
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email is required");
@@ -139,13 +139,29 @@ public class UserService {
         user.setEmail(email.trim());
 
         if (birthDate != null && !birthDate.trim().isEmpty()) {
-            // Expected format from <input type="date"> is yyyy-MM-dd
-            user.setBirthDate(java.time.LocalDate.parse(birthDate.trim()));
+            user.setBirthDate(LocalDate.parse(birthDate.trim()));
         } else {
             user.setBirthDate(null);
         }
 
         userRepository.save(user);
+    }
+
+    @Transactional
+    public User updateCurrentUserProfile(User user, String email, LocalDate birthDate) {
+
+        if (user == null) {
+            throw new IllegalArgumentException("User is required");
+        }
+
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("Email is required");
+        }
+
+        user.setEmail(email.trim());
+        user.setBirthDate(birthDate);
+
+        return userRepository.save(user);
     }
 
     /* =========================

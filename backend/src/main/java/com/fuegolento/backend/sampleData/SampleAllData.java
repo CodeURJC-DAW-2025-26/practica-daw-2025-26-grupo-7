@@ -10,6 +10,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -31,6 +32,7 @@ import com.fuegolento.backend.repository.UserRepository;
  * for dashboard charts (daily revenue, orders per time slot, user registrations).
  */
 @Service
+@ConditionalOnProperty(name = "app.sample-data.enabled", havingValue = "true")
 public class SampleAllData {
 
     private final UserRepository userRepository;

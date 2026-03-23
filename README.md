@@ -345,11 +345,60 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 1. **Clonar el repositorio** (si no lo has hecho ya):
    ```bash
-   git clone https://github.com/[usuario]/[repositorio].git
-   cd [repositorio]
+   git clone https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-7.git
+   cd practica-daw-2025-26-grupo-7/docker
    ```
 
-2. **AQUÍ LOS SIGUIENTES PASOS**:
+2. **Iniciar sesión en Docker**:
+   ```bash
+   docker login
+   ```
+
+3. **Levantar la aplicación completa con Docker Compose**:
+   ```bash
+   docker compose up -d
+   ```
+
+4. **Comprobar que los contenedores están funcionando correctamente**:
+   ```bash
+   docker ps
+   ```
+
+5. **Acceder a la aplicación desde el navegador**:
+   ```text
+   https://localhost:8443
+   ```
+
+6. **Acceder a la API REST en local**:
+   ```text
+   https://localhost:8443/api/v1
+   ```
+
+#### **Notas sobre la ejecución**
+- El servicio `db` levanta una base de datos MySQL.
+- El servicio `app` levanta la aplicación Spring Boot empaquetada dentro del contenedor Docker.
+- En esta configuración, MySQL también queda accesible desde el host mediante el puerto `3308`, lo que permite ejecutar el backend en local durante tareas de desarrollo o examen.
+
+#### **Perfiles disponibles**
+
+La aplicación soporta dos modos de ejecución:
+
+- `init`: crea el esquema y carga datos de ejemplo.
+- `run`: valida el esquema existente y no carga datos de ejemplo.
+
+Ejemplo en PowerShell para cambiar el perfil antes de arrancar:
+
+```powershell
+$env:SPRING_PROFILE="init"
+docker compose up -d
+```
+
+Para modo normal:
+
+```powershell
+$env:SPRING_PROFILE="run"
+docker compose up -d
+```
 
 ### **Construcción de la Imagen Docker**
 
@@ -358,33 +407,110 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 #### **Pasos para construir y publicar la imagen:**
 
-1. **Navegar al directorio de Docker**:
+1. **Situarse en la raíz del repositorio**:
    ```bash
-   cd docker
+   cd practica-daw-2025-26-grupo-7
    ```
 
-2. **AQUÍ LOS SIGUIENTES PASOS**
+2. **Construir la imagen Docker en local**:
+   ```powershell
+   .\docker\create_image.ps1
+   ```
+
+3. **Publicar la imagen en Docker Hub**:
+   ```powershell
+   .\docker\publish_image.ps1 victormr999
+   ```
+
+4. **Imagen publicada**:
+   ```text
+   victormr999/fuego-lento:latest
+   ```
+
+#### **Notas**
+- El script `create_image.ps1` construye la imagen usando el Dockerfile del proyecto.
+- El script `publish_image.ps1` realiza el login en Docker, construye la imagen con tu usuario y la publica en Docker Hub.
+
+### **Publicación del OCI Artifact de Docker Compose**
+
+#### **Pasos para publicar el artefacto OCI:**
+
+1. **Situarse en la raíz del repositorio**:
+   ```bash
+   cd practica-daw-2025-26-grupo-7
+   ```
+
+2. **Publicar el docker-compose.yml como OCI Artifact en Docker Hub**:
+   ```powershell
+   .\docker\publish_docker-compose.ps1 victormr999
+   ```
+
+3. **OCI Artifact publicado**:
+   ```text
+   victormr999/fuego-lento-compose:latest
+   ```
+
+#### **Notas**
+- Este artefacto OCI representa la configuración completa de despliegue con Docker Compose.
+- Incluye la definición de los servicios necesarios para ejecutar la aplicación.
+- Fue utilizado posteriormente para el despliegue remoto en la máquina virtual.
 
 ### **Despliegue en Máquina Virtual**
 
 #### **Requisitos:**
 - Acceso a la máquina virtual (SSH)
 - Clave privada para autenticación
-- Conexión a la red correspondiente o VPN configurada
+- Conexión a la red correspondiente o acceso mediante MyApps
+- Docker y Docker Compose instalados en la máquina remota
 
 #### **Pasos para desplegar:**
 
-1. **Conectar a la máquina virtual**:
+1. **Conectar a la máquina virtual mediante SSH**:
    ```bash
-   ssh -i [ruta/a/clave.key] [usuario]@[IP-o-dominio-VM]
-   ```
-   
-   Ejemplo:
-   ```bash
-   ssh -i ssh-keys/app.key vmuser@10.100.139.XXX
+   ssh -i ssh-keys/appWeb07.key vmuser@appweb07.dawgis.etsii.urjc.es
    ```
 
-2. **AQUÍ LOS SIGUIENTES PASOS**:
+   Ejemplo alternativo usando IP:
+   ```bash
+   ssh -i ssh-keys/appWeb07.key vmuser@10.100.139.219
+   ```
+
+2. **Ir al directorio de despliegue remoto**:
+   ```bash
+   cd ~/fuegolento-deploy
+   ```
+
+3. **Iniciar sesión en Docker dentro de la máquina virtual**:
+   ```bash
+   sudo docker login
+   ```
+
+4. **Levantar la aplicación utilizando el OCI Artifact publicado en Docker Hub**:
+   ```bash
+   export DOCKERHUB_USER=victormr999
+   export MYSQL_ROOT_PASSWORD=root999
+   export MYSQL_DATABASE=fuegolento
+   export SPRING_PROFILE=init
+   docker compose -f oci://docker.io/victormr999/fuego-lento-compose:latest up -d
+   ```
+
+5. **Comprobar que los contenedores están activos**:
+   ```bash
+   sudo docker ps
+   ```
+
+6. **Ejecutar la aplicación sin carga de datos de ejemplo (modo `run`)**:
+   ```bash
+   docker compose -f oci://docker.io/victormr999/fuego-lento-compose:latest down
+   export SPRING_PROFILE=run
+   docker compose -f oci://docker.io/victormr999/fuego-lento-compose:latest up -d
+   ```
+
+#### **Notas sobre el despliegue remoto**
+- En la máquina virtual se utilizó el directorio `~/fuegolento-deploy` para trabajar con el despliegue.
+- El login en Docker fue necesario para poder acceder al OCI Artifact publicado en Docker Hub.
+- El perfil `init` se utilizó para inicializar la base de datos con datos de ejemplo.
+- El perfil `run` se utilizó para arrancar la aplicación en modo normal, sin reinicializar la base de datos.
 
 ### **URL de la Aplicación Desplegada**
 
@@ -397,62 +523,6 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 | Administrador | admin | admin123 |
 | Usuario Registrado | user1 | user123 |
 | Usuario Registrado | user2 | user123 |
-
-### **Participación de Miembros en la Práctica 2**
-
-#### **Alumno 1 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 2 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 3 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 4 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
 
 ---
 

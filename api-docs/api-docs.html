@@ -1,43 +1,57 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Fuego Lento API Docs</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fuego Lento API Documentation</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
   <style>
     body {
+      margin: 0;
+      background: #fafafa;
+    }
+
+    .topbar {
+      background-color: #8b1e1e;
+      color: white;
+      padding: 16px 24px;
       font-family: Arial, sans-serif;
-      margin: 40px;
-      background-color: #f9f9f9;
     }
-    h1 {
-      color: #b22222;
+
+    .topbar h1 {
+      margin: 0;
+      font-size: 28px;
     }
-    a {
-      display: block;
-      margin: 10px 0;
-      font-size: 18px;
-      text-decoration: none;
-      color: #007acc;
+
+    .topbar p {
+      margin: 6px 0 0 0;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
+  <div class="topbar">
+    <h1>🔥 Fuego Lento - API Documentation</h1>
+    <p>Interactive REST API documentation generated from the OpenAPI specification.</p>
+  </div>
 
-  <h1>🔥 Fuego Lento - API Documentation</h1>
+  <div id="swagger-ui"></div>
 
-  <p>Documentación generada automáticamente con SpringDoc OpenAPI.</p>
-
-  <h2>Enlaces</h2>
-
-  <a href="./api-docs.yaml">📄 Descargar OpenAPI YAML</a>
-
-  <a href="https://localhost:8443/swagger-ui/index.html">
-     Ver Swagger UI (local)
-  </a>
-
-  <a href="https://appweb07.dawgis.etsii.urjc.es:8443/swagger-ui/index.html">
-     Ver Swagger UI (servidor remoto)
-  </a>
-
+  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
+  <script>
+    window.onload = () => {
+      window.ui = SwaggerUIBundle({
+        url: './api-docs.yaml',
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        layout: "BaseLayout"
+      });
+    };
+  </script>
 </body>
 </html>

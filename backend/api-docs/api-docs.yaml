@@ -1,0 +1,1243 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: https://localhost:8443
+  description: Generated server url
+paths:
+  /api/v1/users/{id}/unban:
+    put:
+      tags:
+      - user-rest-controller
+      operationId: unbanUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/v1/users/{id}/ban:
+    put:
+      tags:
+      - user-rest-controller
+      operationId: banUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/v1/users/me:
+    get:
+      tags:
+      - user-rest-controller
+      operationId: getCurrentUser
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+    put:
+      tags:
+      - user-rest-controller
+      operationId: updateCurrentUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProfileRequestDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+  /api/v1/orders/{id}/status:
+    put:
+      tags:
+      - order-rest-controller
+      operationId: updateOrderStatus
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: value
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - PENDING
+          - SENT_TO_KITCHEN
+          - IN_PROGRESS
+          - READY
+          - DELIVERED
+          - CANCELLED
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+  /api/v1/orders/cart/table:
+    put:
+      tags:
+      - order-rest-controller
+      operationId: setTableNumber
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TableNumberRequestDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+  /api/v1/orders/cart/status:
+    put:
+      tags:
+      - order-rest-controller
+      operationId: updateCartStatus
+      parameters:
+      - name: value
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - PENDING
+          - SENT_TO_KITCHEN
+          - IN_PROGRESS
+          - READY
+          - DELIVERED
+          - CANCELLED
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+  /api/v1/orders/cart/items/{dishId}:
+    put:
+      tags:
+      - order-rest-controller
+      operationId: updateCartItemQuantity
+      parameters:
+      - name: dishId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CartItemRequestDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+    delete:
+      tags:
+      - order-rest-controller
+      operationId: removeCartItem
+      parameters:
+      - name: dishId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+  /api/v1/orders/cart/items/{dishId}/meat-point:
+    put:
+      tags:
+      - order-rest-controller
+      operationId: setMeatPoint
+      parameters:
+      - name: dishId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TextRequestDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+  /api/v1/orders/cart/items/{dishId}/comment:
+    put:
+      tags:
+      - order-rest-controller
+      operationId: setItemComment
+      parameters:
+      - name: dishId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TextRequestDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+  /api/v1/orders/cart/customer-note:
+    put:
+      tags:
+      - order-rest-controller
+      operationId: setCustomerNote
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TextRequestDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+  /api/v1/images/{id}/media:
+    get:
+      tags:
+      - image-rest-controller
+      operationId: getImageFile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+    put:
+      tags:
+      - image-rest-controller
+      operationId: replaceImageFile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imageFile:
+                  type: string
+                  format: binary
+              required:
+              - imageFile
+      responses:
+        "200":
+          description: OK
+  /api/v1/dishes/{id}:
+    get:
+      tags:
+      - dish-rest-controller
+      operationId: getDishById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DishDTO"
+    put:
+      tags:
+      - dish-rest-controller
+      operationId: updateDish
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DishDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DishDTO"
+    delete:
+      tags:
+      - dish-rest-controller
+      operationId: deleteDish
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/v1/users:
+    get:
+      tags:
+      - user-rest-controller
+      operationId: getUsers
+      parameters:
+      - name: query
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserDTO"
+    post:
+      tags:
+      - user-rest-controller
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequestDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+  /api/v1/orders/{id}/copies:
+    post:
+      tags:
+      - order-rest-controller
+      operationId: duplicateOrder
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+  /api/v1/orders/cart/items:
+    post:
+      tags:
+      - order-rest-controller
+      operationId: addToCart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CartItemRequestDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+  /api/v1/dishes:
+    get:
+      tags:
+      - dish-rest-controller
+      operationId: getDishes
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: category
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - STARTER
+          - MEAT
+          - DESSERT
+          - DRINK
+      - name: availableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DishDTO"
+    post:
+      tags:
+      - dish-rest-controller
+      operationId: createDish
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DishDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DishDTO"
+  /api/v1/dishes/{id}/image:
+    post:
+      tags:
+      - dish-rest-controller
+      operationId: uploadDishImage
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imageFile:
+                  type: string
+                  format: binary
+              required:
+              - imageFile
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DishDTO"
+  /api/v1/auth/refresh:
+    post:
+      tags:
+      - auth-rest-controller
+      operationId: refreshToken
+      parameters:
+      - name: RefreshToken
+        in: cookie
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/v1/auth/logout:
+    post:
+      tags:
+      - auth-rest-controller
+      operationId: logout
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/v1/auth/login:
+    post:
+      tags:
+      - auth-rest-controller
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/v1/users/{id}:
+    get:
+      tags:
+      - user-rest-controller
+      operationId: getUserById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+    delete:
+      tags:
+      - user-rest-controller
+      operationId: deleteUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/v1/orders:
+    get:
+      tags:
+      - order-rest-controller
+      operationId: getOrders
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - PENDING
+          - SENT_TO_KITCHEN
+          - IN_PROGRESS
+          - READY
+          - DELIVERED
+          - CANCELLED
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderDTO"
+  /api/v1/orders/{id}:
+    get:
+      tags:
+      - order-rest-controller
+      operationId: getOrderById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+    delete:
+      tags:
+      - order-rest-controller
+      operationId: deleteOrder
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/v1/orders/{id}/invoice:
+    get:
+      tags:
+      - order-rest-controller
+      operationId: downloadInvoice
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/v1/orders/my:
+    get:
+      tags:
+      - order-rest-controller
+      operationId: getMyOrders
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderDTO"
+  /api/v1/orders/my-cart:
+    get:
+      tags:
+      - order-rest-controller
+      operationId: getMyCart
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+  /api/v1/images/{id}:
+    get:
+      tags:
+      - image-rest-controller
+      operationId: getImage
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ImageDTO"
+    delete:
+      tags:
+      - image-rest-controller
+      operationId: deleteImage
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ImageDTO"
+  /api/v1/dishes/page:
+    get:
+      tags:
+      - dish-rest-controller
+      operationId: getPagedDishes
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: category
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - STARTER
+          - MEAT
+          - DESSERT
+          - DRINK
+      - name: availableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PageDishDTO"
+  /api/v1/admin/dashboard/users-registrations:
+    get:
+      tags:
+      - dashboard-rest-controller
+      operationId: userRegistrations
+      parameters:
+      - name: days
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 40
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CountDto"
+  /api/v1/admin/dashboard/revenue-daily:
+    get:
+      tags:
+      - dashboard-rest-controller
+      operationId: revenueDaily
+      parameters:
+      - name: days
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 14
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PointDto"
+  /api/v1/admin/dashboard/orders-by-hour:
+    get:
+      tags:
+      - dashboard-rest-controller
+      operationId: ordersByHour
+      parameters:
+      - name: days
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 14
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CountDto"
+  /api/menu/dishes:
+    get:
+      tags:
+      - dish-controller
+      operationId: menuDishesApi
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: category
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - STARTER
+          - MEAT
+          - DESSERT
+          - DRINK
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MenuDishesResponse"
+  /api/admin/dashboard/users-registrations:
+    get:
+      tags:
+      - dashboard-api-controller
+      operationId: userRegistrations_1
+      parameters:
+      - name: days
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 40
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CountDto"
+  /api/admin/dashboard/revenue-daily:
+    get:
+      tags:
+      - dashboard-api-controller
+      operationId: revenueDaily_1
+      parameters:
+      - name: days
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 14
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PointDto"
+  /api/admin/dashboard/orders-by-hour:
+    get:
+      tags:
+      - dashboard-api-controller
+      operationId: ordersByHour_1
+      parameters:
+      - name: days
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 14
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CountDto"
+  /api/v1/orders/cart:
+    delete:
+      tags:
+      - order-rest-controller
+      operationId: clearCart
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+components:
+  schemas:
+    UpdateProfileRequestDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        birthDate:
+          type: string
+          format: date
+    UserDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        email:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        roles:
+          type: array
+          items:
+            type: string
+        banned:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+    OrderDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - PENDING
+          - SENT_TO_KITCHEN
+          - IN_PROGRESS
+          - READY
+          - DELIVERED
+          - CANCELLED
+        userId:
+          type: integer
+          format: int64
+        username:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderItemDTO"
+        totalPrice:
+          type: number
+        tableNumber:
+          type: integer
+          format: int32
+        customerNote:
+          type: string
+    OrderItemDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        dishId:
+          type: integer
+          format: int64
+        dishName:
+          type: string
+        quantity:
+          type: integer
+          format: int32
+        unitPrice:
+          type: number
+        totalPrice:
+          type: number
+        kitchenNote:
+          type: string
+        meatPoint:
+          type: string
+    TableNumberRequestDTO:
+      type: object
+      properties:
+        tableNumber:
+          type: integer
+          format: int32
+    CartItemRequestDTO:
+      type: object
+      properties:
+        dishId:
+          type: integer
+          format: int64
+        quantity:
+          type: integer
+          format: int32
+    TextRequestDTO:
+      type: object
+      properties:
+        value:
+          type: string
+    DishDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        category:
+          type: string
+          enum:
+          - STARTER
+          - MEAT
+          - DESSERT
+          - DRINK
+        name:
+          type: string
+        description:
+          type: string
+        allergens:
+          type: array
+          items:
+            type: string
+            enum:
+            - GLUTEN
+            - EGG
+            - MILK
+            - NUTS
+            - FISH
+            - SHELLFISH
+            - SOY
+            - SESAME
+        price:
+          type: number
+        available:
+          type: boolean
+        image:
+          $ref: "#/components/schemas/ImageDTO"
+    ImageDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    CreateUserRequestDTO:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        birthDate:
+          type: string
+          format: date
+    AuthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - SUCCESS
+          - FAILURE
+        message:
+          type: string
+        error:
+          type: string
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    PageDishDTO:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/DishDTO"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+    SortObject:
+      type: object
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    CountDto:
+      type: object
+      properties:
+        label:
+          type: string
+        value:
+          type: integer
+          format: int64
+    PointDto:
+      type: object
+      properties:
+        label:
+          type: string
+        value:
+          type: number
+    DishCardDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        imageId:
+          type: integer
+          format: int64
+    MenuDishesResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/DishCardDto"
+        hasMore:
+          type: boolean
+        nextPage:
+          type: integer
+          format: int32

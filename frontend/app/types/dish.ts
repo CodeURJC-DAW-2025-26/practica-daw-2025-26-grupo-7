@@ -1,9 +1,12 @@
 export enum DishCategory {
-  STARTERS = 'STARTERS',
+  STARTER = 'STARTER',
   MEAT = 'MEAT',
-  FISH = 'FISH',
-  DESSERTS = 'DESSERTS',
-  DRINKS = 'DRINKS',
+  DESSERT = 'DESSERT',
+  DRINK = 'DRINK',
+}
+
+export interface DishImage {
+  id: number;
 }
 
 export interface Dish {
@@ -13,5 +16,6 @@ export interface Dish {
   price: number;
   category: DishCategory;
   available: boolean;
-  imageId: number | null;
+  allergens: string[];
+  image: DishImage | null;
 }

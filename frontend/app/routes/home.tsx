@@ -79,7 +79,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               <Col key={dish.id} lg={4} md={6}>
                 <div className="menu-item">
                   <img
-                    src={dish.imageId != null ? `/api/v1/images/${dish.imageId}/media` : 'https://placehold.co/78x78?text=FL'}
+                    src={dish.image != null ? `/api/v1/images/${dish.image.id}/media` : 'https://placehold.co/78x78?text=FL'}
                     className="menu-img"
                     alt={dish.name}
                   />

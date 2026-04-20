@@ -1,14 +1,14 @@
 import { useNavigate } from 'react-router';
+import { Container, Row, Col } from 'react-bootstrap';
 
 export default function AppFooter() {
   const navigate = useNavigate();
 
   return (
     <footer id="footer" className="footer">
-      <div className="container footer-top">
-        <div className="row gy-4">
-
-          <div className="col-lg-6 col-md-6 footer-about">
+      <Container className="footer-top">
+        <Row className="gy-4">
+          <Col lg={6} md={6} className="footer-about">
             <a className="logo d-flex align-items-center" style={{ cursor: 'pointer' }} onClick={() => navigate('/new/')}>
               <span className="sitename">Fuego Lento</span>
             </a>
@@ -22,9 +22,9 @@ export default function AppFooter() {
               <a href="#" aria-label="Facebook"><i className="bi bi-facebook"></i></a>
               <a href="#" aria-label="TikTok"><i className="bi bi-tiktok"></i></a>
             </div>
-          </div>
+          </Col>
 
-          <div className="col-lg-6 col-md-6 footer-links">
+          <Col lg={6} md={6} className="footer-links">
             <h4>Enlaces</h4>
             <ul>
               <li><a style={{ cursor: 'pointer' }} onClick={() => navigate('/new/')}>Inicio</a></li>
@@ -33,14 +33,13 @@ export default function AppFooter() {
               <li><a href="/new/#gallery">Galería</a></li>
               <li><a href="/new/#contact">Contacto</a></li>
             </ul>
-          </div>
+          </Col>
+        </Row>
+      </Container>
 
-        </div>
-      </div>
-
-      <div className="container copyright text-center mt-4">
+      <Container className="copyright text-center mt-4">
         <p>© <span>2026</span> <strong className="px-1 sitename">Fuego Lento</strong> <span>— Todos los derechos reservados</span></p>
-      </div>
+      </Container>
     </footer>
   );
 }

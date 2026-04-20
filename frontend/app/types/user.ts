@@ -2,6 +2,8 @@ export interface User {
   id: number;
   username: string;
   email: string;
+  birthDate: string | null;
   roles: string[];
-  imageId: number | null;
+  banned: boolean;
+  createdAt: string;
 }

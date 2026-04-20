@@ -130,7 +130,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               <Form.Control as="textarea" name="message" rows={5} placeholder="Mensaje (opcional)" />
             </Form.Group>
             <div className="text-center mt-3">
-              <Button type="submit">Solicitar reserva</Button>
+              <Button type="submit" variant="">Solicitar reserva</Button>
             </div>
           </Form>
         </Container>

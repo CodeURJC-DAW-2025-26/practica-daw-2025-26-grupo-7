@@ -10,12 +10,6 @@ export const getMe = () =>
 export const updateMe = (data: { email?: string; birthDate?: string }) =>
   api.put<User>('/api/v1/users/me', data);
 
-export const uploadProfileImage = (file: File) => {
-  const form = new FormData();
-  form.append('image', file);
-  return api.post('/api/v1/users/me/image', form);
-};
-
 export const getAllUsers = (query?: string) =>
   api.get<User[]>('/api/v1/users', { params: query ? { query } : undefined });
 

@@ -1,34 +1,24 @@
 # Stage 1: Build React frontend
-FROM node:22-alpine AS frontend-build
-
-WORKDIR /frontend
-
+FROM node:20-alpine AS frontend-build
+WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm ci
-
 COPY frontend/ ./
 RUN npm run build
 
-# Stage 2: Build Spring Boot JAR with frontend included
+# Stage 2: Build Spring Boot backend
 FROM maven:3.9.9-eclipse-temurin-21 AS backend-build
+WORKDIR /app/backend
+COPY backend/pom.xml ./
+RUN mvn dependency:go-offline -q
+COPY backend/src ./src
+# Copy frontend build into Spring Boot static resources before packaging
+COPY --from=frontend-build /app/frontend/build/client ./src/main/resources/static/new/
+RUN mvn package -DskipTests -q
 
-WORKDIR /project
-
-COPY backend/pom.xml /project/pom.xml
-COPY backend/src /project/src
-
-# Copy the React build into Spring Boot static resources so it's bundled in the JAR
-COPY --from=frontend-build /frontend/build/client /project/src/main/resources/static/new
-
-RUN mvn -f /project/pom.xml clean package -DskipTests
-
-# Stage 3: Minimal runtime image
-FROM eclipse-temurin:21-jre
-
+# Stage 3: Runtime image
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-
-COPY --from=backend-build /project/target/*.jar /app/app.jar
-
+COPY --from=backend-build /app/backend/target/*.jar app.jar
 EXPOSE 8443
-
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -43,7 +43,7 @@ export default function AdminOrders({ loaderData }: Route.ComponentProps) {
   };
 
   return (
-    <section className="section" style={{ paddingTop: '40px', paddingBottom: '60px' }}>
+    <section className="section" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
       <Container>
         <div className="d-flex align-items-end justify-content-between flex-wrap gap-2 mb-4">
           <div>
@@ -93,7 +93,7 @@ export default function AdminOrders({ loaderData }: Route.ComponentProps) {
                     </div>
                     <div className="d-flex align-items-center gap-2">
                       <Badge bg={status.bg}>{status.label}</Badge>
-                      <Button variant="outline-light" size="sm" onClick={() => navigate(`/new/admin/orders/${order.id}`)} style={{ borderRadius: 999 }}>
+                      <Button variant="outline-light" size="sm" onClick={() => navigate(`/admin/orders/${order.id}`)} style={{ borderRadius: 999 }}>
                         <i className="bi bi-eye" />
                       </Button>
                     </div>
@@ -106,14 +106,14 @@ export default function AdminOrders({ loaderData }: Route.ComponentProps) {
                           <span className="fw-bold me-2" style={{ color: 'var(--accent-color)' }}>{item.quantity}×</span>
                           {item.dishName}
                         </span>
-                        <span>{item.totalPrice.toFixed(2)} €</span>
+                        <span>{(item.totalPrice ?? 0).toFixed(2)} €</span>
                       </div>
                     ))}
                   </div>
 
                   <div className="d-flex flex-wrap justify-content-between align-items-center gap-3">
                     <div className="fw-bold" style={{ color: 'var(--accent-color)' }}>
-                      Total: {order.totalPrice.toFixed(2)} €
+                      Total: {(order.totalPrice ?? 0).toFixed(2)} €
                     </div>
                     <div className="d-flex gap-2 flex-wrap">
                       {Object.entries(STATUS_CONFIG)

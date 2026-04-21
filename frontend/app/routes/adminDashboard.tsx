@@ -74,7 +74,7 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
   };
 
   return (
-    <section className="section" style={{ paddingTop: '40px', paddingBottom: '60px' }}>
+    <section className="section" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
       <Container>
         <div className="mb-4">
           <h2 className="mb-1">Dashboard</h2>
@@ -140,7 +140,7 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                     borderBottom: i < recentOrders.length - 1 ? '1px solid var(--border-color)' : 'none',
                     cursor: 'pointer',
                   }}
-                  onClick={() => navigate(`/new/admin/orders/${order.id}`)}
+                  onClick={() => navigate(`/admin/orders/${order.id}`)}
                 >
                   <div>
                     <span className="fw-bold me-2">#{order.id}</span>
@@ -153,7 +153,7 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                     </span>
                     <Badge bg={st.bg}>{st.label}</Badge>
                     <span className="fw-bold" style={{ color: 'var(--accent-color)' }}>
-                      {order.totalPrice.toFixed(2)} €
+                      {(order.totalPrice ?? 0).toFixed(2)} €
                     </span>
                   </div>
                 </div>

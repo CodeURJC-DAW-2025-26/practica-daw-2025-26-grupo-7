@@ -42,7 +42,7 @@ export default function AdminOrderDetail({ loaderData }: Route.ComponentProps) {
   };
 
   return (
-    <section className="section" style={{ paddingTop: '40px', paddingBottom: '60px' }}>
+    <section className="section" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
       <Container>
         <Row className="justify-content-center">
           <Col lg={8}>
@@ -79,7 +79,7 @@ export default function AdminOrderDetail({ loaderData }: Route.ComponentProps) {
                       </div>
                     )}
                   </div>
-                  <span className="fw-bold">{item.totalPrice.toFixed(2)} €</span>
+                  <span className="fw-bold">{(item.totalPrice ?? 0).toFixed(2)} €</span>
                 </div>
               ))}
               <hr style={{ borderColor: 'var(--border-color)' }} />
@@ -90,7 +90,7 @@ export default function AdminOrderDetail({ loaderData }: Route.ComponentProps) {
               )}
               <div className="d-flex justify-content-end">
                 <span className="fw-bold" style={{ color: 'var(--accent-color)', fontSize: 20 }}>
-                  Total: {order.totalPrice.toFixed(2)} €
+                  Total: {(order.totalPrice ?? 0).toFixed(2)} €
                 </span>
               </div>
             </div>

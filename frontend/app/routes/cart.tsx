@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { Container, Row, Col, Button, Form, Modal, Spinner } from 'react-bootstrap';
 import type { Route } from './+types/cart';
 import * as orderService from '../services/orderService';
 import useLoadingStore from '../stores/loadingStore';
+import useCartStore from '../stores/cartStore';
 import type { Order } from '../types/order';
 
 const MEAT_POINTS = [
@@ -34,6 +35,13 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
   const [cart, setCart] = useState<Order | null>(loaderData ?? null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const { setItemCount, reset } = useCartStore();
+
+  // Keep cart badge in sync with current cart contents
+  useEffect(() => {
+    const total = cart?.items?.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
+    setItemCount(total);
+  }, [cart]);
 
   const refresh = async () => {
     try {
@@ -89,6 +97,7 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
     setSubmitting(true);
     try {
       await orderService.submitCart();
+      reset();
       setShowConfirm(false);
       navigate('/order-sent');
     } finally {
@@ -99,7 +108,7 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
   const hasItems = cart && cart.items && cart.items.length > 0;
 
   return (
-    <section className="section" style={{ paddingTop: '40px', paddingBottom: '70px' }}>
+    <section className="section" style={{ paddingTop: '120px', paddingBottom: '70px' }}>
       <Container>
         <Row className="g-4 align-items-start">
 
@@ -130,7 +139,7 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
                         </div>
                         <div className="text-end">
                           <div className="fw-bold" style={{ color: 'var(--accent-color)' }}>
-                            {item.unitPrice.toFixed(2)} €
+                            {(item.unitPrice ?? 0).toFixed(2)} €
                           </div>
                           <div className="small" style={{ opacity: 0.75 }}>Unidad</div>
                         </div>
@@ -182,7 +191,7 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
                           <div className="d-flex justify-content-between align-items-center">
                             <span className="small" style={{ opacity: 0.8 }}>Total línea</span>
                             <span className="fw-bold" style={{ color: 'var(--accent-color)' }}>
-                              {item.totalPrice.toFixed(2)} €
+                              {(item.totalPrice ?? 0).toFixed(2)} €
                             </span>
                           </div>
                         </Col>

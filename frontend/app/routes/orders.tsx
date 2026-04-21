@@ -34,7 +34,7 @@ export default function Orders({ loaderData }: Route.ComponentProps) {
   const navigate = useNavigate();
 
   return (
-    <section className="section" style={{ paddingTop: '40px', paddingBottom: '60px' }}>
+    <section className="section" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
       <Container>
         <div className="d-flex align-items-end justify-content-between flex-wrap gap-2 mb-4">
           <div>
@@ -90,7 +90,7 @@ export default function Orders({ loaderData }: Route.ComponentProps) {
                             <span className="ms-2 small" style={{ opacity: 0.7 }}>Nota: {item.kitchenNote}</span>
                           )}
                         </div>
-                        <span className="fw-bold">{item.totalPrice.toFixed(2)} €</span>
+                        <span className="fw-bold">{(item.totalPrice ?? item.unitPrice * item.quantity ?? 0).toFixed(2)} €</span>
                       </div>
                     ))}
                   </div>
@@ -108,7 +108,7 @@ export default function Orders({ loaderData }: Route.ComponentProps) {
                       <div className="text-end">
                         <div className="small" style={{ opacity: 0.7 }}>Total</div>
                         <div className="fw-bold" style={{ color: 'var(--accent-color)', fontSize: 18 }}>
-                          {order.totalPrice.toFixed(2)} €
+                          {(order.totalPrice ?? 0).toFixed(2)} €
                         </div>
                       </div>
                       {order.status === OrderStatus.DELIVERED && (

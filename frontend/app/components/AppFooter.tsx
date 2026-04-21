@@ -1,17 +1,15 @@
-import { useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { Container, Row, Col } from 'react-bootstrap';
 
 export default function AppFooter() {
-  const navigate = useNavigate();
-
   return (
     <footer id="footer" className="footer">
       <Container className="footer-top">
         <Row className="gy-4">
           <Col lg={6} md={6} className="footer-about">
-            <a className="logo d-flex align-items-center" style={{ cursor: 'pointer' }} onClick={() => navigate('/new/')}>
+            <Link className="logo d-flex align-items-center" to="/">
               <span className="sitename">Fuego Lento</span>
-            </a>
+            </Link>
             <div className="footer-contact pt-3">
               <p>Coslada, Madrid</p>
               <p className="mt-3"><strong>Teléfono:</strong> <span>+34 999 999 999</span></p>
@@ -27,11 +25,11 @@ export default function AppFooter() {
           <Col lg={6} md={6} className="footer-links">
             <h4>Enlaces</h4>
             <ul>
-              <li><a style={{ cursor: 'pointer' }} onClick={() => navigate('/new/')}>Inicio</a></li>
-              <li><a href="/new/#about">Nuestra brasa</a></li>
-              <li><a style={{ cursor: 'pointer' }} onClick={() => navigate('/new/menu')}>Menú</a></li>
-              <li><a href="/new/#gallery">Galería</a></li>
-              <li><a href="/new/#contact">Contacto</a></li>
+              <li><Link to="/">Inicio</Link></li>
+              <li><Link to="/#about">Nuestra brasa</Link></li>
+              <li><Link to="/menu">Menú</Link></li>
+              <li><Link to="/#gallery">Galería</Link></li>
+              <li><Link to="/#contact">Contacto</Link></li>
             </ul>
           </Col>
         </Row>

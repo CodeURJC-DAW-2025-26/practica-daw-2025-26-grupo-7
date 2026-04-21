@@ -85,7 +85,7 @@ export default function Menu({ loaderData }: Route.ComponentProps) {
 
   const handleAddToCart = async (dishId: number) => {
     if (!isAuthenticated) {
-      navigate('/new/login');
+      navigate('/login');
       return;
     }
     try {
@@ -205,7 +205,7 @@ export default function Menu({ loaderData }: Route.ComponentProps) {
         )}
 
         <div className="mt-5">
-          <Button variant="outline-light" onClick={() => navigate('/new/')}>
+          <Button variant="outline-light" onClick={() => navigate('/')}>
             <i className="bi bi-arrow-left me-2" />Volver al inicio
           </Button>
         </div>

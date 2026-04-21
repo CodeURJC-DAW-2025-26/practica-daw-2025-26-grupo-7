@@ -27,7 +27,7 @@ export default function Login() {
     setLoginLoading(true);
     try {
       await login(loginData.username, loginData.password);
-      navigate('/new/');
+      navigate('/');
     } catch {
       setLoginError('Usuario o contraseña incorrectos.');
     } finally {
@@ -47,7 +47,7 @@ export default function Login() {
         registerData.birthDate,
       );
       await login(registerData.username, registerData.password);
-      navigate('/new/');
+      navigate('/');
     } catch {
       setRegisterError('No se pudo completar el registro. El usuario o email ya existe.');
     } finally {

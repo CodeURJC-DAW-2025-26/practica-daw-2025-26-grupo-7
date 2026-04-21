@@ -90,7 +90,7 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
     try {
       await orderService.submitCart();
       setShowConfirm(false);
-      navigate('/new/order-sent');
+      navigate('/order-sent');
     } finally {
       setSubmitting(false);
     }
@@ -108,7 +108,7 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
             <div className="p-4 rounded-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)' }}>
               <div className="d-flex align-items-center justify-content-between gap-3 flex-wrap mb-3">
                 <h3 className="mb-0">Resumen</h3>
-                <Button variant="outline-light" size="sm" onClick={() => navigate('/new/menu')}>
+                <Button variant="outline-light" size="sm" onClick={() => navigate('/menu')}>
                   <i className="bi bi-plus-lg me-2" />Seguir añadiendo
                 </Button>
               </div>
@@ -267,7 +267,7 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
                     <i className="bi bi-send me-1" />Enviar a cocina
                   </Button>
                 )}
-                <Button variant="outline-light" onClick={() => navigate('/new/menu')} style={{ borderRadius: 999 }}>
+                <Button variant="outline-light" onClick={() => navigate('/menu')} style={{ borderRadius: 999 }}>
                   <i className="bi bi-arrow-left me-2" />Volver al menú
                 </Button>
               </div>

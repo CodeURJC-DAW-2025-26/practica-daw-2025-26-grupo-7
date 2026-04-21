@@ -28,10 +28,10 @@ export default function OrderSent({}: Route.ComponentProps) {
               </p>
 
               <div className="d-flex justify-content-center gap-3 flex-wrap">
-                <Button variant="outline-light" onClick={() => navigate('/new/menu')} style={{ borderRadius: 999 }}>
+                <Button variant="outline-light" onClick={() => navigate('/menu')} style={{ borderRadius: 999 }}>
                   <i className="bi bi-arrow-left me-2" />Volver al menú
                 </Button>
-                <Button variant="primary" onClick={() => navigate('/new/orders')} style={{ borderRadius: 999 }}>
+                <Button variant="primary" onClick={() => navigate('/orders')} style={{ borderRadius: 999 }}>
                   <i className="bi bi-list-check me-2" />Mis pedidos
                 </Button>
               </div>

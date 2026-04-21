@@ -1,9 +1,6 @@
 import { useNavigate } from 'react-router';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import type { Route } from './+types/home';
-import * as dishService from '../services/dishService';
-import useLoadingStore from '../stores/loadingStore';
-import type { Dish } from '../types/dish';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,18 +9,7 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function clientLoader() {
-  useLoadingStore.getState().setLoading(true);
-  try {
-    const { data } = await dishService.getDishesPaged(0, 3, { availableOnly: true });
-    return data.content;
-  } finally {
-    useLoadingStore.getState().setLoading(false);
-  }
-}
-
-export default function Home({ loaderData }: Route.ComponentProps) {
-  const dishes: Dish[] = loaderData ?? [];
+export default function Home({}: Route.ComponentProps) {
   const navigate = useNavigate();
 
   return (
@@ -37,7 +23,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               <h2>Bienvenido a <span>Fuego Lento</span></h2>
               <p>Carnes a la brasa y a la piedra. Producto, fuego y paciencia.</p>
               <div className="d-flex mt-4 gap-3">
-                <a className="cta-btn" style={{ cursor: 'pointer' }} onClick={() => navigate('/new/menu')}>Ver Menú</a>
+                <a className="cta-btn" style={{ cursor: 'pointer' }} onClick={() => navigate('/menu')}>Ver Menú</a>
                 <a className="cta-btn" href="#book-a-table">Reservar mesa</a>
               </div>
             </Col>
@@ -61,44 +47,13 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 <li><i className="bi bi-check2-all"></i> <span>Parrilla y brasa: cortes clásicos y opciones premium.</span></li>
                 <li><i className="bi bi-check2-all"></i> <span>Producto de calidad, cocina sencilla y sabor auténtico.</span></li>
               </ul>
-              <p>Nuestro objetivo es claro: que cada bocado sepa a fuego, a hogar y a buena compañía.</p>
+              <p>Nuestro objetivo es claro: que cada bocado sepa a fuego, a hogar y a buena compañía. Ven a disfrutar de una experiencia de brasa con un ambiente cálido y elegante.</p>
             </Col>
           </Row>
         </Container>
       </section>
 
-      {/* Featured dishes */}
-      <section className="section" style={{ background: '#0f0f0f' }}>
-        <Container>
-          <div className="section-title">
-            <h2>Destacados</h2>
-            <p>Platos de temporada</p>
-          </div>
-          <Row className="gy-4">
-            {dishes.map((dish) => (
-              <Col key={dish.id} lg={4} md={6}>
-                <div className="menu-item">
-                  <img
-                    src={dish.image != null ? `/api/v1/images/${dish.image.id}/media` : 'https://placehold.co/78x78?text=FL'}
-                    className="menu-img"
-                    alt={dish.name}
-                  />
-                  <div className="menu-content">
-                    <a style={{ cursor: 'pointer' }} onClick={() => navigate(`/new/menu/${dish.id}`)}>{dish.name}</a>
-                    <span>{dish.price.toFixed(2)} €</span>
-                  </div>
-                  <div className="menu-ingredients">{dish.description}</div>
-                </div>
-              </Col>
-            ))}
-          </Row>
-          <div className="text-center mt-5">
-            <a className="cta-btn" style={{ cursor: 'pointer' }} onClick={() => navigate('/new/menu')}>Ver carta completa</a>
-          </div>
-        </Container>
-      </section>
-
-      {/* Reservation form */}
+      {/* Reservation */}
       <section id="book-a-table" className="book-a-table section">
         <Container className="section-title">
           <h2>Reservas</h2>
@@ -130,7 +85,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               <Form.Control as="textarea" name="message" rows={5} placeholder="Mensaje (opcional)" />
             </Form.Group>
             <div className="text-center mt-3">
-              <Button type="submit" variant="">Solicitar reserva</Button>
+              <button type="submit">Solicitar reserva</button>
             </div>
           </Form>
         </Container>
@@ -198,10 +153,33 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Mapa Fuego Lento"
-                ></iframe>
+                />
               </div>
             </Col>
           </Row>
+        </Container>
+
+        {/* Contact form */}
+        <Container className="mt-4">
+          <Form className="php-email-form">
+            <Row className="gy-4">
+              <Col md={6}>
+                <Form.Control type="text" name="name" placeholder="Tu nombre" required />
+              </Col>
+              <Col md={6}>
+                <Form.Control type="email" name="email" placeholder="Tu email" required />
+              </Col>
+              <Col md={12}>
+                <Form.Control type="text" name="subject" placeholder="Asunto" required />
+              </Col>
+              <Col md={12}>
+                <Form.Control as="textarea" name="message" rows={6} placeholder="Mensaje" required />
+              </Col>
+              <Col md={12} className="text-center">
+                <button type="submit">Enviar mensaje</button>
+              </Col>
+            </Row>
+          </Form>
         </Container>
       </section>
     </>

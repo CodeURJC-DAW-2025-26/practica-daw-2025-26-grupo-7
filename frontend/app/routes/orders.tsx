@@ -41,7 +41,7 @@ export default function Orders({ loaderData }: Route.ComponentProps) {
             <h2 className="mb-1">Mis pedidos</h2>
             <p className="mb-0" style={{ opacity: 0.7 }}>Historial de comandas realizadas</p>
           </div>
-          <Button variant="primary" onClick={() => navigate('/new/menu')} style={{ borderRadius: 999 }}>
+          <Button variant="primary" onClick={() => navigate('/menu')} style={{ borderRadius: 999 }}>
             <i className="bi bi-fire me-1" />Pedir de nuevo
           </Button>
         </div>
@@ -130,7 +130,7 @@ export default function Orders({ loaderData }: Route.ComponentProps) {
         </Row>
 
         <div className="mt-4">
-          <Button variant="outline-light" onClick={() => navigate('/new/profile')} style={{ borderRadius: 999 }}>
+          <Button variant="outline-light" onClick={() => navigate('/profile')} style={{ borderRadius: 999 }}>
             <i className="bi bi-arrow-left me-2" />Volver a mi cuenta
           </Button>
         </div>

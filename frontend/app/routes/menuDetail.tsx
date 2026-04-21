@@ -48,7 +48,7 @@ export default function MenuDetail({ loaderData }: Route.ComponentProps) {
 
   const handleAddToCart = async () => {
     if (!isAuthenticated) {
-      navigate('/new/login');
+      navigate('/login');
       return;
     }
     setAdding(true);
@@ -131,7 +131,7 @@ export default function MenuDetail({ loaderData }: Route.ComponentProps) {
 
               {/* Actions */}
               <div className="d-flex flex-wrap gap-2 justify-content-end">
-                <Button variant="outline-light" onClick={() => navigate('/new/menu')}>
+                <Button variant="outline-light" onClick={() => navigate('/menu')}>
                   <i className="bi bi-arrow-left me-1" />Volver al menú
                 </Button>
                 <Button

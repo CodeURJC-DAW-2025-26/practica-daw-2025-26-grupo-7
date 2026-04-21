@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { Container, Row, Col, Card, Tab, Nav, Form, Button, Alert } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router';
 import type { Route } from './+types/home';
 import useAuthStore from '../stores/authStore';
 import * as userService from '../services/userService';
@@ -13,11 +12,13 @@ export default function Login() {
   const navigate = useNavigate();
   const { login } = useAuthStore();
 
+  const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
+
   const [loginData, setLoginData] = useState({ username: '', password: '' });
   const [loginError, setLoginError] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
 
-  const [registerData, setRegisterData] = useState({ username: '', email: '', password: '', birthDate: '' });
+  const [registerData, setRegisterData] = useState({ username: '', email: '', password: '', password2: '', birthDate: '' });
   const [registerError, setRegisterError] = useState('');
   const [registerLoading, setRegisterLoading] = useState(false);
 
@@ -38,14 +39,13 @@ export default function Login() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setRegisterError('');
+    if (registerData.password !== registerData.password2) {
+      setRegisterError('Las contraseñas no coinciden.');
+      return;
+    }
     setRegisterLoading(true);
     try {
-      await userService.register(
-        registerData.username,
-        registerData.email,
-        registerData.password,
-        registerData.birthDate,
-      );
+      await userService.register(registerData.username, registerData.email, registerData.password, registerData.birthDate);
       await login(registerData.username, registerData.password);
       navigate('/');
     } catch {
@@ -56,114 +56,169 @@ export default function Login() {
   };
 
   return (
-    <section className="section dark-background" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
-      <Container>
-        <Row className="justify-content-center">
-          <Col md={8} lg={5}>
-            <div className="section-title text-center mb-4">
-              <h2>Acceso</h2>
-              <p>Inicia sesión o crea tu cuenta</p>
+    <section className="login-section section d-flex align-items-center" style={{ minHeight: '100vh' }}>
+      <div className="container">
+        <div className="login-card">
+          <div className="login-card-header">
+            <Link to="/" className="login-back">
+              <i className="bi bi-arrow-left" /> Volver al inicio
+            </Link>
+            <div className="login-brand">
+              <img src="/new/img/logo.png" alt="Fuego Lento" />
+              <div>
+                <h2>Pide desde tu mesa</h2>
+                <p>Inicia sesión y envía tus comandas directamente a cocina.</p>
+              </div>
             </div>
-            <Card style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.10)' }}>
-              <Card.Body className="p-4">
-                <Tab.Container defaultActiveKey="login">
-                  <Nav variant="tabs" className="mb-4">
-                    <Nav.Item>
-                      <Nav.Link eventKey="login">Iniciar sesión</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="register">Registrarse</Nav.Link>
-                    </Nav.Item>
-                  </Nav>
+          </div>
 
-                  <Tab.Content>
-                    <Tab.Pane eventKey="login">
-                      {loginError && <Alert variant="danger" className="py-2">{loginError}</Alert>}
-                      <Form onSubmit={handleLogin}>
-                        <Form.Group className="mb-3">
-                          <Form.Label>Usuario</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Nombre de usuario"
-                            value={loginData.username}
-                            onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
-                            required
-                          />
-                        </Form.Group>
-                        <Form.Group className="mb-4">
-                          <Form.Label>Contraseña</Form.Label>
-                          <Form.Control
-                            type="password"
-                            placeholder="Contraseña"
-                            value={loginData.password}
-                            onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                            required
-                          />
-                        </Form.Group>
-                        <div className="text-center">
-                          <Button type="submit" variant="" className="cta-btn" disabled={loginLoading}>
-                            {loginLoading ? 'Entrando...' : 'Iniciar sesión'}
-                          </Button>
-                        </div>
-                      </Form>
-                    </Tab.Pane>
+          <div className="login-tabs">
+            <button
+              className={`login-tab${activeTab === 'login' ? ' active' : ''}`}
+              type="button"
+              onClick={() => setActiveTab('login')}
+            >
+              Iniciar sesión
+            </button>
+            <button
+              className={`login-tab${activeTab === 'register' ? ' active' : ''}`}
+              type="button"
+              onClick={() => setActiveTab('register')}
+            >
+              Crear cuenta
+            </button>
+          </div>
 
-                    <Tab.Pane eventKey="register">
-                      {registerError && <Alert variant="danger" className="py-2">{registerError}</Alert>}
-                      <Form onSubmit={handleRegister}>
-                        <Form.Group className="mb-3">
-                          <Form.Label>Usuario</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Nombre de usuario"
-                            value={registerData.username}
-                            onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })}
-                            required
-                          />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                          <Form.Label>Email</Form.Label>
-                          <Form.Control
-                            type="email"
-                            placeholder="correo@ejemplo.com"
-                            value={registerData.email}
-                            onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
-                            required
-                          />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                          <Form.Label>Contraseña</Form.Label>
-                          <Form.Control
-                            type="password"
-                            placeholder="Contraseña"
-                            value={registerData.password}
-                            onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
-                            required
-                          />
-                        </Form.Group>
-                        <Form.Group className="mb-4">
-                          <Form.Label>Fecha de nacimiento</Form.Label>
-                          <Form.Control
-                            type="date"
-                            value={registerData.birthDate}
-                            onChange={(e) => setRegisterData({ ...registerData, birthDate: e.target.value })}
-                            required
-                          />
-                        </Form.Group>
-                        <div className="text-center">
-                          <Button type="submit" variant="" className="cta-btn" disabled={registerLoading}>
-                            {registerLoading ? 'Registrando...' : 'Crear cuenta'}
-                          </Button>
-                        </div>
-                      </Form>
-                    </Tab.Pane>
-                  </Tab.Content>
-                </Tab.Container>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+          <div className="login-panels">
+
+            {/* LOGIN */}
+            <div className={`login-panel${activeTab === 'login' ? ' active' : ''}`}>
+              <form onSubmit={handleLogin}>
+                <div className="row g-3">
+                  {loginError && (
+                    <div className="col-12">
+                      <div className="alert alert-danger mb-0">{loginError}</div>
+                    </div>
+                  )}
+                  <div className="col-12">
+                    <label className="form-label" htmlFor="loginUsername">Usuario</label>
+                    <div className="input-with-icon">
+                      <i className="bi bi-person" />
+                      <input
+                        id="loginUsername" type="text" className="form-control"
+                        placeholder="tu usuario" required
+                        value={loginData.username}
+                        onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <label className="form-label" htmlFor="loginPassword">Contraseña</label>
+                    <div className="input-with-icon">
+                      <i className="bi bi-lock" />
+                      <input
+                        id="loginPassword" type="password" className="form-control"
+                        placeholder="••••••••" required
+                        value={loginData.password}
+                        onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <button type="submit" className="btn btn-primary w-100 btn-fuego" disabled={loginLoading}>
+                      {loginLoading ? 'Entrando...' : 'Entrar'}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            {/* REGISTER */}
+            <div className={`login-panel${activeTab === 'register' ? ' active' : ''}`}>
+              <form onSubmit={handleRegister}>
+                <div className="row g-3">
+                  {registerError && (
+                    <div className="col-12">
+                      <div className="alert alert-danger mb-0">{registerError}</div>
+                    </div>
+                  )}
+                  <div className="col-12">
+                    <label className="form-label" htmlFor="regName">Nombre de usuario</label>
+                    <div className="input-with-icon">
+                      <i className="bi bi-person" />
+                      <input
+                        id="regName" type="text" className="form-control"
+                        placeholder="Tu usuario" required
+                        value={registerData.username}
+                        onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <label className="form-label" htmlFor="regEmail">Email</label>
+                    <div className="input-with-icon">
+                      <i className="bi bi-envelope" />
+                      <input
+                        id="regEmail" type="email" className="form-control"
+                        placeholder="tuemail@ejemplo.com" required
+                        value={registerData.email}
+                        onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <label className="form-label" htmlFor="regPass">Contraseña</label>
+                    <div className="input-with-icon">
+                      <i className="bi bi-lock" />
+                      <input
+                        id="regPass" type="password" className="form-control"
+                        placeholder="••••••••" required
+                        value={registerData.password}
+                        onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <label className="form-label" htmlFor="regPass2">Confirmación</label>
+                    <div className="input-with-icon">
+                      <i className="bi bi-shield-lock" />
+                      <input
+                        id="regPass2" type="password" className="form-control"
+                        placeholder="••••••••" required
+                        value={registerData.password2}
+                        onChange={(e) => setRegisterData({ ...registerData, password2: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <label className="form-label" htmlFor="regBirth">Fecha de nacimiento</label>
+                    <div className="input-with-icon">
+                      <i className="bi bi-calendar-event" />
+                      <input
+                        id="regBirth" type="date" className="form-control" required
+                        value={registerData.birthDate}
+                        onChange={(e) => setRegisterData({ ...registerData, birthDate: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <button type="submit" className="btn btn-primary w-100 btn-fuego" disabled={registerLoading}>
+                      {registerLoading ? 'Registrando...' : 'Crear cuenta'}
+                    </button>
+                  </div>
+                  <div className="col-12 text-center">
+                    <p className="login-small">
+                      Al registrarte aceptas el <a className="login-link" href="#">aviso legal</a> y la{' '}
+                      <a className="login-link" href="#">política de privacidad</a>.
+                    </p>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

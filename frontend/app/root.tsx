@@ -61,30 +61,46 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
-  let stack: string | undefined;
-
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
-  }
+  const status = isRouteErrorResponse(error) ? error.status : 500;
+  const title = status === 404 ? 'Página no encontrada'
+    : status === 403 ? 'Acceso denegado'
+    : 'Error inesperado';
+  const message = status === 404 ? 'La página que buscas no existe o ha sido movida.'
+    : status === 403 ? 'No tienes permisos para acceder a este recurso.'
+    : import.meta.env.DEV && error instanceof Error ? error.message : 'Ha ocurrido un error. Inténtalo de nuevo.';
 
   return (
-    <main className="container py-5">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="p-4 overflow-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
+    <AppLayout>
+      <section className="section" style={{ paddingTop: '120px', paddingBottom: '90px' }}>
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-lg-9 col-xl-8">
+              <div className="p-5 rounded-4 shadow-lg"
+                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border-color)', backdropFilter: 'blur(6px)', minHeight: 300 }}>
+                <div className="d-flex align-items-center gap-4 mb-4">
+                  <div className="rounded-circle d-flex align-items-center justify-content-center"
+                    style={{ width: 64, height: 64, background: 'rgba(255,0,0,0.12)', border: '1px solid rgba(255,0,0,0.35)' }}>
+                    <i className="bi bi-exclamation-triangle" style={{ fontSize: '1.8rem' }} />
+                  </div>
+                  <div>
+                    <h2 className="mb-1 fw-bold" style={{ fontSize: '1.9rem' }}>{title}</h2>
+                    <small style={{ opacity: 0.75, fontSize: '0.95rem' }}>Código {status}</small>
+                  </div>
+                </div>
+                <p className="mb-5" style={{ opacity: 0.9, fontSize: '1.05rem' }}>{message}</p>
+                <div className="d-flex gap-3 flex-wrap">
+                  <a className="btn btn-fuego px-4 py-2" href="/new/" style={{ borderRadius: 999 }}>
+                    <i className="bi bi-house-door me-1" /> Inicio
+                  </a>
+                  <a className="btn btn-outline-light px-4 py-2" href="/new/menu" style={{ borderRadius: 999 }}>
+                    <i className="bi bi-arrow-right-circle me-1" /> Ver menú
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </AppLayout>
   );
 }

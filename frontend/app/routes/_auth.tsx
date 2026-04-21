@@ -4,7 +4,7 @@ import useAuthStore from '../stores/authStore';
 export async function clientLoader() {
   await useAuthStore.getState().fetchUser();
   if (!useAuthStore.getState().isAuthenticated) {
-    throw redirect('/new/login');
+    throw redirect('/login');
   }
   return null;
 }

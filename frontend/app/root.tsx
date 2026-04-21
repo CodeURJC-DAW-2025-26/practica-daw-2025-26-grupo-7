@@ -48,6 +48,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+export function HydrateFallback() {
+  return <p>Loading...</p>;
+}
+
 export default function App() {
   useEffect(() => {
     useAuthStore.getState().fetchUser();

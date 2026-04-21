@@ -2,5 +2,5 @@ import type { Config } from "@react-router/dev/config";
 
 export default {
   ssr: false,
-  basename: '/new/',
+  basename: process.env.NODE_ENV === "production" ? "/new" : "/",
 } satisfies Config;

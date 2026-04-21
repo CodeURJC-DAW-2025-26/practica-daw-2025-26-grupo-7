@@ -27,7 +27,7 @@ export default function AppFooter() {
             <ul>
               <li><Link to="/">Inicio</Link></li>
               <li><Link to="/#about">Nuestra brasa</Link></li>
-              <li><Link to="/menu">Menú</Link></li>
+              <li><Link to="/menu">Menu</Link></li>
               <li><Link to="/#gallery">Galería</Link></li>
               <li><Link to="/#contact">Contacto</Link></li>
             </ul>

@@ -72,7 +72,7 @@ export default function AdminProductEdit({ loaderData }: Route.ComponentProps) {
   };
 
   return (
-    <section className="section" style={{ paddingTop: '40px', paddingBottom: '60px' }}>
+    <section className="section" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
       <Container>
         <Row className="justify-content-center">
           <Col lg={7} md={9}>
@@ -89,7 +89,7 @@ export default function AdminProductEdit({ loaderData }: Route.ComponentProps) {
             {dish.image && (
               <div className="mb-4">
                 <img
-                  src={`/api/v1/images/${dish.image.id}`}
+                  src={`/api/v1/images/${dish.image.id}/media`}
                   alt={dish.name}
                   className="rounded-3"
                   style={{ maxHeight: 200, objectFit: 'cover' }}

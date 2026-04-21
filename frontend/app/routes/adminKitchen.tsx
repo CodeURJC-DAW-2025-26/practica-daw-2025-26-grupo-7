@@ -70,7 +70,7 @@ export default function AdminKitchen({ loaderData }: Route.ComponentProps) {
   }));
 
   return (
-    <section className="section" style={{ paddingTop: '40px', paddingBottom: '60px' }}>
+    <section className="section" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
       <Container fluid className="px-4">
         <div className="d-flex align-items-end justify-content-between flex-wrap gap-2 mb-4">
           <div>

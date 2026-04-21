@@ -38,7 +38,7 @@ export default function ProfileEdit({}: Route.ComponentProps) {
   };
 
   return (
-    <section className="section" style={{ paddingTop: '40px', paddingBottom: '60px' }}>
+    <section className="section" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
       <Container>
         <Row className="justify-content-center">
           <Col lg={6} md={8}>

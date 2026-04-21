@@ -55,7 +55,7 @@ export default function AdminProducts({ loaderData }: Route.ComponentProps) {
   };
 
   return (
-    <section className="section" style={{ paddingTop: '40px', paddingBottom: '60px' }}>
+    <section className="section" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
       <Container>
         <div className="d-flex align-items-end justify-content-between flex-wrap gap-2 mb-4">
           <div>
@@ -83,7 +83,7 @@ export default function AdminProducts({ loaderData }: Route.ComponentProps) {
               <div className="p-3 rounded-4 h-100 d-flex flex-column" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)' }}>
                 {dish.image && (
                   <img
-                    src={`/api/v1/images/${dish.image.id}`}
+                    src={`/api/v1/images/${dish.image.id}/media`}
                     alt={dish.name}
                     className="rounded-3 mb-3"
                     style={{ width: '100%', height: 140, objectFit: 'cover' }}
@@ -109,7 +109,7 @@ export default function AdminProducts({ loaderData }: Route.ComponentProps) {
                   )}
                 </div>
                 <div className="d-flex gap-2 mt-3 flex-wrap">
-                  <Button variant="outline-light" size="sm" onClick={() => navigate(`/new/admin/products/${dish.id}/edit`)} style={{ borderRadius: 999 }}>
+                  <Button variant="outline-light" size="sm" onClick={() => navigate(`/admin/products/${dish.id}/edit`)} style={{ borderRadius: 999 }}>
                     <i className="bi bi-pencil me-1" />Editar
                   </Button>
                   <Button

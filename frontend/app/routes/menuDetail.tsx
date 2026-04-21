@@ -62,7 +62,7 @@ export default function MenuDetail({ loaderData }: Route.ComponentProps) {
   };
 
   return (
-    <section className="section" style={{ paddingTop: '40px', paddingBottom: '60px' }}>
+    <section className="section" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
       <Container>
         <Row className="g-4 align-items-stretch">
           {/* Image */}

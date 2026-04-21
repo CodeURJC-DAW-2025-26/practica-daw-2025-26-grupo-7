@@ -10,7 +10,7 @@ export default function OrderSent({}: Route.ComponentProps) {
   const navigate = useNavigate();
 
   return (
-    <section className="section">
+    <section className="section" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
       <Container>
         <Row className="justify-content-center">
           <Col lg={8}>

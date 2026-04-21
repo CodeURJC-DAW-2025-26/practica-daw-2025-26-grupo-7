@@ -1076,6 +1076,60 @@ body.profile-page {
 .menu-link:hover {
   color: var(--default-color);
 }
+
+/* ================================
+   Filter / action buttons (menu & admin)
+   ================================ */
+.btn-kds-primary {
+  border-radius: 999px;
+  border: 2px solid rgba(139,30,30,0.80);
+  background: rgba(139,30,30,0.90);
+  color: var(--default-color);
+  font-weight: 800;
+}
+.btn-kds-primary:hover {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--default-color);
+}
+.btn-kds-secondary {
+  border-radius: 999px;
+  border: 2px solid rgba(245,245,245,0.45);
+  background: rgba(255,255,255,0.04);
+  color: var(--default-color);
+  font-weight: 800;
+}
+.btn-kds-secondary:hover {
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(245,245,245,0.70);
+  color: var(--default-color);
+}
+
+/* ================================
+   Dark search box (menu & admin)
+   ================================ */
+.admin-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 280px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+.admin-search i { opacity: 0.85; }
+.admin-search .form-control {
+  background: transparent;
+  border: 0;
+  color: var(--default-color);
+  padding: 0;
+  box-shadow: none;
+}
+.admin-search .form-control::placeholder {
+  color: color-mix(in srgb, var(--default-color), transparent 55%);
+}
+
 /* ===============================
    Selects (Comanda – dark theme)
    =============================== */
@@ -1429,4 +1483,41 @@ body.orders-page {
   line-height: 1;
   display: inline-flex;
   align-items: center;
+}
+/* Admin dropdown dark theme */
+.admin-dropdown-menu {
+  background: color-mix(in srgb, var(--surface-color), transparent 6%);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 14px 36px rgba(0,0,0,0.45);
+  min-width: 260px;
+}
+
+.admin-dropdown-menu .dropdown-item {
+  color: var(--default-color);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 700;
+}
+
+.admin-dropdown-menu .dropdown-item i {
+  opacity: 0.9;
+}
+
+.admin-dropdown-menu .dropdown-item:hover,
+.admin-dropdown-menu .dropdown-item:focus {
+  background: rgba(255,255,255,0.06);
+  color: var(--default-color);
+}
+
+.admin-dropdown-menu .dropdown-item.active {
+  background: color-mix(in srgb, var(--accent-color), transparent 80%);
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 55%);
+  color: var(--default-color);
+}
+
+.admin-dropdown-menu .dropdown-divider {
+  border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+  opacity: 1;
 }

@@ -9,13 +9,16 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import bootstrapCssUrl from 'bootstrap/dist/css/bootstrap.min.css?url';
+import bootstrapIconsUrl from 'bootstrap-icons/font/bootstrap-icons.css?url';
 import GlobalSpinner from "./components/GlobalSpinner";
 import AppLayout from "./components/Layout";
 import useAuthStore from "./stores/authStore";
 
 export const links: Route.LinksFunction = () => [
+  // Bootstrap must come before main.css so our theme overrides it correctly
+  { rel: "stylesheet", href: bootstrapCssUrl },
+  { rel: "stylesheet", href: bootstrapIconsUrl },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
   {

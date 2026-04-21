@@ -1,5 +1,17 @@
 import { useNavigate } from 'react-router';
 import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar, Line } from 'react-chartjs-2';
 import type { Route } from './+types/adminDashboard';
 import * as orderService from '../services/orderService';
 import * as dishService from '../services/dishService';
@@ -10,25 +22,57 @@ import type { Order } from '../types/order';
 import type { Dish } from '../types/dish';
 import type { User } from '../types/user';
 
+ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);
+
+interface ChartPoint { label: string; value: number; }
+
 interface DashboardData {
   orders: Order[];
   dishes: Dish[];
   users: User[];
+  revenueDaily: ChartPoint[];
+  ordersByHour: ChartPoint[];
+  usersRegistrations: ChartPoint[];
 }
+
+const CHART_DEFAULTS = {
+  responsive: true,
+  plugins: { legend: { position: 'top' as const, labels: { color: '#f5f5f5' } } },
+  scales: {
+    x: { ticks: { color: '#aaa' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+    y: { beginAtZero: true, ticks: { color: '#aaa' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+  },
+};
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: 'Fuego Lento | Dashboard' }];
 }
 
+async function fetchChartJson(url: string): Promise<ChartPoint[]> {
+  const res = await fetch(url, { credentials: 'include' });
+  if (!res.ok) return [];
+  return res.json();
+}
+
 export async function clientLoader() {
   useLoadingStore.getState().setLoading(true);
   try {
-    const [ordersRes, dishesRes, usersRes] = await Promise.all([
+    const [ordersRes, dishesRes, usersRes, revenueDaily, ordersByHour, usersRegistrations] = await Promise.all([
       orderService.getOrders(),
       dishService.getDishes(),
       userService.getAllUsers(),
+      fetchChartJson('/api/v1/admin/dashboard/revenue-daily?days=14'),
+      fetchChartJson('/api/v1/admin/dashboard/orders-by-hour?days=14'),
+      fetchChartJson('/api/v1/admin/dashboard/users-registrations?days=40'),
     ]);
-    return { orders: ordersRes.data, dishes: dishesRes.data, users: usersRes.data } as DashboardData;
+    return {
+      orders: ordersRes.data,
+      dishes: dishesRes.data,
+      users: usersRes.data,
+      revenueDaily,
+      ordersByHour,
+      usersRegistrations,
+    } as DashboardData;
   } finally {
     useLoadingStore.getState().setLoading(false);
   }
@@ -36,7 +80,8 @@ export async function clientLoader() {
 
 export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
   const navigate = useNavigate();
-  const { orders, dishes, users } = (loaderData as DashboardData) ?? { orders: [], dishes: [], users: [] };
+  const { orders, dishes, users, revenueDaily, ordersByHour, usersRegistrations } =
+    (loaderData as DashboardData) ?? { orders: [], dishes: [], users: [], revenueDaily: [], ordersByHour: [], usersRegistrations: [] };
 
   const activeOrders = orders.filter((o) =>
     [OrderStatus.SENT_TO_KITCHEN, OrderStatus.IN_PROGRESS, OrderStatus.READY].includes(o.status)
@@ -48,7 +93,7 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
   });
   const todayRevenue = todayOrders
     .filter((o) => o.status === OrderStatus.DELIVERED)
-    .reduce((sum, o) => sum + o.totalPrice, 0);
+    .reduce((sum, o) => sum + (o.totalPrice ?? 0), 0);
 
   const availableDishes = dishes.filter((d) => d.available).length;
 
@@ -71,6 +116,48 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
     [OrderStatus.READY]: { label: 'Listo', bg: 'success' },
     [OrderStatus.DELIVERED]: { label: 'Entregado', bg: 'success' },
     [OrderStatus.CANCELLED]: { label: 'Cancelado', bg: 'danger' },
+  };
+
+  const revenueDailyChart = {
+    labels: revenueDaily.map((p) => p.label),
+    datasets: [{
+      label: '€ por día',
+      data: revenueDaily.map((p) => p.value),
+      backgroundColor: 'rgba(139,30,30,0.7)',
+      borderColor: '#8b1e1e',
+      borderWidth: 1,
+    }],
+  };
+
+  const ordersByHourChart = {
+    labels: ordersByHour.map((p) => p.label),
+    datasets: [{
+      label: 'Comandas',
+      data: ordersByHour.map((p) => p.value),
+      backgroundColor: 'rgba(23,162,184,0.7)',
+      borderColor: '#17a2b8',
+      borderWidth: 1,
+    }],
+  };
+
+  const usersRegistrationsChart = {
+    labels: usersRegistrations.map((p) => p.label),
+    datasets: [{
+      label: 'Altas',
+      data: usersRegistrations.map((p) => p.value),
+      borderColor: '#28a745',
+      backgroundColor: 'rgba(40,167,69,0.15)',
+      tension: 0.25,
+      fill: true,
+    }],
+  };
+
+  const yIntegerTicks = {
+    ...CHART_DEFAULTS,
+    scales: {
+      ...CHART_DEFAULTS.scales,
+      y: { ...CHART_DEFAULTS.scales.y, ticks: { ...CHART_DEFAULTS.scales.y.ticks, precision: 0 } },
+    },
   };
 
   return (
@@ -124,6 +211,37 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
               </Button>
             </Col>
           ))}
+        </Row>
+
+        {/* Charts */}
+        <Row className="g-4 mb-5">
+          <Col xs={12}>
+            <h4 className="mb-3">Estadísticas</h4>
+          </Col>
+
+          <Col xs={12}>
+            <div className="p-4 rounded-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)' }}>
+              <h5 className="mb-1">Facturación diaria</h5>
+              <p className="small mb-3" style={{ opacity: 0.8 }}>Suma de pedidos entregados (últimos 14 días)</p>
+              <Bar data={revenueDailyChart} options={CHART_DEFAULTS} />
+            </div>
+          </Col>
+
+          <Col lg={6}>
+            <div className="p-4 rounded-4 h-100" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)' }}>
+              <h5 className="mb-1">Comandas por hora</h5>
+              <p className="small mb-3" style={{ opacity: 0.8 }}>Pedidos entregados agrupados por hora (últimos 14 días)</p>
+              <Bar data={ordersByHourChart} options={yIntegerTicks} />
+            </div>
+          </Col>
+
+          <Col lg={6}>
+            <div className="p-4 rounded-4 h-100" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)' }}>
+              <h5 className="mb-1">Altas de usuarios</h5>
+              <p className="small mb-3" style={{ opacity: 0.8 }}>Usuarios registrados por día (últimos 40 días)</p>
+              <Line data={usersRegistrationsChart} options={yIntegerTicks} />
+            </div>
+          </Col>
         </Row>
 
         {/* Recent orders */}

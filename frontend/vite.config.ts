@@ -15,6 +15,31 @@ export default defineConfig(({ mode }) => ({
         changeOrigin: true,
         secure: false,
       },
+      "/new/css": {
+        target: "https://localhost:8443",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/new/img": {
+        target: "https://localhost:8443",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/new/vendor": {
+        target: "https://localhost:8443",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/new/js": {
+        target: "https://localhost:8443",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/img": {
+        target: "https://localhost:8443",
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 }));

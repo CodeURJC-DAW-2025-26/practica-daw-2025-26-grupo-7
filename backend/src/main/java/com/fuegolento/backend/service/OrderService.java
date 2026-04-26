@@ -2,6 +2,7 @@ package com.fuegolento.backend.service;
 
 import com.fuegolento.backend.enums.DishCategory;
 import com.fuegolento.backend.enums.OrderStatus;
+import com.fuegolento.backend.exception.custom.ForbiddenException;
 import com.fuegolento.backend.exception.custom.ResourceNotFoundException;
 import com.fuegolento.backend.model.Dish;
 import com.fuegolento.backend.model.Order;
@@ -409,7 +410,7 @@ public class OrderService {
 
         // Ownership check
         if (orderToDuplicate.getUser() == null || !orderToDuplicate.getUser().getId().equals(user.getId())) {
-            throw new IllegalStateException("You are not allowed to duplicate this order");
+            throw new ForbiddenException("You are not allowed to duplicate this order");
         }
 
         Order cart = getOrCreateCart(user);

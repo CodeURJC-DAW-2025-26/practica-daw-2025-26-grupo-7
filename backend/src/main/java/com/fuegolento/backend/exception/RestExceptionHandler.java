@@ -1,5 +1,6 @@
 package com.fuegolento.backend.exception;
 
+import com.fuegolento.backend.exception.custom.ForbiddenException;
 import com.fuegolento.backend.exception.custom.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,11 @@ public class RestExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiError> handleNotFound(ResourceNotFoundException ex, HttpServletRequest request) {
         return buildError(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ApiError> handleForbidden(ForbiddenException ex, HttpServletRequest request) {
+        return buildError(HttpStatus.FORBIDDEN, "Forbidden", ex.getMessage(), request);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

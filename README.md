@@ -528,100 +528,106 @@ docker compose up -d
 ## 🛠 **Práctica 3: Implementación de la web con arquitectura SPA**
 
 ### **Vídeo de Demostración**
-📹 **[Enlace al vídeo en YouTube](URL_del_video)**
+📹 **[Enlace al vídeo en YouTube](https://youtu.be/2_hppjEALbY)**
 > Vídeo mostrando las principales funcionalidades de la aplicación web.
+
+---
 
 ### **Preparación del Entorno de Desarrollo**
 
 #### **Requisitos Previos**
-- **Node.js**: versión 18.x o superior
-- **npm**: versión 9.x o superior (se instala con Node.js)
-- **Git**: para clonar el repositorio
 
-#### **Pasos para configurar el entorno de desarrollo**
+| Herramienta | Versión mínima | Descarga |
+|:---|:---|:---|
+| Node.js | 20.x | [nodejs.org](https://nodejs.org/) |
+| npm | 10.x (incluido con Node) | — |
+| Java JDK | 21 | [adoptium.net](https://adoptium.net/) |
+| Maven | 3.9.x | [maven.apache.org](https://maven.apache.org/) |
+| Docker Desktop | Cualquier versión reciente | [docker.com](https://www.docker.com/products/docker-desktop/) |
+| MySQL | 8.0.x (o vía Docker) | [mysql.com](https://dev.mysql.com/downloads/) |
 
-1. **Instalar Node.js y npm**
-   
-   Descarga e instala Node.js desde [https://nodejs.org/](https://nodejs.org/)
-   
-   Verifica la instalación:
-   ```bash
-   node --version
-   npm --version
-   ```
+#### **Estructura del proyecto**
 
-2. **Clonar el repositorio** (si no lo has hecho ya)
-   ```bash
-   git clone https://github.com/[usuario]/[nombre-repositorio].git
-   cd [nombre-repositorio]
-   ```
+```
+practica-daw-2025-26-grupo-7/
+├── backend/        → Spring Boot (MVC + API REST)
+├── frontend/       → React SPA (React Router v7 + Vite)
+└── docker/         → Dockerfile multistage + docker-compose.yml
+```
 
-3. **Navegar a la carpeta del proyecto React**
-   ```bash
-   cd frontend
-   ```
+#### **1. Clonar el repositorio**
 
-4. **AQUÍ LOS SIGUIENTES PASOS**
+```bash
+git clone https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-7.git
+cd practica-daw-2025-26-grupo-7
+```
+
+#### **2. Configurar y arrancar el backend (Spring Boot)**
+
+El backend requiere una base de datos MySQL corriendo en el puerto `3308`.
+
+**Opción A — MySQL con Docker (recomendado):**
+```bash
+docker run -d --name fuegolento-mysql \
+  -e MYSQL_ROOT_PASSWORD=root999 \
+  -e MYSQL_DATABASE=fuegolento \
+  -p 3308:3306 \
+  mysql:8.0.36
+```
+
+**Opción B — MySQL local:** ajusta `application.properties` con tu URL, usuario y contraseña.
+
+**Arrancar el backend:**
+```bash
+cd backend
+./mvnw spring-boot:run
+```
+
+El backend queda disponible en `https://localhost:8443`.
+
+#### **3. Configurar y arrancar el frontend (React SPA)**
+
+```bash
+cd frontend
+npm install       # instala las dependencias (solo la primera vez)
+npm run dev       # arranca el servidor de desarrollo con Vite
+```
+
+El frontend queda disponible en `http://localhost:5173`.
+
+
+#### **4. Comandos útiles del frontend**
+
+| Comando | Descripción |
+|:---|:---|
+| `npm run dev` | Servidor de desarrollo con hot reload (HMR) |
+| `npm run build` | Compila la SPA para producción en `build/client/` |
+| `npm run typecheck` | Verifica los tipos TypeScript |
+
+#### **5. Despliegue con Docker (producción)**
+
+El `Dockerfile` incluido es **multistage**: construye el frontend con Node, compila el backend con Maven y genera una imagen final con solo el JRE. Node no necesita estar instalado en la máquina host.
+
+```bash
+# Construir la imagen completa (frontend + backend)
+docker build -f docker/Dockerfile -t fuegolento:local .
+
+# Arrancar con base de datos ya corriendo en el host
+docker run --name fuego-lento-app -p 8443:8443 \
+  -e "SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3308/fuegolento?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC" \
+  -e "SPRING_DATASOURCE_USERNAME=<usuario>" \
+  -e "SPRING_DATASOURCE_PASSWORD=<contraseña>" \
+  fuegolento:local
+```
+
+La aplicación queda accesible en:
+- **Web MVC (Mustache):** `https://localhost:8443/`
+- **Web SPA (React):** `https://localhost:8443/new/`
+
+---
 
 ### **Diagrama de Clases y Templates de la SPA**
 
 Diagrama mostrando los componentes React, hooks personalizados, servicios y sus relaciones:
 
-![Diagrama de Componentes React](images/spa-classes-diagram.png)
-
-### **Participación de Miembros en la Práctica 3**
-
-#### **Alumno 1 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 2 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 3 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 4 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
+![Diagrama de Clases Actualizado](images/DiagramaEntrega3.png)

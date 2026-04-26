@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
+import { Container, Row, Col, Badge, Button, Spinner, Alert } from 'react-bootstrap';
 import type { Route } from './+types/orders';
 import * as orderService from '../services/orderService';
 import useLoadingStore from '../stores/loadingStore';
@@ -32,6 +33,20 @@ export async function clientLoader() {
 export default function Orders({ loaderData }: Route.ComponentProps) {
   const orders: Order[] = loaderData ?? [];
   const navigate = useNavigate();
+  const [reordering, setReordering] = useState<number | null>(null);
+  const [reorderError, setReorderError] = useState<string | null>(null);
+
+  const handleReorder = async (orderId: number) => {
+    setReordering(orderId);
+    setReorderError(null);
+    try {
+      await orderService.duplicateOrder(orderId);
+      navigate('/cart');
+    } catch (err: any) {
+      setReorderError(err?.response?.data?.message ?? 'No se pudo repetir el pedido.');
+      setReordering(null);
+    }
+  };
 
   return (
     <section className="section" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
@@ -45,6 +60,12 @@ export default function Orders({ loaderData }: Route.ComponentProps) {
             <i className="bi bi-fire me-1" />Pedir de nuevo
           </Button>
         </div>
+
+        {reorderError && (
+          <Alert variant="danger" onClose={() => setReorderError(null)} dismissible className="mb-3">
+            {reorderError}
+          </Alert>
+        )}
 
         {orders.length === 0 && (
           <p style={{ opacity: 0.75 }}>Todavía no tienes pedidos anteriores.</p>
@@ -111,6 +132,19 @@ export default function Orders({ loaderData }: Route.ComponentProps) {
                           {(order.totalPrice ?? 0).toFixed(2)} €
                         </div>
                       </div>
+                      {order.status !== OrderStatus.PENDING && (
+                        <Button
+                          variant="outline-light"
+                          size="sm"
+                          onClick={() => handleReorder(order.id)}
+                          disabled={reordering === order.id}
+                          style={{ borderRadius: 999 }}
+                        >
+                          {reordering === order.id
+                            ? <Spinner animation="border" size="sm" />
+                            : <><i className="bi bi-arrow-repeat me-1" />Repetir pedido</>}
+                        </Button>
+                      )}
                       {order.status === OrderStatus.DELIVERED && (
                         <Button
                           variant="outline-light"

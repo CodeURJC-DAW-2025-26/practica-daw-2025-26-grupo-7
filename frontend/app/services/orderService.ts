@@ -45,3 +45,6 @@ export const updateOrderStatus = (id: number, status: string) =>
 
 export const deleteOrder = (id: number) =>
   api.delete(`/api/v1/orders/${id}`);
+
+export const duplicateOrder = (id: number) =>
+  api.post<Order>(`/api/v1/orders/${id}/copies`);

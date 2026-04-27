@@ -64,7 +64,7 @@ export default function Login() {
               <i className="bi bi-arrow-left" /> Volver al inicio
             </Link>
             <div className="login-brand">
-              <img src="/new/img/logo.png" alt="Fuego Lento" />
+              <img src={`${import.meta.env.BASE_URL}img/logo.png`} alt="Fuego Lento" />
               <div>
                 <h2>Pide desde tu mesa</h2>
                 <p>Inicia sesión y envía tus comandas directamente a cocina.</p>

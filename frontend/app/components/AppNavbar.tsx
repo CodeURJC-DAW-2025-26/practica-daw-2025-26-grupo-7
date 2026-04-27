@@ -38,7 +38,7 @@ export default function AppNavbar() {
         <Navbar expand="xl" variant="dark" className="py-2">
           <Container>
             <Navbar.Brand className="d-flex align-items-center" style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
-              <img src="/new/img/logo.png" alt="Logo Fuego Lento" style={{ maxHeight: '60px', marginRight: '14px' }} />
+              <img src={`${import.meta.env.BASE_URL}img/logo.png`} alt="Logo Fuego Lento" style={{ maxHeight: '60px', marginRight: '14px' }} />
               <span className="sitename">Fuego Lento</span>
             </Navbar.Brand>
 

@@ -16,7 +16,7 @@ export default function Home({}: Route.ComponentProps) {
     <>
       {/* Hero */}
       <section id="hero" className="hero section dark-background">
-        <img src="/new/img/hero-bg.jpg" alt="Fuego Lento - Brasa" />
+        <img src={`${import.meta.env.BASE_URL}img/hero-bg.jpg`} alt="Fuego Lento - Brasa" />
         <Container>
           <Row>
             <Col lg={8} className="d-flex flex-column align-items-center align-items-lg-start">
@@ -36,7 +36,7 @@ export default function Home({}: Route.ComponentProps) {
         <Container>
           <Row className="gy-4 align-items-center">
             <Col lg={6} className="order-1 order-lg-2">
-              <img src="/new/img/fachada-restaurante.png" className="img-fluid about-img" alt="Nuestra brasa"
+              <img src={`${import.meta.env.BASE_URL}img/fachada-restaurante.png`} className="img-fluid about-img" alt="Nuestra brasa"
                 style={{ width: '90%', borderRadius: '8px' }} />
             </Col>
             <Col lg={6} className="order-2 order-lg-1 content">
@@ -100,12 +100,12 @@ export default function Home({}: Route.ComponentProps) {
         <div className="container-fluid">
           <Row className="g-0">
             {[
-              { src: '/new/img/gallery/interior-restaurante.png', alt: 'Interior de Fuego Lento' },
-              { src: '/new/img/gallery/brasa-parrilla.png', alt: 'Brasa en Fuego Lento' },
-              { src: '/new/img/gallery/barra-vino.png', alt: 'Barra y vinos' },
-              { src: '/new/img/gallery/carne-piedra.png', alt: 'Carne a la piedra' },
-              { src: '/new/img/gallery/ambiente-brindis.png', alt: 'Ambiente y brindis' },
-              { src: '/new/img/gallery/detalles-mesa.png', alt: 'Detalles de mesa' },
+              { src: `${import.meta.env.BASE_URL}img/gallery/interior-restaurante.png`, alt: 'Interior de Fuego Lento' },
+              { src: `${import.meta.env.BASE_URL}img/gallery/brasa-parrilla.png`, alt: 'Brasa en Fuego Lento' },
+              { src: `${import.meta.env.BASE_URL}img/gallery/barra-vino.png`, alt: 'Barra y vinos' },
+              { src: `${import.meta.env.BASE_URL}img/gallery/carne-piedra.png`, alt: 'Carne a la piedra' },
+              { src: `${import.meta.env.BASE_URL}img/gallery/ambiente-brindis.png`, alt: 'Ambiente y brindis' },
+              { src: `${import.meta.env.BASE_URL}img/gallery/detalles-mesa.png`, alt: 'Detalles de mesa' },
             ].map((item) => (
               <Col key={item.src} lg={4} md={6}>
                 <div className="gallery-item">

@@ -159,7 +159,7 @@ export default function Menu({ loaderData }: Route.ComponentProps) {
                 style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)' }}
               >
                 <img
-                  src={dish.image ? `/api/v1/images/${dish.image.id}/media` : '/new/img/menu-placeholder.png'}
+                  src={dish.image ? `/api/v1/images/${dish.image.id}/media` : `${import.meta.env.BASE_URL}img/logo.png`}
                   alt={dish.name}
                   style={{ width: 80, height: 80, objectFit: 'cover', flexShrink: 0 }}
                 />

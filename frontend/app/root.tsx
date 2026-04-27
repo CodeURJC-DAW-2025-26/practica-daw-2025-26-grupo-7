@@ -25,8 +25,8 @@ export const links: Route.LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap",
   },
-  { rel: "stylesheet", href: "/new/css/main.css" },
-  { rel: "icon", href: "/new/img/logo.png" },
+  { rel: "stylesheet", href: `${import.meta.env.BASE_URL}css/main.css` },
+  { rel: "icon", href: `${import.meta.env.BASE_URL}img/logo.png` },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
